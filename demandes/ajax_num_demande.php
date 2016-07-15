@@ -25,7 +25,7 @@
         //incrementation du nombre
         $code_dbs += 1;
     } else {
-        //s'il n'existe pas d'enregistrements dans la base de données
+        //s'il n'existe pas d'enregistrements dans la base de donnï¿½es
         $code_dbs = 1;
     }
     $b = "DBS";

@@ -25,7 +25,7 @@
         //incrementation du nombre
         $ref_fp += 1;
     } else {
-        //s'il n'existe pas d'enregistrements dans la base de données
+        //s'il n'existe pas d'enregistrements dans la base de donnï¿½es
         $ref_fp = 1;
     }
 

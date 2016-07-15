@@ -94,7 +94,7 @@
                                                         <thead>
                                                         <tr>
                                                             <th class="entete" style="text-align: center; width: 45%">
-                                                                Libelle
+                                                                Libellé
                                                             </th>
                                                             <th class="entete" style="text-align: center">Nature</th>
                                                             <th class="entete" style="text-align: center">Quantité</th>

@@ -34,7 +34,7 @@
 
     } else {
 
-        //s'il n'existe pas d'enregistrements dans la base de données
+        //s'il n'existe pas d'enregistrements dans la base de donnï¿½es
         $num_bc = 1;
         $b = "BC";
         $dat = date("Y");

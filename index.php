@@ -2,12 +2,12 @@
     require_once 'fonctions.php';
     error_reporting(0);
     session_start();
-
+    
     if (isset($_SESSION['user_id'])) {
         header('Location: form_principale.php');
     }
 ?>
-
+<!--suppress ALL -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,14 +18,14 @@
     <link rel="stylesheet" href="css_js/windows-10-icons-1.0.0/windows-10-icons-1.0.0/font/styles.min.css">
     <script src="css_js/bootstrap-3.3.4-dist/js/jquery-1.11.3.js"></script>
     <script src="css_js/bootstrap-3.3.4-dist/js/bootstrap.js"></script>
-
+    
     <link rel="shortcut icon" href="img/icone_ncare.ico"/>
-
+    
     <title>NCA Re | Gesterne</title>
 
 </head>
 <body class="arriere_plan">
-<div class="connection">
+<div class="login">
     <div class="centrer_image">
         <img src="img/logo2.jpg" width="80"/>
     </div>
@@ -82,10 +82,10 @@
                     </tbody>
                 </table>
                 <br/>
-
+                
                 <div class="centrer_boutton" style="width: 170px">
-                    <button class="btn btn-default" type="submit" name="connexion" style="width: 100%">
-                        <span class="icons8-unlock-2">Se Connecter</span>
+                    <button class="btn btn-default connexion" type="submit" name="connexion" style="width: 170px">
+                        <img src="img/icons_1775b9/key.png" width="18"> Se Connecter
                     </button>
                 </div>
             </form>

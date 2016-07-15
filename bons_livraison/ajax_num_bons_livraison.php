@@ -7,7 +7,7 @@
      */
 
 require_once '../bd/connection.php';
-    //On vérifie s'il y a un en registrement dans la base de données
+    //On vï¿½rifie s'il y a un en registrement dans la base de donnï¿½es
     $req = "SELECT code_bl FROM bons_livraison ORDER BY code_bl DESC LIMIT 1";
     $resultat = $connexion->query($req);
 
@@ -34,7 +34,7 @@ require_once '../bd/connection.php';
 
         //echo $resultat;
     } else {
-        //s'il n'existe pas d'enregistrements dans la base de données
+        //s'il n'existe pas d'enregistrements dans la base de donnï¿½es
         $code_bl = 1;
         $b = "BL";
         $dat = date("Y");

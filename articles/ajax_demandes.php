@@ -6,11 +6,11 @@
      * Time: 17:42
      */
     require_once '../bd/connection.php';
-
+    /** @lang MySQL */
     if (isset($_POST["demande"])) {
         $dmd = htmlspecialchars($_POST['demande'], ENT_QUOTES);
 
-        $sql = "SELECT * FROM details_demande WHERE code_dbs = '" . $dmd . "'";
+        $sql = "SELECT * FROM details_demande WHERE code_dbs = '" . $dmd . "' AND statut_dd = 'non satisfait'";
         /*$sql = "SELECT * FROM details_demande WHERE code_dbs = '" . $dmd . "' AND nature_dd = 'bien'";*/
 
         if ($result = $connexion->query($sql)) {
@@ -28,9 +28,12 @@
                 <thead>
                     <tr>
                         <th class="entete" style="text-align: center">Libellé</th>
-                        <th class="entete" style="text-align: center; width: 15%">Qté. Demandée</th>
+                        <th class="entete" style="text-align: center; width: 12%">Qté. Demandée</th>
+                        <th class="entete" style="text-align: center; width: 12%">Qté. Déjà Servie</th>
+                        
+                        <th class="entete" style="text-align: center; width: 10%">Qté. Dispo.</th>
                         <th class="entete" style="text-align: center; width: 10%">Qté. Servie</th>
-                        <th class="entete" style="text-align: center; width: 15%">Observation</th>
+                        <th class="entete" style="text-align: center; width: 12%">Observation</th>
                     </tr>
                 </thead>
             ';
@@ -44,22 +47,27 @@
                 echo '<tr>';
                 echo '<td style="text-align: center">' . stripslashes($list['libelle_dd']) . '<input type="hidden" name="libelle_dd[]" value="' . stripslashes($list['libelle_dd']) . '"></td>';
                 echo '<td style="text-align: center">' . $qte_dmd . '<input type="hidden" name="qte_dd[]" value="' . stripslashes($list['qte_dd']) . '"></td>';
+                $sql = 'SELECT qte_serv FROM details_demande WHERE libelle_dd = "' . $libelle_dmd . '"';
+                if ($result = $connexion->query($sql)) {
+                    $lines = $result->fetch_assoc();
+                    $qte_serv = (int)$lines['qte_serv'];
+                    echo '<td style="text-align: center">' . $qte_serv . '</td>';
+                }
 
                 if ($nature_dmd === 'bien') {
                     //On ressort la quantité disponible pour chaque article de la demande
                     $sql = 'SELECT stock_art FROM articles WHERE designation_art = "' . $libelle_dmd . '"';
                     if ($result = $connexion->query($sql)) {
-                        $lines = $result->fetch_all(MYSQLI_NUM);
-                        foreach ($lines as $line) {
-                            $qte_dispo = (int)stripslashes($line[0]);
-                        }
-                        echo '<td style="text-align: center"><input type="number" name="qte_serv[]" class="form-control" min="1" max="'. $qte_dispo .'"></td>';
-                        echo '<td style="text-align: center">
-
-                              </td>';
+                        $lines = $result->fetch_assoc();
+                        $qte_dispo = 0;
+                        $qte_dispo = (int)$lines['stock_art'];
+                        echo '<td style="text-align: center">' . $qte_dispo . '</td>';
+                        echo '<td style="text-align: center"><label style="margin-left: auto; margin-right: auto" class="nomargin_tb"><input type="number" name="qte_serv[]" class="form-control" min="0" max="'. $qte_dispo .'" required></label></td>';
+                        echo '<td style="text-align: center"><input type="hidden" name="obsv[]" value=""></td>';
                     }
                 } else {
                     echo '<td style="text-align: center"></td>';
+                    echo '<td style="text-align: center"><input type="hidden" name="qte_serv[]" value=""></td>';
                     echo '<td style="text-align: center">
                         <select class="form-control" name="obsv[]">
                             <option value="non">NON FAIT</option>

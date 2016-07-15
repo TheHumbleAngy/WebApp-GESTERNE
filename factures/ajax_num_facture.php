@@ -34,7 +34,7 @@
 
 //    echo $code;
     } else {
-        //s'il n'existe pas d'enregistrements dans la base de données
+        //s'il n'existe pas d'enregistrements dans la base de donnï¿½es
         $num_fact = 1;
         $b = "FCT";
         $dat = date("Y");

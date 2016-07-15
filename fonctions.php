@@ -8,22 +8,18 @@
 
     require_once 'bd/connection.php';
 
-    function rediriger($page)
-    {
+    function rediriger($page) {
         header('Location: ' . $page);
         exit;
     }
 
-    function login($email, $password, $connexion)
-    {
+    function login($email, $password, $connexion) {
         $req = "SELECT * FROM employes WHERE email_emp = '" . $email . "' AND mdp = '" . $password . "'";
 
         $resultat = $connexion->query($req);
-//    $result = mysqli_query($connexion, $req);
 
         if ($resultat) {
             if ($resultat->num_rows == 1) {
-                $resultat->data_seek(0);
                 $ligne = $resultat->fetch_array(MYSQL_ASSOC);
 
                 session_start();
@@ -52,8 +48,7 @@
         } else return FALSE;
     }
 
-    function login_check($connexion)
-    {
+    function login_check($connexion) {
         // Check if all session variables are set
         if (isset($_SESSION['username'], $_SESSION['login_string'])) {
 
@@ -72,8 +67,7 @@
         } else return FALSE;
     }
 
-    function etat_connection($etat_connecte)
-    {
+    function etat_connection($etat_connecte) {
         //On vérifie si l'utilisateur n'est pas connecté dans un autre navigateur
         if ($etat_connecte == 0) {
             return TRUE;
@@ -82,8 +76,7 @@
         }
     }
 
-    function etat_deconnection()
-    {
+    function etat_deconnection() {
         $qry = "UPDATE employes SET etat_connecte='0' WHERE email_emp='" . $_SESSION['email'] . "'";
         if ($result = $connexion->prepare($qry)) {
             $result->execute();
@@ -95,8 +88,7 @@
         }
     }
 
-    function esc_url($url)
-    {
+    function esc_url($url) {
 
         if ('' == $url) {
             return $url;
@@ -129,8 +121,7 @@
         }
     }
 
-    function recuperation()
-    {
+    function recuperation() {
         if (isset($_GET['id'])) {
             $_SESSION['code_temp'] = $_GET['id'];
 
@@ -140,8 +131,7 @@
         }
     }
 
-    function fonction_modif_employes()
-    {
+    function fonction_modif_employes() {
         if (recuperation()) {
             header('Location: form_principale.php?page=employes/modification_employes');
         } else {
@@ -150,8 +140,7 @@
         }
     }
 
-    function fonction_modif_fournisseurs()
-    {
+    function fonction_modif_fournisseurs() {
         if (recuperation()) {
             header('Location: form_principale.php?page=fournisseurs/modification_fournisseurs');
         } else {
@@ -160,8 +149,7 @@
         }
     }
 
-    function process_modif_reglements()
-    {
+    function process_modif_reglements() {
         if (recuperation()) {
             header('Location: form_principale.php?page=reglements/modification_reglements');
         } else {
@@ -170,8 +158,7 @@
         }
     }
 
-    function process_modif_biens_ou_services()
-    {
+    function process_modif_biens_ou_services() {
         if (recuperation()) {
             header('Location: form_principale.php?page=articles/articles/modification_biens_ou_services');
         } else {
@@ -180,8 +167,7 @@
         }
     }
 
-    function process_modif_demandes()
-    {
+    function process_modif_demandes() {
         if (recuperation()) {
             header('Location: form_principale.php?page=articles/demandes/modif_demandes');
         } else {
@@ -190,8 +176,7 @@
         }
     }
 
-    function process_modif_factures()
-    {
+    function process_modif_factures() {
         if (recuperation()) {
             header('Location: form_principale.php?page=factures/modification_factures');
         } else {
@@ -200,8 +185,7 @@
         }
     }
 
-    function process_modif_factures_proforma()
-    {
+    function process_modif_factures_proforma() {
         if (recuperation()) {
             header('Location: form_principale.php?page=proformas/modification_factures_proforma');
         } else {
@@ -210,8 +194,7 @@
         }
     }
 
-    function process_modif_bons_livraison()
-    {
+    function process_modif_bons_livraison() {
         if (recuperation()) {
             header('Location: form_principale.php?page=bons_livraison/modif_bons_livraison');
         } else {

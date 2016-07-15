@@ -78,11 +78,21 @@
     border-bottom-left-radius: 2px
 }
 
-.connection {
+.login {
     width: 405px;
     margin-left: auto;
     margin-right: auto;
 }
+
+.connexion {
+    width: 100%;
+    color: #0e76bc !important;
+}
+
+.connexion:hover {
+    color: #0e76bc !important;
+}
+
 body {
     font-family: OpenSans, serif;
     font-size: 12px;
@@ -571,7 +581,8 @@ table.table tr td {
     z-index: 215000000 !important;
 }
 
-.jumbotron.info { !important;
+.jumbotron.info {
+!important;
     width: 75%;
     padding-top: 20px;
     padding-right: 30px;
