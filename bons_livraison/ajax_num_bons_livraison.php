@@ -12,7 +12,7 @@ require_once '../bd/connection.php';
     $resultat = $connexion->query($req);
 
     if ($resultat->num_rows > 0) {
-        $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+        $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
 
         //reccuperation du code
         $code_bl = "";

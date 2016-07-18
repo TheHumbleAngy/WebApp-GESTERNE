@@ -27,7 +27,7 @@
 
         $fournisseur = "";
         if ($result = $connexion->query($sql1)) {
-            $lignes = $result->fetch_all(MYSQL_ASSOC);
+            $lignes = $result->fetch_all(MYSQLI_ASSOC);
             foreach ($lignes as $list) {
                 $nom_four = $list['nom_four'];
                 $code_four = $list['code_four'];
@@ -68,7 +68,7 @@
 
         $i = 0;
         if ($result = $connexion->query($sql3)) {
-            $lignes = $result->fetch_all(MYSQL_ASSOC);
+            $lignes = $result->fetch_all(MYSQLI_ASSOC);
             $total = 0;
             foreach ($lignes as $list) {
                 $i++;

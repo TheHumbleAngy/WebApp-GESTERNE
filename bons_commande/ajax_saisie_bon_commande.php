@@ -16,7 +16,7 @@
                 <?php
                     $sql = "SELECT code_emp, nom_emp, prenoms_emp FROM employes WHERE email_emp= '" . $_SESSION['email'] . "'"; //print_r($sql);
                     if ($resultat = $connexion->query($sql)) {
-                        $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+                        $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                         foreach ($ligne as $data) {
                             $code_emp = stripslashes($data['code_emp']);
                             $nom_prenoms_emp = stripslashes($data['prenoms_emp']) . ' ' . stripslashes($data['nom_emp']);

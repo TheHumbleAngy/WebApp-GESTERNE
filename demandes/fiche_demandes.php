@@ -35,7 +35,7 @@
 
     $sql = "SELECT * FROM demandes WHERE code_dbs = '" . $id . "'";
     if ($valeur = $connexion->query($sql)) {
-        $ligne = $valeur->fetch_all(MYSQL_ASSOC);
+        $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
         foreach ($ligne as $list) {
             $code_emp = $list['code_emp'];
             $date_dbs = $list['date_dbs'];
@@ -45,7 +45,7 @@
 
     $sql = "SELECT * FROM employes WHERE code_emp = '" . $code_emp . "'";
     if ($valeur = $connexion->query($sql)) {
-        $ligne = $valeur->fetch_all(MYSQL_ASSOC);
+        $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
         foreach ($ligne as $list) {
             $nom_emp = $list['nom_emp'] . " " . $list['prenoms_emp'];
             $departement_emp = $list['departement_emp'];
@@ -102,7 +102,7 @@
     $pdf->SetFont('Arial', '', 10);
     $sql = "SELECT * FROM details_demande WHERE code_dbs = '" . $id . "'";
     if ($valeur = $connexion->query($sql)) {
-        $ligne = $valeur->fetch_all(MYSQL_ASSOC);
+        $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
         $i = 1;
         foreach ($ligne as $list) {
             $pdf->Cell(25, 8, $i++, 1, 0, "C");

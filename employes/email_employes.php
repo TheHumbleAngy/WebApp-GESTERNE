@@ -15,7 +15,7 @@
     $sql = "SELECT email_emp FROM employes ORDER BY email_emp ASC ";
 
     if ($resultat = $connexion->query($sql)) {
-        $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+        $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
         foreach ($ligne as $list) {
             $json_email[] = $list;
         }

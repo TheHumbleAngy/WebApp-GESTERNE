@@ -12,7 +12,7 @@ $req = "SELECT * FROM bons_livraison WHERE code_bl ='" . $code_bl . "'";
 
 if ($result = $connexion->query($req)) {
 
-    $lignes = $result->fetch_all(MYSQL_ASSOC);
+    $lignes = $result->fetch_all(MYSQLI_ASSOC);
     foreach ($lignes as $ligne) {
         $code_bl = stripslashes($ligne['code_bl']);
         $dateetablissement_bl = stripslashes($ligne['dateetablissement_bl']);

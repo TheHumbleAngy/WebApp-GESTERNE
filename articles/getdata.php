@@ -40,7 +40,7 @@
                     <?php
                         $sql = "SELECT * FROM articles ORDER BY code_art ASC";
                         if ($valeur = $connexion->query($sql)) {
-                            $ligne = $valeur->fetch_all(MYSQL_ASSOC);
+                            $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
                             foreach ($ligne as $list) {
                                 ?>
                                 <tr>

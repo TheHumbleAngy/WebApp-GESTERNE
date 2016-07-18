@@ -25,7 +25,7 @@ if (isset($_POST["proforma"])) {
 
     if ($result = $connexion->query($sql)) {
         if ($result->num_rows > 0) {
-            $lignes = $result->fetch_all(MYSQL_ASSOC);
+            $lignes = $result->fetch_all(MYSQLI_ASSOC);
 //        print_r($lignes);
             echo '
 <div style="text-align: center; margin-bottom: 2%">

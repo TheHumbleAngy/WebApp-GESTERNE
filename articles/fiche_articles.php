@@ -176,12 +176,12 @@
     //DETAILS DE LA DEMANDE
     $sql = "SELECT code_grp, designation_art, description_art, niveau_reappro_art, niveau_cible_art, stock_art FROM articles ORDER BY designation_art";
     if ($valeur = $connexion->query($sql)) {
-        $ligne = $valeur->fetch_all(MYSQL_ASSOC);
+        $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
         $i = 1;
         foreach ($ligne as $list) {
             $req = "SELECT designation_grp FROM groupe_articles WHERE code_grp = '" . $list['code_grp'] . "'";
             if ($val = $connexion->query($req)) {
-                $row = $val->fetch_all(MYSQL_ASSOC);
+                $row = $val->fetch_all(MYSQLI_ASSOC);
                 foreach ($row as $data) {
                     $pdf->Row(array($list['designation_art'], $data['designation_grp'], "Stock Actuel : " . $list['stock_art']  . "\nNiveau Reappro : " . $list['niveau_reappro_art'] . "\nNiveau Cible : " . $list['niveau_cible_art'], $list['description_art']));
                 }

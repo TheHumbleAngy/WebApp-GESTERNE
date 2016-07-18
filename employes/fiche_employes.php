@@ -175,7 +175,7 @@
     //DETAILS DE LA DEMANDE
     $sql = "SELECT code_emp, titre_emp, nom_emp, prenoms_emp, fonction_emp, departement_emp, email_emp, tel_emp FROM employes ORDER BY nom_emp";
     if ($valeur = $connexion->query($sql)) {
-        $ligne = $valeur->fetch_all(MYSQL_ASSOC);
+        $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
         $i = 1;
         foreach ($ligne as $list) {
             $pdf->Row(array($list['code_emp'], $list['titre_emp'] . " " . $list['nom_emp'] . " " . $list['prenoms_emp'], $list['fonction_emp'], $list['departement_emp'], "Tel: " . $list['tel_emp'] . "\nE-mail: " . $list['email_emp']));

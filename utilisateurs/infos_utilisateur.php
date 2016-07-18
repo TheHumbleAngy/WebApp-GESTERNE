@@ -15,7 +15,7 @@
 
     if ($resultat = $connexion->query($req)) {
 
-        $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+        $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
         foreach ($ligne as $data) {
             $matricule = stripslashes($data['code_emp']);
             $nom_empl = stripslashes($data['nom_emp']);

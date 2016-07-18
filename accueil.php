@@ -68,7 +68,7 @@
                                                         <?php
                                                             $sql = "SELECT * FROM articles";
                                                             if ($resultat = $connexion->query($sql)) {
-                                                                $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+                                                                $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                                                                 foreach ($ligne as $list) {
                                                                     ?>
                                                                     <div><?php echo stripslashes($list['designation_art']) . " (<strong>" . stripslashes($list['stock_art']) . "</strong>)"; ?></div>
@@ -91,7 +91,7 @@
                                                         <?php
                                                             $sql = "SELECT * FROM articles WHERE stock_art = niveau_reappro_art OR stock_art < niveau_reappro_art";
                                                             if ($resultat = $connexion->query($sql)) {
-                                                                $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+                                                                $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                                                                 foreach ($ligne as $list) {
                                                                     ?>
                                                                     <div
@@ -118,7 +118,7 @@
                                                             <?php
                                                                 $sql = "SELECT * FROM articles WHERE stock_art = 0";
                                                                 if ($resultat = $connexion->query($sql)) {
-                                                                    $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+                                                                    $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                                                                     foreach ($ligne as $list) {
                                                                         ?>
                                                                         <div><?php echo stripslashes($list['designation_art']); ?></div>
@@ -166,7 +166,7 @@
                                                                     <?php
                                                                         $sql = "SELECT * FROM demandes WHERE statut = 'non satisfaite'";
                                                                         if ($resultat = $connexion->query($sql)) {
-                                                                            $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+                                                                            $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                                                                             foreach ($ligne as $list) {
                                                                                 ?>
                                                                                 <div
@@ -215,7 +215,7 @@
                                                                     <?php
                                                                         $sql = "SELECT * FROM demandes WHERE statut = 'partielle'";
                                                                         if ($resultat = $connexion->query($sql)) {
-                                                                            $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+                                                                            $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                                                                             foreach ($ligne as $list) {
                                                                                 ?>
                                                                                 <div><?php echo stripslashes($list['code_dbs']); ?></div>
@@ -284,7 +284,7 @@
                                                                     ON D.num_entr = E.num_entr
                                                                     WHERE E.date_entr = '$dat'";
                                                             if ($resultat = $connexion->query($sql)) {
-                                                                $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+                                                                $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                                                                 foreach ($ligne as $list) { ?>
                                                                     <div><?php echo stripslashes($list['designation_art']) . " <img src='img/icons_1775b9/reply_arrow.png' width='20' style='margin-bottom: 5px'> (<strong>" . stripslashes($list['qte_dentr']) . "</strong>)" ?></div>
                                                                 <?php }
@@ -322,7 +322,7 @@
                                                                     ON D.num_sort = S.num_sort
                                                                     WHERE S.date_sort = '$dat'";
                                                             if ($resultat = $connexion->query($sql)) {
-                                                                $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+                                                                $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                                                                 foreach ($ligne as $list) { ?>
                                                                     <div><?php echo stripslashes($list['designation_art']) . " <img src='img/icons_1775b9/forward_arrow.png' width='20' style='margin-bottom: 5px'> (<strong>" . stripslashes($list['qte_dsort']) . "</strong>)" ?></div>
                                                                 <?php }

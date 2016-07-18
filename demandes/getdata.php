@@ -37,7 +37,7 @@
                             WHERE d.code_emp = e.code_emp AND e.email_emp = '" . $_SESSION['email'] . "'
                             ORDER BY d.date_dbs DESC";
                 if ($resultat = $connexion->query($req)) {
-                    $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+                    $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                     foreach ($ligne as $list) {
                         ?>
                         <tr>
@@ -46,7 +46,7 @@
                                     //Recuperation des articles figurants sur la demande
                                     $req = "SELECT libelle_dd FROM details_demande WHERE code_dbs = '" . stripslashes($list['code_dbs']) . "'";
                                     if ($resultat = $connexion->query($req)) {
-                                        $rows = $resultat->fetch_all(MYSQL_ASSOC);
+                                        $rows = $resultat->fetch_all(MYSQLI_ASSOC);
                                         $str = "";
                                         foreach ($rows as $row) {
                                             $str = $str . stripslashes($row['libelle_dd']) . "\r\n";

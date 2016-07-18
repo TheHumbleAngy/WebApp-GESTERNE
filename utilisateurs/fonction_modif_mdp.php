@@ -16,7 +16,7 @@
     $req = "SELECT * FROM employes WHERE email_emp = '" . $email_empl . "'";
 
     if ($resultat = $connexion->query($req)) {
-        $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+        $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
         foreach ($ligne as $data) {
             $mdp = stripslashes($data['mdp']);
         }

@@ -19,7 +19,7 @@
 
     $sql = "SELECT nom_emp, prenoms_emp FROM employes WHERE code_emp = '" . $_SESSION['user_id'] . "'";
     if ($resultat = $connexion->query($sql)) {
-        $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+        $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
         foreach ($ligne as $data) {
             $nom = $data['prenoms_emp'] . ' ' . $data['nom_emp'];
             ?>

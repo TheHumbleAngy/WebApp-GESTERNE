@@ -25,11 +25,13 @@
     }
 
     abstract class details extends mouvements {
-        public $num_detail;
-        public $qte_detail;
-        public $code_art;
-        public $designation_art;
-        public $rem;
+        public $num_detail;         //le num_dsort
+        public $qte_detail;         //la qte_dsort
+        public $code_art;           //le code de l'article
+        public $designation_art;    //la designation de l'article
+        public $rem;                //rem_dsort
+
+        public $test_nvo = TRUE;           //une variable qui nous permet de savoir si le service (le details du mouvement) doit faire l'objet de création ou pas
     }
 
     class articles extends class_articles {
@@ -63,7 +65,7 @@
 
             //echo $resultat->num_rows;
             if ($resultat->num_rows > 0) {
-                $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+                $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
 
                 //reccuperation du code
                 $code_art = "";
@@ -157,7 +159,7 @@
             $res = $connexion->query($req);
 
             if ($res->num_rows > 0) {
-                $ligne = $res->fetch_all(MYSQL_ASSOC);
+                $ligne = $res->fetch_all(MYSQLI_ASSOC);
 
                 //reccuperation du code
                 $num_entr = "";
@@ -196,7 +198,7 @@
                     $res = $connexion->query($req);
 
                     if ($res->num_rows > 0) {
-                        $ligne = $res->fetch_all(MYSQL_ASSOC);
+                        $ligne = $res->fetch_all(MYSQLI_ASSOC);
 
                         //reccuperation du code
                         $code_de = "";
@@ -231,7 +233,7 @@
                     $code_art = "";
                     $stock_art = "";
                     if ($res->num_rows > 0) {
-                        $ligne = $res->fetch_all(MYSQL_ASSOC);
+                        $ligne = $res->fetch_all(MYSQLI_ASSOC);
                         foreach ($ligne as $row) {
                             $code_art = $row['code_art'];
                             $stock_art = $row['stock_art'];
@@ -282,7 +284,7 @@
             $res = $connexion->query($req);
 
             if ($res->num_rows > 0) {
-                $ligne = $res->fetch_all(MYSQL_ASSOC);
+                $ligne = $res->fetch_all(MYSQLI_ASSOC);
 
                 //reccuperation du code
                 $num_sort = "";
@@ -331,27 +333,32 @@
             $art = htmlspecialchars($_POST['libelle_dd'][$i], ENT_NOQUOTES);
             $art = $connexion->real_escape_string($art);
             $sql = 'SELECT code_art, designation_art FROM articles WHERE designation_art = "' . $art . '"';
-            if ($result = mysqli_query($connexion, $sql)) {
-                $row = $result->fetch_assoc();
-                $this->code_art = $row['code_art'];
-                $this->designation_art = $row['designation_art'];
-                $result->free();
+            if ($result = $connexion->query($sql)) {
+                if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+                    $this->code_art = $row['code_art'];
+                    $this->designation_art = $row['designation_art'];
+                    $result->free();
 
+                    $this->test_nvo = FALSE;
+                } else
+                    $this->designation_art = $art;
+                
                 return TRUE;
             } else
                 return FALSE;
         }
 
-        function afficher_details() {
-            echo $this->num_detail;
+        function afficher_detail() {
+            echo "num_detail " . $this->num_detail;
             echo '<br>';
-            echo $this->code;
+            echo "code " . $this->code;
             echo '<br>';
-            echo $this->code_art;
+            echo "code_art " . $this->code_art;
             echo '<br>';
-            echo $this->qte_detail;
+            echo "qte_detail " . $this->qte_detail;
             echo '<br>';
-            echo $this->rem;
+            echo "rem " . $this->rem;
             echo '<br>';
             echo '<br>';
         }
@@ -362,7 +369,8 @@
             if ($connexion->connect_error)
                 die($connexion->connect_error);
 
-            $req = "SELECT num_dsort FROM details_sortie ORDER BY num_dsort DESC LIMIT 1"; //print_r($req); echo $i . '<br>';
+            //Enregistrement de la sortie dans la table "sortie_stock"
+            $req = "SELECT num_dsort FROM details_sortie ORDER BY num_dsort DESC LIMIT 1";
             
             if ($res = $connexion->query($req)) {
                 $ligne = $res->fetch_assoc();
@@ -390,78 +398,90 @@
             $this->num_detail = $resultat;
 
             //traitement d'un service
+            $test_service = FALSE;
             if ($this->rem <> "") {
                 if ($this->rem === "ok") {
+                    $test_service = TRUE;
                     //on interroge la BD pour savoir si le service demandé existe
-                    $sql = "SELECT * FROM articles WHERE code_art = '" . $this->designation_art . "'";
-                    $res = $connexion->query($sql);
-                    //Si le service n'existe pas... on le crée en tant qu'article
-                    if ($res->num_rows == 0) {
-                        $req = "SELECT code_art FROM articles ORDER BY code_art DESC LIMIT 1";
-                        $resultat = $connexion->query($req);
-
-                        //echo $resultat->num_rows;
-                        if ($resultat->num_rows > 0) {
-                            $ligne = $resultat->fetch_all(MYSQL_ASSOC);
-
-                            //reccuperation du code
-                            $code_art = "";
-                            foreach ($ligne as $data) {
-                                $code_art = stripslashes($data['code_art']);
+                    //On vérifie si le libellé sui figure sur la demande existe vraiment dans la liste des
+                    //articles, soit dans la BD
+                    //Si le libellé n'existe pas, on crée un "article" à partir de ce libellé
+                    if ($this->test_nvo == TRUE) {
+                        /*$sql = "SELECT * FROM articles WHERE code_art = '" . $this->designation_art . "'";
+                        print_r($sql);
+                        $res = $connexion->query($sql);
+                        //Si le service n'existe pas... on le crée en tant qu'article
+                        if ($res->num_rows == 0) {*/
+                            $req = "SELECT code_art FROM articles ORDER BY code_art DESC LIMIT 1";
+                            $resultat = $connexion->query($req);
+        
+                            //echo $resultat->num_rows;
+                            if ($resultat->num_rows > 0) {
+                                $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
+            
+                                //reccuperation du code
+                                $code_art = "";
+                                foreach ($ligne as $data) {
+                                    $code_art = stripslashes($data['code_art']);
+                                }
+            
+                                //extraction des 4 derniers chiffres
+                                $code_art = substr($code_art, -4);
+            
+                                //incrementation du nombre
+                                $code_art += 1;
+                            } else {
+                                //s'il n'existe pas d'enregistrements dans la base de donn�es
+                                $code_art = 1;
                             }
-
-                            //extraction des 4 derniers chiffres
-                            $code_art = substr($code_art, -4);
-
-                            //incrementation du nombre
-                            $code_art += 1;
-                        } else {
-                            //s'il n'existe pas d'enregistrements dans la base de donn�es
-                            $code_art = 1;
-                        }
-
-                        $b = "ART";
-                        $dat = date("Y");
-                        $dat = substr($dat, -2);
-                        $format = '%04d';
-                        $code = $dat . "" . $b . "" . sprintf($format, $code_art);
-
-                        //on affecte au code le resultat
-                        $code_art = $code;
-                        $this->code_art = $code;
-
-                        //16GRP02 étant le code du groupe "divers"...
-                        $code_grp = "16GRP02";
-                        $date_art = date("Y/m/d");
-                        $sql = "INSERT INTO articles (code_art, code_grp, designation_art, date_art, description_art)
+        
+                            $b = "ART";
+                            $dat = date("Y");
+                            $dat = substr($dat, -2);
+                            $format = '%04d';
+                            $code = $dat . "" . $b . "" . sprintf($format, $code_art);
+        
+                            //on affecte au code le resultat
+                            $code_art = $code;
+                            $this->code_art = $code;
+        
+                            //16GRP02 étant le code du groupe "divers"...
+                            $code_grp = "16GRP02";
+                            $date_art = date("Y/m/d");
+                            $sql = "INSERT INTO articles (code_art, code_grp, designation_art, date_art, description_art)
                                 VALUES ('$code_art', '$code_grp', '$this->designation_art', '$date_art', 'Prestation de service')";
-                        if (!($resultat = $connexion->query($sql))) {
-                            echo "Erreur lors de la création du service";
-                        }
+                            if (!($resultat = $connexion->query($sql))) {
+                                echo "Erreur lors de la création du service";
+                            } else
+                                $this->code_art = $code_art;
+                        //}
                     }
                 }
             }
 
-            //Recuperation du nombre en stock de l'article
-            $sql = "SELECT stock_art FROM articles WHERE code_art = '" . $this->code_art . "'";
             $stock_art = 0;
-            if ($res = $connexion->query($sql)) {
-                $row = $res->fetch_assoc();
-                $stock_art = (int)$row['stock_art'];
+            if (!$test_service) {
+                //Recuperation du nombre en stock de l'article
+                $sql = "SELECT stock_art FROM articles WHERE code_art = '" . $this->code_art . "'";
+                if (($res = $connexion->query($sql)) && ($res->num_rows > 0)) {
+                    $row = $res->fetch_assoc();
+                    $stock_art = (int)$row['stock_art'];
+                }
+                $stock_art -= (int)$this->qte_detail;
             }
 
-            $stock_art -= (int)$this->qte_detail;
-
             //Enregistrement du detail de sortie
-            $sql = "INSERT INTO details_sortie (num_dsort, num_sort, qte_dsort, code_art, rem_sort)
+            $sql = "INSERT INTO details_sortie (num_dsort, num_sort, qte_dsort, code_art, rem_dsort)
                     VALUES ('$this->num_detail', '$this->code', '$this->qte_detail', '$this->code_art', '$this->rem')";
 
             /*$this->afficher_details();*/
             if ($result = mysqli_query($connexion, $sql)) {
-                //Mise à jour de la quantité de l'article en cours
-                $sql = "UPDATE articles SET stock_art = $stock_art WHERE code_art = '" . $this->code_art . "'";
-                mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));;
-
+                if (!$test_service) {
+                    //Mise à jour de la quantité de l'article en cours
+                    $sql = "UPDATE articles SET stock_art = $stock_art WHERE code_art = '" . $this->code_art . "'";
+                    mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
+                }
+                
                 //Mise à jour de la demande en elle même
                 //Mise à jour des détails de la demande dans un premier temps
                 $designation_art = $connexion->real_escape_string($this->designation_art);

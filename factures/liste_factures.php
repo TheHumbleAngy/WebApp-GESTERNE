@@ -37,7 +37,7 @@
                     <?php
                         $sql = "SELECT * FROM factures ORDER BY dateetablissement_fact ASC";
                         if ($valeur = $connexion->query($sql)) {
-                            $ligne = $valeur->fetch_all(MYSQL_ASSOC);
+                            $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
                             foreach ($ligne as $list) {
                                 ?>
                                 <tr>
@@ -46,7 +46,7 @@
                                             //Recuperation des détails figurants sur la demande
                                             $req = "SELECT libelle_df FROM details_facture WHERE num_fact = '" . stripslashes($list['num_fact']) . "'";
                                             if ($resultat = $connexion->query($req)) {
-                                                $rows = $resultat->fetch_all(MYSQL_ASSOC);
+                                                $rows = $resultat->fetch_all(MYSQLI_ASSOC);
                                                 $str = "";
                                                 foreach ($rows as $row) {
                                                     $str = $str . stripslashes($row['libelle_df']) . "\r\n";

@@ -238,10 +238,10 @@
     
                     for ($i = 0; $i < $nbr; $i++) {
                         if ($detail->recuperation($sortie->code_dbs, $sortie->code, $i)) {
-                            if ($detail->enregistrement()) {
-                                /*header('Location: form_principale.php?page=articles/mouvements_stock&action=sortie');*/
-                                continue;
-                            }
+                            //$detail->enregistrement();
+                            //$detail->afficher_detail();
+                            if ($detail->enregistrement())
+                                header('Location: form_principale.php?page=articles/mouvements_stock&action=sortie');
                             else {
                                 echo "
                                 <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>

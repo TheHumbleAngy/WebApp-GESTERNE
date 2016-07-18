@@ -258,7 +258,7 @@
                 $resultat = $connexion->query($req); //print_r($req); echo '<br>'; print_r($resultat); echo '<br>';
 
                 if ($resultat->num_rows > 0) {
-                    $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+                    $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
 
                     //reccuperation du code
                     $code = "";
@@ -327,7 +327,7 @@
                                 </tr>
                                 </thead>
                                 <?php
-                                    $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+                                    $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                                     foreach ($ligne as $list) {
                                         ?>
                                         <tr>

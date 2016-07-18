@@ -19,6 +19,7 @@
             $this->code_dbs = htmlspecialchars($_POST['code_dbs'], ENT_QUOTES);
             $this->code_emp = $code_emp;
             $this->objets_dbs = htmlspecialchars($_POST['objets_dbs'], ENT_QUOTES);
+            $this->date_dbs = date("Y/m/d");
             
             return TRUE;
         }
@@ -42,8 +43,8 @@
             if ($connexion->connect_error)
                 die($connexion->connect_error);
             
-            $sql = "INSERT INTO demandes (code_dbs, code_emp, date_dbs, objets_dbs, statut)
-	            VALUES ('$this->code_dbs', '$this->code_emp', '$this->date_dbs', '$this->objets_dbs', '$this->statut')"; //print_r($sql);
+            $sql = "INSERT INTO demandes (code_dbs, code_emp, date_dbs, objets_dbs)
+	            VALUES ('$this->code_dbs', '$this->code_emp', '$this->date_dbs', '$this->objets_dbs')"; //print_r($sql);
             
             if ($result = mysqli_query($connexion, $sql))
                 return TRUE;
@@ -108,7 +109,7 @@
             $res = $connexion->query($req);
             
             if ($res->num_rows > 0) {
-                $ligne = $res->fetch_all(MYSQL_ASSOC);
+                $ligne = $res->fetch_all(MYSQLI_ASSOC);
                 
                 //reccuperation du code
                 $code_dd = "";
@@ -133,13 +134,18 @@
             $resultat = $dat . "" . $b . "" . sprintf($format, $code_dd);
             //on affecte au code le resultat
             $this->code_dd = $resultat;
-            
-            $sql = "INSERT INTO details_demande (code_dd, nature_dd, code_dbs, libelle_dd, qte_dd, observations_dd)
-	                    VALUES ('$this->code_dd', '$this->nature_dd', '$this->code_dbs', '$this->libelle_dd', '$this->qte_dd', '$this->observations_dd')";
-            //        print_r($sql);
+            $this->libelle_dd = mysqli_real_escape_string($connexion, $this->libelle_dd);
+            //$this->libelle_dd = mysql_real_escape_string($this->libelle_dd);
+            //$this->libelle_dd = htmlspecialchars($this->libelle_dd, ENT_NOQUOTES);
+            $sql = 'INSERT INTO details_demande (code_dd, nature_dd, code_dbs, libelle_dd, qte_dd, observations_dd)
+                        VALUES ("' . $this->code_dd . '", "' . $this->nature_dd . '", "' . $this->code_dbs . '", "' . $this->libelle_dd . '", ' . $this->qte_dd . ', "' . $this->observations_dd . '")';
+            /*$sql = "INSERT INTO details_demande (code_dd, nature_dd, code_dbs, libelle_dd, qte_dd, observations_dd)
+	                    VALUES ('$this->code_dd', '$this->nature_dd', '$this->code_dbs', '$this->libelle_dd', $this->qte_dd, '$this->observations_dd')";*/
+                    //print_r($sql);
             
             //exécution de la requète REQ:
-            if ($result = mysqli_query($connexion, $sql)) {
+
+            if ($result = $connexion->query($sql)) {
                 return TRUE;
             } else
                 return FALSE;

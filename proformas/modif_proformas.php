@@ -17,7 +17,7 @@ $req = "SELECT * FROM facture_proforma WHERE ref_fp= '".$ref_fp."'";
 
 if ($valeur = $connexion->query($req)) {
 
-    $ligne = $valeur->fetch_all(MYSQL_ASSOC);
+    $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
     foreach ($ligne as $data) {
         $ref_fp = stripslashes($data['ref_fp']);
         $code_four = stripslashes($data['code_four']);

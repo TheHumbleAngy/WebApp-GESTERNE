@@ -69,7 +69,7 @@
 
             $code_four = "";
             if ($resultat->num_rows > 0) {
-                $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+                $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
 
                 //reccuperation du code
                 foreach ($ligne as $data) {

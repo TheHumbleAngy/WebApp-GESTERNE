@@ -13,7 +13,7 @@
 
         $sql = "SELECT * FROM bons_commande WHERE num_bc = '" . $code . "'";
         if ($res = $connexion->query($sql)) {
-            $lines = $res->fetch_all(MYSQL_ASSOC);
+            $lines = $res->fetch_all(MYSQLI_ASSOC);
             foreach ($lines as $line) { ?>
                 <!--suppress ALL -->
                 <div class="col-md-10 col-md-offset-1">
@@ -49,7 +49,7 @@
                                                 $fournisseur = stripslashes($line['code_four']);
                                                 $sql = "SELECT nom_four FROM fournisseurs WHERE code_four = '" . $fournisseur . "'";
                                                 $res = $connexion->query($sql);
-                                                $rows = $res->fetch_all(MYSQL_ASSOC);
+                                                $rows = $res->fetch_all(MYSQLI_ASSOC);
                                                 foreach ($rows as $row) {
                                                     $fournisseur = $row['nom_four'];
                                                 }
@@ -85,7 +85,7 @@
                                             <?php
                                                 $sql3 = "SELECT * FROM details_bon_commande WHERE num_bc = '" . stripslashes($line['num_bc']) . "'";
                                                 if ($result = $connexion->query($sql3)) { //print_r($sql3);
-                                                    $rows = $result->fetch_all(MYSQL_ASSOC);
+                                                    $rows = $result->fetch_all(MYSQLI_ASSOC);
                                                     $total = 0;
                                                     foreach ($rows as $row) {
                                                         $qte = stripslashes($row['qte_dbc']);
@@ -308,7 +308,7 @@
 
                     $id_dbc = 0;
                     if ($resultat->num_rows > 0) {
-                        $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+                        $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                         //reccuperation du code
                         foreach ($ligne as $data) {
                             $id_dbc = stripslashes($data['id_dbc']);

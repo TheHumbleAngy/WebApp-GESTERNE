@@ -129,7 +129,7 @@ AND bon_commande.num_val ='" . $id . "'";
     </tr>
 </thead>
 EDO;
-        $ligne = $valeur->fetch_all(MYSQL_ASSOC);
+        $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
         foreach ($ligne as $list) {
             $num_bc = utf8_encode($list['num_bc']);
             $num_val = utf8_encode($list['num_val']);

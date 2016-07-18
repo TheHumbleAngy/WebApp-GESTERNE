@@ -48,7 +48,7 @@ if (isset($_POST['opt'])) {
                         <?php
                         //$req = "SELECT * FROM fournisseurs ORDER BY code_four ASC ";
                         if ($resultat = $connexion->query($sql)) {
-                            $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+                            $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                             foreach ($ligne as $list) {
                         ?>
                         <tr>

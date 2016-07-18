@@ -33,7 +33,7 @@
                 <?php
                     $sql = "SELECT * FROM proformas ORDER BY dateetablissement_fp DESC";
                     if ($valeur = $connexion->query($sql)) {
-                        $ligne = $valeur->fetch_all(MYSQL_ASSOC);
+                        $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
                         foreach ($ligne as $list) {
                             ?>
                             <tr>
@@ -42,7 +42,7 @@
                                         //Recuperation des articles figurants sur la proforma
                                         $req = "SELECT libelle FROM details_proforma WHERE ref_fp = '" . stripslashes($list['ref_fp']) . "'";
                                         if ($resultat = $connexion->query($req)) {
-                                            $rows = $resultat->fetch_all(MYSQL_ASSOC);
+                                            $rows = $resultat->fetch_all(MYSQLI_ASSOC);
                                             $str = "";
                                             foreach ($rows as $row) {
                                                 $str = $str . stripslashes($row['libelle']) . "\r\n";

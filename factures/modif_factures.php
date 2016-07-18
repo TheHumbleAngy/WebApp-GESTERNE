@@ -17,7 +17,7 @@ $req = "SELECT * FROM facture WHERE num_fact = '" . $num_fact . "'";
 
 if ($valeur = $connexion->query($req)) {
 
-    $ligne = $valeur->fetch_all(MYSQL_ASSOC);
+    $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
     foreach ($ligne as $data) {
         $num_fact = stripslashes($data['num_fact']);
         $ref_fact = stripslashes($data['ref_fact']);

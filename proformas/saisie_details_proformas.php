@@ -263,7 +263,7 @@ if (sizeof($_POST) > 0) {
     $resultat = $connexion->query($req);
 
     if ($resultat->num_rows > 0) {
-        $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+        $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
 
         //reccuperation du code
         foreach ($ligne as $data) {
@@ -350,7 +350,7 @@ if (sizeof($_POST) > 0) {
 
                     if ($valeur = $connexion->query($sql)) {
                         //print_r($valeur);
-                        $ligne = $valeur->fetch_all(MYSQL_ASSOC);
+                        $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
                         foreach ($ligne as $list) {
                             ?>
                             <tr>

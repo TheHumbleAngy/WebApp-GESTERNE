@@ -32,7 +32,7 @@
                                 <?php
                                     $req = "SELECT * FROM entrees_stock ORDER BY date_entr DESC ";
                                     if ($resultat = $connexion->query($req)) {
-                                        $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+                                        $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                                         foreach ($ligne as $list) {
                                             ?>
                                             <tr>
@@ -68,12 +68,12 @@
                                                                         <?php
                                                                             $sql = "SELECT * FROM details_entree WHERE num_entr = '" . stripslashes($list['num_entr']) . "'";
                                                                             if ($result = $connexion->query($sql)) {
-                                                                                $lignes = $result->fetch_all(MYSQL_ASSOC);
+                                                                                $lignes = $result->fetch_all(MYSQLI_ASSOC);
                                                                                 foreach ($lignes as $liste) {
                                                                                     $sql1 = "SELECT designation_art FROM articles WHERE code_art = '" . stripslashes($liste['code_art']) . "'";
                                                                                     $art = "";
                                                                                     if ($result1 = $connexion->query($sql1)) {
-                                                                                        $lignes1 = $result1->fetch_all(MYSQL_ASSOC);
+                                                                                        $lignes1 = $result1->fetch_all(MYSQLI_ASSOC);
                                                                                         foreach ($lignes1 as $liste1) {
                                                                                             $art = stripslashes($liste1['designation_art']);
                                                                                         }
@@ -120,7 +120,7 @@
                                 <?php
                                     $req = "SELECT * FROM sorties_stock ORDER BY date_sort DESC ";
                                     if ($resultat = $connexion->query($req)) {
-                                        $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+                                        $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                                         foreach ($ligne as $list) {
                                             ?>
                                             <tr>
@@ -156,12 +156,12 @@
                                                                         <?php
                                                                             $sql = "SELECT * FROM details_sortie WHERE num_sort = '" . stripslashes($list['num_sort']) . "'";
                                                                             if ($result = $connexion->query($sql)) {
-                                                                                $lignes = $result->fetch_all(MYSQL_ASSOC);
+                                                                                $lignes = $result->fetch_all(MYSQLI_ASSOC);
                                                                                 foreach ($lignes as $liste) {
                                                                                     $sql1 = "SELECT designation_art FROM articles WHERE code_art = '" . stripslashes($liste['code_art']) . "'";
                                                                                     $art = "";
                                                                                     if ($result1 = $connexion->query($sql1)) {
-                                                                                        $lignes1 = $result1->fetch_all(MYSQL_ASSOC);
+                                                                                        $lignes1 = $result1->fetch_all(MYSQLI_ASSOC);
                                                                                         foreach ($lignes1 as $liste1) {
                                                                                             $art = stripslashes($liste1['designation_art']);
                                                                                         }

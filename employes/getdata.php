@@ -32,7 +32,7 @@
             <?php
                 $req = "SELECT * FROM employes ORDER BY code_emp ASC ";
                 if ($resultat = $connexion->query($req)) {
-                    $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+                    $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                     foreach ($ligne as $list) {
                         ?>
                         <tr>

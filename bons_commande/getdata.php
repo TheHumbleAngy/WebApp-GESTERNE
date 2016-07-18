@@ -39,7 +39,7 @@
                              ON f.code_four = b.code_four
                             ORDER BY num_bc DESC";
                 if ($resultat = $connexion->query($req)) {
-                    $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+                    $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                     foreach ($ligne as $list) {
                         ?>
                         <tr>
@@ -48,7 +48,7 @@
                                     //Recuperation des articles figurants sur la demande
                                     $req = "SELECT libelle_dbc FROM details_bon_commande WHERE num_bc = '" . stripslashes($list['num_bc']) . "'";
                                     if ($resultat = $connexion->query($req)) {
-                                        $rows = $resultat->fetch_all(MYSQL_ASSOC);
+                                        $rows = $resultat->fetch_all(MYSQLI_ASSOC);
                                         $str = "";
                                         foreach ($rows as $row) {
                                             $str = $str . stripslashes($row['libelle_dbc']) . "\r\n";

@@ -62,7 +62,7 @@
 //DETAILS DE LA DEMANDE
     $sql = "SELECT code_emp, titre_emp, nom_emp, prenoms_emp, fonction_emp, departement_emp, email_emp, tel_emp FROM employes";
     if ($valeur = $connexion->query($sql)) {
-        $ligne = $valeur->fetch_all(MYSQL_ASSOC);
+        $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
         $i = 1;
         foreach ($ligne as $list) {
             $pdf->Cell(25, 16, $list['code_emp'], 1);

@@ -14,7 +14,7 @@
 
     $sql = "SELECT * FROM proformas WHERE ref_fp = '" . $code . "'";
     if ($valeur = $connexion->query($sql)) {
-        $ligne = $valeur->fetch_all(MYSQL_ASSOC);
+        $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
         foreach ($ligne as $data) {
             ?>
             <!--suppress ALL -->
@@ -103,7 +103,7 @@
                                     <?php
                                     $sql = "SELECT * FROM details_proforma WHERE ref_fp = '" . $code . "'";
                                     if ($valeur = $connexion->query($sql)) {
-                                        $ligne = $valeur->fetch_all(MYSQL_ASSOC);
+                                        $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
                                         ?>
                                         <div class="col-md-12">
                                             <div class="panel panel-default">
@@ -334,7 +334,7 @@
         $resultat = $connexion->query($req);
 
         if ($resultat->num_rows > 0) {
-            $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+            $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
 
             //reccuperation du code
             $ref_fp = "";
@@ -394,7 +394,7 @@
                 $resultat = $connexion->query($req);
 
                 if ($resultat->num_rows > 0) {
-                    $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+                    $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
 
                     //reccuperation du code
                     $id_dfp = "";

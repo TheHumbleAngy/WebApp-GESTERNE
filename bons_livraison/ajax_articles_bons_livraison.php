@@ -40,7 +40,7 @@ if (isset($_POST['bon_cmd'])) {
             $total = 0;
             $i = 0;
             if ($result = $connexion->query($sql2)) {
-                $lignes = $result->fetch_all(MYSQL_ASSOC);
+                $lignes = $result->fetch_all(MYSQLI_ASSOC);
                 $total = 0;
                 foreach ($lignes as $list) {
                     $i++;

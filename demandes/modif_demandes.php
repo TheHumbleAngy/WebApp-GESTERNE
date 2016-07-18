@@ -16,7 +16,7 @@ $req = "SELECT demande_bien_service.code_dbs, demande_bien_service.date_dbs, dem
 
 if ($valeur = $connexion->query($req)) {
 
-    $ligne = $valeur->fetch_all(MYSQL_ASSOC);
+    $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
     foreach ($ligne as $data) {
         $code_dbs = stripslashes($data['code_dbs']);
         $date_dbs = stripslashes($data['date_dbs']);

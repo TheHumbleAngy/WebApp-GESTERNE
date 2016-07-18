@@ -12,7 +12,7 @@
     $resultat = $connexion->query($req);
 
     if ($resultat->num_rows > 0) {
-        $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+        $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
 
         $code_dbs = "";
         foreach ($ligne as $data) {

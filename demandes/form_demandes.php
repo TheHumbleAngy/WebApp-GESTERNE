@@ -12,7 +12,7 @@
 
         $sql = "SELECT * FROM demandes WHERE code_dbs = '" . $code . "'";
         if ($valeur = $connexion->query($sql)) {
-            $ligne = $valeur->fetch_all(MYSQL_ASSOC);
+            $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
             foreach ($ligne as $data) {
                 ?>
                 <!--suppress ALL -->
@@ -60,7 +60,7 @@
                                                             ON e.code_emp = d.code_emp
                                                             WHERE d.code_dbs = '" . stripslashes($data['code_dbs']) . "'";
                                                     if ($valeur = $connexion->query($sql)) {
-                                                        $ligne = $valeur->fetch_all(MYSQL_ASSOC);
+                                                        $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
                                                         $nom_prenoms_emp = "";
                                                         foreach ($ligne as $list) {
                                                             $nom_prenoms_emp = stripslashes($list['prenoms_emp']) . ' ' . stripslashes($list['nom_emp']);
@@ -86,7 +86,7 @@
                                     <?php
                                         $sql = "SELECT * FROM details_demande WHERE code_dbs = '" . $code . "'";
                                         if ($valeur = $connexion->query($sql)) {
-                                            $ligne = $valeur->fetch_all(MYSQL_ASSOC);
+                                            $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
                                             ?>
                                             <div class="col-md-12">
                                                 <div class="panel panel-default">
@@ -179,7 +179,7 @@
                                         <?php
                                             $sql = "SELECT code_emp, nom_emp, prenoms_emp FROM employes WHERE employes.email_emp = '" . $_SESSION['email'] . "'";
                                             if ($valeur = $connexion->query($sql)) {
-                                                $ligne = $valeur->fetch_all(MYSQL_ASSOC);
+                                                $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
                                                 $nom_prenoms_emp = "";
                                                 foreach ($ligne as $data) {
                                                     $code_emp = stripslashes($data['code_emp']);
@@ -286,6 +286,7 @@
 
                     for ($i = 0; $i < $nbr; $i++) {
                         if ($details_demande->recuperation_details($demande->code_dbs, $i)) {
+                            //$details_demande->enregistrement();
                             if ($details_demande->enregistrement())
                                 header('Location: form_principale.php?page=demandes/form_demandes&action=ajout');
                             else

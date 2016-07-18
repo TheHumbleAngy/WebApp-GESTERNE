@@ -107,7 +107,7 @@ if ($valeur = $connexion->query($sql)) {
 
     $html = '<table>';
 
-    $ligne = $valeur->fetch_all(MYSQL_ASSOC);
+    $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
     foreach ($ligne as $list) {
         $code_emp = utf8_encode($list['code_emp']);
         $nom_emp = utf8_encode($list['nom_emp']). ' ' .utf8_encode($list['prenoms_emp']) ;

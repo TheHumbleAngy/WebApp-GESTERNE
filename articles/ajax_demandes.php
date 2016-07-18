@@ -13,8 +13,8 @@
         $sql = "SELECT * FROM details_demande WHERE code_dbs = '" . $dmd . "' AND statut_dd = 'non satisfait'";
         /*$sql = "SELECT * FROM details_demande WHERE code_dbs = '" . $dmd . "' AND nature_dd = 'bien'";*/
 
-        if ($result = $connexion->query($sql)) {
-            $lignes = $result->fetch_all(MYSQL_ASSOC);
+        if (($result = $connexion->query($sql)) && ($result->num_rows > 0)) {
+            $lignes = $result->fetch_all(MYSQLI_ASSOC);
 
             echo '
         <div style="text-align: center; margin-bottom: 1%">
@@ -30,7 +30,6 @@
                         <th class="entete" style="text-align: center">Libellé</th>
                         <th class="entete" style="text-align: center; width: 12%">Qté. Demandée</th>
                         <th class="entete" style="text-align: center; width: 12%">Qté. Déjà Servie</th>
-                        
                         <th class="entete" style="text-align: center; width: 10%">Qté. Dispo.</th>
                         <th class="entete" style="text-align: center; width: 10%">Qté. Servie</th>
                         <th class="entete" style="text-align: center; width: 12%">Observation</th>
@@ -47,7 +46,7 @@
                 echo '<tr>';
                 echo '<td style="text-align: center">' . stripslashes($list['libelle_dd']) . '<input type="hidden" name="libelle_dd[]" value="' . stripslashes($list['libelle_dd']) . '"></td>';
                 echo '<td style="text-align: center">' . $qte_dmd . '<input type="hidden" name="qte_dd[]" value="' . stripslashes($list['qte_dd']) . '"></td>';
-                $sql = 'SELECT qte_serv FROM details_demande WHERE libelle_dd = "' . $libelle_dmd . '"';
+                $sql = 'SELECT qte_serv FROM details_demande WHERE code_dbs = "' . $dmd . '" AND libelle_dd = "' . $libelle_dmd . '"';
                 if ($result = $connexion->query($sql)) {
                     $lines = $result->fetch_assoc();
                     $qte_serv = (int)$lines['qte_serv'];
@@ -67,7 +66,7 @@
                     }
                 } else {
                     echo '<td style="text-align: center"></td>';
-                    echo '<td style="text-align: center"><input type="hidden" name="qte_serv[]" value=""></td>';
+                    echo '<td style="text-align: center"><input type="hidden" name="qte_serv[]" value="'. $qte_dmd . '"></td>';
                     echo '<td style="text-align: center">
                         <select class="form-control" name="obsv[]">
                             <option value="non">NON FAIT</option>

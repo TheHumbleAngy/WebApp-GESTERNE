@@ -164,7 +164,7 @@
                                 WHERE e.code_emp IN (SELECT code_emp FROM droits) ORDER BY e.nom_emp ASC ";
 
                         if ($resultat = $connexion->query($sql)) {
-                            $ligne = $resultat->fetch_all(MYSQL_ASSOC);
+                            $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                             foreach ($ligne as $list) {
                                 ?>
                                 <tr>
