@@ -66,7 +66,7 @@
                             <td style="text-align: center">
                                 <a class="btn btn-default" data-toggle="modal"
                                    data-target="#modalSupprimer<?php echo stripslashes($list['num_bc']); ?>">
-                                    <img height="20" width="20" src="img/icons8/cancel.png" title="Supprimer"/>
+                                    <img height="20" width="20" src="img/icons_1775b9/cancel.png" title="Supprimer"/>
                                 </a>
                                 <div class="modal fade"
                                      id="modalSupprimer<?php echo stripslashes($list['num_bc']); ?>"

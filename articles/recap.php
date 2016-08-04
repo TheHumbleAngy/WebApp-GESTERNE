@@ -14,182 +14,58 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-6">
-                        <strong>
-                            <h5 style="color: #29487d">Entrées :</h5>
-                        </strong>
-                        <div class="panel panel-default">
-                            <table class="table table-hover table-bordered">
-                                <thead>
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="jumbotron info">
+                            <table>
                                 <tr>
-                                    <th class="entete" style="text-align: center">Numéro</th>
-                                    <th class="entete" style="text-align: center">Date</th>
-                                    <?php /*if (($_SESSION['type_utilisateur'] == 'administrateur') || ($_SESSION['type_utilisateur'] == 'moyens_genereaux')|| ($_SESSION['type_utilisateur'] == 'normal') ):*/ ?>
-                                    <!--                    <td class="entete" colspan="3" style="text-align: center">Actions</td>-->
-                                    <?php /*endif*/ ?>
-                                </tr>
-                                </thead>
-                                <?php
-                                    $req = "SELECT * FROM entrees_stock ORDER BY date_entr DESC ";
-                                    if ($resultat = $connexion->query($req)) {
-                                        $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
-                                        foreach ($ligne as $list) {
-                                            ?>
+                                    <td>
+                                        <table border="0">
                                             <tr>
-                                                <td style="text-align: center">
-                                                    <a class="btn btn-default" data-toggle="modal"
-                                                       data-target="#modalConsultation<?php echo stripslashes($list['num_entr']); ?>">
-                                                        <?php echo stripslashes($list['num_entr']); ?>
-                                                    </a>
-
-                                                    <div class="modal fade"
-                                                         id="modalConsultation<?php echo stripslashes($list['num_entr']); ?>"
-                                                         tabindex="-1"
-                                                         role="dialog">
-                                                        <div class="modal-dialog delete" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <button type="button" class="close" data-dismiss="modal"
-                                                                            aria-label="Close"><span
-                                                                            aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                    <h4 class="modal-title"
-                                                                        id="modalConsultation<?php echo stripslashes($list['num_entr']); ?>">
-                                                                        Entrée <?php echo stripslashes($list['num_entr']); ?> au <?php echo stripslashes($list['date_entr']); ?></h4>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <table border="0" class="table table-hover table-bordered ">
-                                                                        <thead>
-                                                                        <tr>
-                                                                            <th class="entete" style="text-align: center">Article</th>
-                                                                            <th class="entete" style="text-align: center">Quantité</th>
-                                                                        </tr>
-                                                                        </thead>
-                                                                        <?php
-                                                                            $sql = "SELECT * FROM details_entree WHERE num_entr = '" . stripslashes($list['num_entr']) . "'";
-                                                                            if ($result = $connexion->query($sql)) {
-                                                                                $lignes = $result->fetch_all(MYSQLI_ASSOC);
-                                                                                foreach ($lignes as $liste) {
-                                                                                    $sql1 = "SELECT designation_art FROM articles WHERE code_art = '" . stripslashes($liste['code_art']) . "'";
-                                                                                    $art = "";
-                                                                                    if ($result1 = $connexion->query($sql1)) {
-                                                                                        $lignes1 = $result1->fetch_all(MYSQLI_ASSOC);
-                                                                                        foreach ($lignes1 as $liste1) {
-                                                                                            $art = stripslashes($liste1['designation_art']);
-                                                                                        }
-                                                                                    }
-                                                                        ?>
-                                                                        <tr>
-                                                                            <td><?php echo $art; ?></td>
-                                                                            <td><?php echo stripslashes($liste['qte_dentr']); ?></td>
-                                                                        </tr>
-                                                                                    <?php
-                                                                                }
-                                                                            }
-                                                                        ?>
-                                                                    </table>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                <td>
+                                                    <p style="font-size: small">Veuillez spécifier la période.</p>
                                                 </td>
-                                                <td style="text-align: center"><?php echo stripslashes($list['date_entr']); ?></td>
+
                                             </tr>
-                                            <?php
-                                        }
-                                    }
-                                ?>
+                                        </table>
+                                        <table class="formulaire" border="0" style="margin-left: auto; margin-right: auto">
+                                            <tr>
+                                                <td class="champlabel">Du: </td>
+                                                <td>
+                                                    <label>
+                                                        <input type="text" name="datedebut"
+                                                               id="date_d" readonly required
+                                                               title="Veuillez cliquer ici pour sélectionner une date"
+                                                               class="form-control"/>
+                                                    </label>
+                                                </td>
+                                                <td class="champlabel">Au: </td>
+                                                <td>
+                                                    <label>
+                                                        <input type="text" name="datefin"
+                                                               class="form-control" id="date_f" readonly
+                                                               title="Veuillez cliquer ici pour sélectionner une date"
+                                                               required/>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-default" id="valider"
+                                                            style="margin-left: 5px">
+                                                        <span class="ui-icon ui-icon-circle-triangle-e"></span>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td style="padding-left: 10px; vertical-align: top">
+                                        <img src="img/icons_1775b9/about.png" height="40" width="40">
+                                    </td>
+                                </tr>
                             </table>
+
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <strong>
-                            <h5 style="color: #29487d">Sorties :</h5>
-                        </strong>
-                        <div class="panel panel-default">
-                            <table class="table table-hover table-bordered">
-                                <thead>
-                                <tr>
-                                    <th class="entete" style="text-align: center">Numéro</th>
-                                    <th class="entete" style="text-align: center">Date</th>
-                                    <?php /*if (($_SESSION['type_utilisateur'] == 'administrateur') || ($_SESSION['type_utilisateur'] == 'moyens_genereaux')|| ($_SESSION['type_utilisateur'] == 'normal') ):*/ ?>
-                                    <!--                    <td class="entete" colspan="3" style="text-align: center">Actions</td>-->
-                                    <?php /*endif*/ ?>
-                                </tr>
-                                </thead>
-                                <?php
-                                    $req = "SELECT * FROM sorties_stock ORDER BY date_sort DESC ";
-                                    if ($resultat = $connexion->query($req)) {
-                                        $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
-                                        foreach ($ligne as $list) {
-                                            ?>
-                                            <tr>
-                                                <td style="text-align: center">
-                                                    <a class="btn btn-default" data-toggle="modal"
-                                                       data-target="#modalConsultation<?php echo stripslashes($list['num_sort']); ?>">
-                                                        <?php echo stripslashes($list['num_sort']); ?>
-                                                    </a>
 
-                                                    <div class="modal fade"
-                                                         id="modalConsultation<?php echo stripslashes($list['num_sort']); ?>"
-                                                         tabindex="-1"
-                                                         role="dialog">
-                                                        <div class="modal-dialog delete" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <button type="button" class="close" data-dismiss="modal"
-                                                                            aria-label="Close"><span
-                                                                            aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                    <h4 class="modal-title"
-                                                                        id="modalConsultation<?php echo stripslashes($list['num_sort']); ?>">
-                                                                        Sortie <?php echo stripslashes($list['num_sort']); ?> au <?php echo stripslashes($list['date_sort']); ?></h4>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <table border="0" class="table table-hover table-bordered ">
-                                                                        <thead>
-                                                                        <tr>
-                                                                            <th class="entete" style="text-align: center">Article</th>
-                                                                            <th class="entete" style="text-align: center">Quantité</th>
-                                                                        </tr>
-                                                                        </thead>
-                                                                        <?php
-                                                                            $sql = "SELECT * FROM details_sortie WHERE num_sort = '" . stripslashes($list['num_sort']) . "'";
-                                                                            if ($result = $connexion->query($sql)) {
-                                                                                $lignes = $result->fetch_all(MYSQLI_ASSOC);
-                                                                                foreach ($lignes as $liste) {
-                                                                                    $sql1 = "SELECT designation_art FROM articles WHERE code_art = '" . stripslashes($liste['code_art']) . "'";
-                                                                                    $art = "";
-                                                                                    if ($result1 = $connexion->query($sql1)) {
-                                                                                        $lignes1 = $result1->fetch_all(MYSQLI_ASSOC);
-                                                                                        foreach ($lignes1 as $liste1) {
-                                                                                            $art = stripslashes($liste1['designation_art']);
-                                                                                        }
-                                                                                    }
-                                                                                    ?>
-                                                                                    <tr>
-                                                                                        <td><?php echo $art; ?></td>
-                                                                                        <td><?php echo stripslashes($liste['qte_dsort']); ?></td>
-                                                                                    </tr>
-                                                                                    <?php
-                                                                                }
-                                                                            }
-                                                                        ?>
-                                                                    </table>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td style="text-align: center"><?php echo stripslashes($list['date_sort']); ?></td>
-                                            </tr>
-                                            <?php
-                                        }
-                                    }
-                                ?>
-                            </table>
-                        </div>
-                    </div>
+                    <div class="feedback"></div>
                 </div>
             </div>
         </div>
@@ -197,6 +73,11 @@
 
 
 <script>
+    $(document).ready(function () {
+        $('#date_d').datepicker({dateFormat: 'yy-mm-dd'});
+        $('#date_f').datepicker({dateFormat: 'yy-mm-dd'});
+    });
+
     function afficherInfos() {
         $.ajax({
             type: 'GET',
@@ -206,4 +87,28 @@
             }
         });
     }
+
+    $('#valider').click(function () {
+        var date_debut = $('#date_d').val();
+        var date_fin = $('#date_f').val();
+
+        if ((date_debut != "") && (date_fin != "")){
+            if (date_fin > date_debut) {
+//                alert(date_debut + " " + date_fin);
+                $.ajax({
+                    type: 'POST',
+                    url: 'articles/ajax_recap.php',
+                    data: {
+                        debut: date_debut,
+                        fin: date_fin
+                    },
+                    success: function (resultat) {
+                        $('.feedback').html(resultat);
+                    }
+                });
+            } else
+                alert("La date de début doit être antérieure à celle de fin.");
+        } else
+            alert("Veuillez sélectionner un intervalle de date.")
+    })
 </script>

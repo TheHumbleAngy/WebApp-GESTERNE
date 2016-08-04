@@ -107,7 +107,7 @@
                                                             foreach ($ligne as $list) {
                                                                 ?>
                                                                 <tr>
-                                                                    <td style="vertical-align: middle"><?php echo $list['libelle_dd']; ?></td>
+                                                                    <td style="text-align: center; vertical-align: middle"><?php echo $list['libelle_dd']; ?></td>
                                                                     <td style="text-align: center; vertical-align: middle"><?php echo $list['nature_dd']; ?></td>
                                                                     <td style="text-align: center; vertical-align: middle"><?php echo $list['qte_dd']; ?></td>
                                                                     <td style="vertical-align: middle"><?php echo $list['observations_dd']; ?></td>

@@ -45,12 +45,12 @@
                                 <div style="text-align: center">
                                     <a class="btn btn-default modifier" data-toggle="modal"
                                        data-target="#modalModifier<?php echo stripslashes($list['code_emp']); ?>">
-                                        <img height="20" width="20" src="img/icons8/ball_point_pen.png"
+                                        <img height="20" width="20" src="img/icons_1775b9/ball_point_pen.png"
                                              title="Modifier"/>
                                     </a>
                                     <a class="btn btn-default modifier" data-toggle="modal"
                                        data-target="#modalSupprimer<?php echo stripslashes($list['code_emp']); ?>">
-                                        <img height="20" width="20" src="img/icons8/cancel.png" title="Supprimer"/>
+                                        <img height="20" width="20" src="img/icons_1775b9/cancel.png" title="Supprimer"/>
                                     </a>
                                 </div>
 

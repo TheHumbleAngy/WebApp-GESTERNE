@@ -33,9 +33,9 @@
             </thead>
             <?php
                 $req = "SELECT d.code_dbs, d.date_dbs, d.objets_dbs, e.nom_emp, e.prenoms_emp
-                            FROM demandes AS d, employes AS e
-                            WHERE d.code_emp = e.code_emp AND e.email_emp = '" . $_SESSION['email'] . "'
-                            ORDER BY d.date_dbs DESC";
+                        FROM demandes AS d, employes AS e
+                        WHERE d.code_emp = e.code_emp AND e.email_emp = '" . $_SESSION['email'] . "'
+                        ORDER BY d.date_dbs DESC";
                 if ($resultat = $connexion->query($req)) {
                     $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                     foreach ($ligne as $list) {
@@ -45,6 +45,7 @@
                                 <?php
                                     //Recuperation des articles figurants sur la demande
                                     $req = "SELECT libelle_dd FROM details_demande WHERE code_dbs = '" . stripslashes($list['code_dbs']) . "'";
+                                    $str = "";
                                     if ($resultat = $connexion->query($req)) {
                                         $rows = $resultat->fetch_all(MYSQLI_ASSOC);
                                         $str = "";
@@ -64,7 +65,7 @@
                             <td style="text-align: center">
                                 <a class="btn btn-default" data-toggle="modal"
                                    data-target="#modalSupprimer<?php echo stripslashes($list['code_dbs']); ?>">
-                                    <img height="20" width="20" src="img/icons8/cancel.png" title="Supprimer"/>
+                                    <img height="20" width="20" src="img/icons_1775b9/cancel.png" title="Supprimer"/>
                                 </a>
                                 <div class="modal fade"
                                      id="modalSupprimer<?php echo stripslashes($list['code_dbs']); ?>"

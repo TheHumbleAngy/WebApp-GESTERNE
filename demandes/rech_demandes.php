@@ -60,7 +60,7 @@ if (isset($_POST['opt'])) {
                             <td>
                                 <div style="text-align: center">
                                     <a class="btn btn-default" href="form_principale.php?page=demandes/form_demandes&action=consultation&id=<?php echo stripslashes($list['code_dbs']); ?>" role="button">
-                                        <img height="20" width="20" src="img/icons8/visible.png" title="Consulter"/>
+                                        <img height="20" width="20" src="img/icons_1775b9/visible.png" title="Consulter"/>
                                     </a>
                                 </div>
                             </td>
