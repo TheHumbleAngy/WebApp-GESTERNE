@@ -106,7 +106,7 @@
                         </table>
                     </td>
                     <td style="margin-left: 20px">
-                        <img src="img/icons_1775b9/utilisateur-100.png">
+                        <img src="img/icons_1775b9/checked_user.png">
                     </td>
                 </tr>
             </table>

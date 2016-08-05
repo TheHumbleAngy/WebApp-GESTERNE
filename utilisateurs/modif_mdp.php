@@ -29,7 +29,7 @@
                     <table class="formulaire" style="width: 100%; border-collapse: separate; border-spacing: 8px"
                            border="0">
                         <tr>
-                            <td>
+                            <td style="width: 85%">
                                 <table class="formulaire" style="width: 100%; border-collapse: separate; border-spacing: 8px" border="0">
                                     <tr>
                                         <td class="champlabel">Ancien Mot de Passe:</td>
@@ -50,7 +50,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="champlabel">Nouveau Mot de Passe:</td>
+                                        <td class="champlabel">Confirmez le nouveau Mot de Passe:</td>
                                         <td>
                                             <input type="password" name="re_nvo_mdp" placeholder="Mot de passe"
                                                    size="30"
@@ -60,8 +60,8 @@
                                     </tr>
                                 </table>
                             </td>
-                            <td style="margin-left: 20px">
-                                <img src="img/icons_1775b9/Key-100.png">
+                            <td class="champlabel">
+                                <img src="img/icons_1775b9/key.png">
                             </td>
                         </tr>
                     </table>

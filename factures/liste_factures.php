@@ -36,56 +36,64 @@
 
                     <?php
                         $sql = "SELECT * FROM factures ORDER BY dateetablissement_fact ASC";
-                        if ($valeur = $connexion->query($sql)) {
-                            $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
-                            foreach ($ligne as $list) {
-                                ?>
-                                <tr>
-                                    <td style="text-align: center">
-                                        <?php
-                                            //Recuperation des détails figurants sur la demande
-                                            $req = "SELECT libelle_df FROM details_facture WHERE num_fact = '" . stripslashes($list['num_fact']) . "'";
-                                            if ($resultat = $connexion->query($req)) {
-                                                $rows = $resultat->fetch_all(MYSQLI_ASSOC);
+                        if ($resultat = $connexion->query($sql)) {
+                            if ($resultat->num_rows > 0) {
+                                $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
+                                foreach ($ligne as $list) {
+                                    ?>
+                                    <tr>
+                                        <td style="text-align: center">
+                                            <?php
+                                                //Recuperation des détails figurants sur la demande
+                                                $req = "SELECT libelle_df FROM details_facture WHERE num_fact = '" . stripslashes($list['num_fact']) . "'";
                                                 $str = "";
-                                                foreach ($rows as $row) {
-                                                    $str = $str . stripslashes($row['libelle_df']) . "\r\n";
+                                                if ($resultat = $connexion->query($req)) {
+                                                    $rows = $resultat->fetch_all(MYSQLI_ASSOC);
+                                                    foreach ($rows as $row) {
+                                                        $str = $str . stripslashes($row['libelle_df']) . "\r\n";
+                                                    }
                                                 }
-                                            }
-                                        ?>
-                                        <a class="btn btn-default"
-                                           href="form_principale.php?page=factures/form_factures&action=consultation&id=<?php echo stripslashes($list['num_fact']); ?>"
-                                           title="<?php echo $str; ?>"
-                                           role="button"><?php echo stripslashes($list['num_fact']); ?></a>
-                                    </td>
+                                            ?>
+                                            <a class="btn btn-default"
+                                               href="form_principale.php?page=factures/form_factures&action=consultation&id=<?php echo stripslashes($list['num_fact']); ?>"
+                                               title="<?php echo $str; ?>"
+                                               role="button"><?php echo stripslashes($list['num_fact']); ?></a>
+                                        </td>
 
-                                    <td><?php echo stripslashes($list['dateetablissement_fact']); ?></td>
-                                    <td><?php echo stripslashes($list['ref_fact']); ?></td>
-                                    <td><?php echo stripslashes($list['code_four']); ?></td>
-                                    <td><?php echo stripslashes($list['datereception_fact']); ?></td>
+                                        <td><?php echo stripslashes($list['dateetablissement_fact']); ?></td>
+                                        <td><?php echo stripslashes($list['ref_fact']); ?></td>
+                                        <td><?php echo stripslashes($list['code_four']); ?></td>
+                                        <td><?php echo stripslashes($list['datereception_fact']); ?></td>
 
-                                    <!--                                <td>-->
-                                    <?php //echo stripslashes($list['etatavecfacpro_facture']); ?><!--</td>-->
-                                    <td><?php echo stripslashes($list['remarques_facture']); ?></td>
-                                    <?php //if (($_SESSION['type_utilisateur'] == 'administrateur') || ($_SESSION['type_utilisateur'] == 'moyens_genereaux')): ?>
-                                    <td>
-                                        <div style="text-align: center">
-                                            <a class="btn btn-default modifier" data-toggle="modal"
-                                               data-target="#modalModifier<?php echo stripslashes($list['num_fact']); ?>">
-                                                <img height="20" width="20" src="img/icons_1775b9/ball_point_pen.png"
-                                                     title="Modifier"/>
-                                            </a>
-                                            <a class="btn btn-default modifier" data-toggle="modal"
-                                               data-target="#modalSupprimer<?php echo stripslashes($list['num_fact']); ?>">
-                                                <img height="20" width="20" src="img/icons_1775b9/cancel.png" title="Supprimer"/>
-                                            </a>
-                                        </div>
-                                    </td>
+                                        <!--                                <td>-->
+                                        <?php //echo stripslashes($list['etatavecfacpro_facture']); ?><!--</td>-->
+                                        <td><?php echo stripslashes($list['remarques_facture']); ?></td>
+                                        <?php //if (($_SESSION['type_utilisateur'] == 'administrateur') || ($_SESSION['type_utilisateur'] == 'moyens_genereaux')): ?>
+                                        <td>
+                                            <div style="text-align: center">
+                                                <a class="btn btn-default modifier" data-toggle="modal"
+                                                   data-target="#modalModifier<?php echo stripslashes($list['num_fact']); ?>">
+                                                    <img height="20" width="20" src="img/icons_1775b9/ball_point_pen.png"
+                                                         title="Modifier"/>
+                                                </a>
+                                                <a class="btn btn-default modifier" data-toggle="modal"
+                                                   data-target="#modalSupprimer<?php echo stripslashes($list['num_fact']); ?>">
+                                                    <img height="20" width="20" src="img/icons_1775b9/cancel.png" title="Supprimer"/>
+                                                </a>
+                                            </div>
+                                        </td>
 
-                                    <?php //endif ?>
+                                        <?php //endif ?>
+                                    </tr>
+                                    <?php
+                                }
+                            } else { ?>
+                                <tr>
+                                    <th colspan="7" class="entete" style="text-align: center">
+                                        <h5>Aucune facture n'a été enregistrée à ce jour</h5>
+                                    </th>
                                 </tr>
-                                <?php
-                            }
+                            <?php }
                         }
                     ?>
                 </table>

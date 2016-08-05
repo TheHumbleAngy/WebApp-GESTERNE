@@ -155,7 +155,7 @@
                         <td>
                             <a class="a-minimenu" onclick="ajouter();">
                                 <div class="btn-minimenu">
-                                    <img src="img/icons_1775b9/add_user-100.png" width="30" height="30">
+                                    <img src="img/icons_1775b9/add_user.png" width="30" height="30">
                                     Ajouter
                                 </div>
                             </a>

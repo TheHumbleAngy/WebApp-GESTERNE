@@ -43,14 +43,13 @@
                             <td><?php echo "E-mail: " . stripslashes($list['email_emp']) . "<br>Tel: " . stripslashes($list['tel_emp']); ?></td>
                             <td>
                                 <div style="text-align: center">
-                                    <a class="btn btn-default modifier" data-toggle="modal"
+                                    <a class="btn btn-default modifier" data-toggle="modal" title="Modifier"
                                        data-target="#modalModifier<?php echo stripslashes($list['code_emp']); ?>">
-                                        <img height="20" width="20" src="img/icons_1775b9/ball_point_pen.png"
-                                             title="Modifier"/>
+                                        <img height="20" width="20" src="img/icons_1775b9/edit_user.png"/>
                                     </a>
-                                    <a class="btn btn-default modifier" data-toggle="modal"
+                                    <a class="btn btn-default modifier" data-toggle="modal" title="Supprimer"
                                        data-target="#modalSupprimer<?php echo stripslashes($list['code_emp']); ?>">
-                                        <img height="20" width="20" src="img/icons_1775b9/cancel.png" title="Supprimer"/>
+                                        <img height="20" width="20" src="img/icons_1775b9/remove_user.png"/>
                                     </a>
                                 </div>
 

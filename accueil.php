@@ -21,7 +21,7 @@
             autoplaySpeed: 1500,
             vertical: true,
             arrows: false,
-            slidesToShow: 3
+            slidesToShow: 2
         });
 
         $(".slider-stock").slick({
@@ -68,12 +68,18 @@
                                                         <?php
                                                             $sql = "SELECT * FROM articles";
                                                             if ($resultat = $connexion->query($sql)) {
-                                                                $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
-                                                                foreach ($ligne as $list) {
-                                                                    ?>
-                                                                    <div><?php echo stripslashes($list['designation_art']) . " (<strong>" . stripslashes($list['stock_art']) . "</strong>)"; ?></div>
-                                                                    <?php
-                                                                }
+                                                                if ($resultat->num_rows > 0) {
+                                                                    $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
+                                                                    foreach ($ligne as $list) {
+                                                                        ?>
+                                                                        <div><?php echo stripslashes($list['designation_art']) . " (<strong>" . stripslashes($list['stock_art']) . "</strong>)"; ?></div>
+                                                                        <?php
+                                                                    }
+                                                                } else { ?>
+                                                                    <div>
+                                                                        <strong>RAS</strong>
+                                                                    </div>
+                                                                <?php }
                                                             }
                                                         ?>
                                                     </div>
@@ -91,13 +97,19 @@
                                                         <?php
                                                             $sql = "SELECT * FROM articles WHERE stock_art = niveau_reappro_art OR stock_art < niveau_reappro_art";
                                                             if ($resultat = $connexion->query($sql)) {
-                                                                $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
-                                                                foreach ($ligne as $list) {
-                                                                    ?>
-                                                                    <div
+                                                                if ($resultat->num_rows > 0) {
+                                                                    $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
+                                                                    foreach ($ligne as $list) {
+                                                                        ?>
+                                                                        <div
                                                                         ><?php echo stripslashes($list['designation_art']) . " (<strong>" . stripslashes($list['stock_art']) . "</strong>)"; ?></div>
-                                                                    <?php
-                                                                }
+                                                                        <?php
+                                                                    }
+                                                                } else { ?>
+                                                                    <div>
+                                                                        <strong>RAS</strong>
+                                                                    </div>
+                                                                <?php }
                                                             }
                                                         ?>
                                                     </div>
@@ -118,12 +130,18 @@
                                                             <?php
                                                                 $sql = "SELECT * FROM articles WHERE stock_art = 0";
                                                                 if ($resultat = $connexion->query($sql)) {
-                                                                    $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
-                                                                    foreach ($ligne as $list) {
-                                                                        ?>
-                                                                        <div><?php echo stripslashes($list['designation_art']); ?></div>
-                                                                        <?php
-                                                                    }
+                                                                    if ($resultat->num_rows > 0) {
+                                                                        $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
+                                                                        foreach ($ligne as $list) {
+                                                                            ?>
+                                                                            <div><?php echo stripslashes($list['designation_art']); ?></div>
+                                                                            <?php
+                                                                        }
+                                                                    } else { ?>
+                                                                        <div>
+                                                                            <strong>RAS</strong>
+                                                                        </div>
+                                                                    <?php }
                                                                 }
                                                             ?>
                                                         </div>
@@ -284,9 +302,15 @@
                                                                     ON D.num_entr = E.num_entr
                                                                     WHERE E.date_entr = '$dat'";
                                                             if ($resultat = $connexion->query($sql)) {
-                                                                $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
-                                                                foreach ($ligne as $list) { ?>
-                                                                    <div><?php echo stripslashes($list['designation_art']) . " <img src='img/icons_1775b9/reply_arrow.png' width='20' style='margin-bottom: 5px'> (<strong>" . stripslashes($list['qte_dentr']) . "</strong>)" ?></div>
+                                                                if ($resultat->num_rows > 0) {
+                                                                    $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
+                                                                    foreach ($ligne as $list) { ?>
+                                                                        <div><?php echo stripslashes($list['designation_art']) . " <img src='img/icons_1775b9/reply_arrow.png' width='20' style='margin-bottom: 5px'> (<strong>" . stripslashes($list['qte_dentr']) . "</strong>)" ?></div>
+                                                                    <?php }
+                                                                } else { ?>
+                                                                    <div>
+                                                                        <strong>RAS</strong>
+                                                                    </div>
                                                                 <?php }
                                                             }
                                                         ?>
@@ -322,9 +346,15 @@
                                                                     ON D.num_sort = S.num_sort
                                                                     WHERE S.date_sort = '$dat'";
                                                             if ($resultat = $connexion->query($sql)) {
-                                                                $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
-                                                                foreach ($ligne as $list) { ?>
-                                                                    <div><?php echo stripslashes($list['designation_art']) . " <img src='img/icons_1775b9/forward_arrow.png' width='20' style='margin-bottom: 5px'> (<strong>" . stripslashes($list['qte_dsort']) . "</strong>)" ?></div>
+                                                                if ($resultat->num_rows > 0) {
+                                                                    $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
+                                                                    foreach ($ligne as $list) { ?>
+                                                                        <div><?php echo stripslashes($list['designation_art']) . " <img src='img/icons_1775b9/forward_arrow.png' width='20' style='margin-bottom: 5px'> (<strong>" . stripslashes($list['qte_dsort']) . "</strong>)" ?></div>
+                                                                    <?php }
+                                                                } else { ?>
+                                                                    <div>
+                                                                        <strong>RAS</strong>
+                                                                    </div>
                                                                 <?php }
                                                             }
                                                         ?>

@@ -429,7 +429,7 @@
         },
         formatNoMatches: function () {
             //return 'No matching records found';
-            return 'Aucun resultat trouve';
+            return 'Aucun resultat trouvé';
         },
         formatPaginationSwitch: function () {
             //return 'Hide/Show pagination';

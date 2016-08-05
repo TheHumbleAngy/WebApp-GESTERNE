@@ -10,6 +10,7 @@
 ?>
 
 <?php if ($action == "ajout"): ?>
+    <!--suppress ALL-->
     <div class="col-md-7" style="margin-left: 20.83%">
         <div class="panel panel-default">
             <div class="panel-heading" style="font-size: 12px; font-weight: bolder">
@@ -164,16 +165,24 @@
                                 WHERE e.code_emp IN (SELECT code_emp FROM droits) ORDER BY e.nom_emp ASC ";
 
                         if ($resultat = $connexion->query($sql)) {
-                            $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
-                            foreach ($ligne as $list) {
-                                ?>
+                            if ($resultat->num_rows > 0) {
+                                $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
+                                foreach ($ligne as $list) {
+                                    ?>
+                                    <tr>
+                                        <td><?php echo stripslashes($list['code_emp']); ?></td>
+                                        <td><?php echo stripslashes($list['prenoms_emp']) . ' ' . stripslashes($list['nom_emp']); ?></td>
+                                        <td><?php echo stripslashes($list['libelle_droit']); ?></td>
+                                    </tr>
+                                    <?php
+                                }
+                            } else { ?>
                                 <tr>
-                                    <td><?php echo stripslashes($list['code_emp']); ?></td>
-                                    <td><?php echo stripslashes($list['prenoms_emp']) . ' ' . stripslashes($list['nom_emp']); ?></td>
-                                    <td><?php echo stripslashes($list['libelle_droit']); ?></td>
+                                    <th colspan="5" class="entete" style="text-align: center">
+                                        <h5>Aucun utilisateur n'a été enregistré à ce jour</h5>
+                                    </th>
                                 </tr>
-                                <?php
-                            }
+                            <?php }
                         }
                     ?>
                 </table>
