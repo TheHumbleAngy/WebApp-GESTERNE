@@ -73,7 +73,7 @@ if (isset($_POST['opt'])) {
                                     <div style="text-align: center">
                                         <a class="btn btn-default modifier" data-toggle="modal"
                                            data-target="#modalModifier<?php echo stripslashes($data['code_emp']); ?>">
-                                            <img height="20" width="20" src="img/icons_1775b9/ball_point_pen.png"
+                                            <img height="20" width="20" src="img/icons_1775b9/ball_point_pen_filled.png"
                                                  title="Modifier"/>
                                         </a>
                                         <a class="btn btn-default modifier" data-toggle="modal"
