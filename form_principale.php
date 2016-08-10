@@ -4,7 +4,7 @@
     require_once 'fonctions.php';
     session_start();
 
-    if (!isset($_SESSION['user_id'])) {
+    if (!isset($_SESSION['user_id'])) { //TODO: conditionner aussi le paramètre de connexion
         header('Location: index.php');
     }
 
