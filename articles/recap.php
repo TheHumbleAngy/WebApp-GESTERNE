@@ -57,7 +57,7 @@
                                         </table>
                                     </td>
                                     <td style="padding-left: 10px; vertical-align: top">
-                                        <img src="img/icons_1775b9/about.png" height="40" width="40">
+                                        <img src="img/icons_1775b9/info.png" height="40" width="40">
                                     </td>
                                 </tr>
                             </table>

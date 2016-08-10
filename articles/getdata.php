@@ -59,7 +59,7 @@
                                             ?>
                                         </td>
                                         <td><?php echo mysqli_real_escape_string($connexion, stripslashes($list['description_art'])); ?></td>
-                                        <td><?php echo "<strong>Stock Actuel : " . stripslashes($list['stock_art']) . "</strong><br>Niveau Réappro. : " . stripslashes($list['niveau_reappro_art']) . "<br>Niveau Ciblé : " . stripslashes($list['niveau_cible_art']); ?></td>
+                                        <td><?php echo "<strong>Stock Actuel : " . stripslashes($list['stock_art']) . "</strong><br>Niv. Réappro. : " . stripslashes($list['niveau_reappro_art']) . "<br>Niv. Ciblé : " . stripslashes($list['niveau_cible_art']); ?></td>
                                         <?php //if (($_SESSION['type_utilisateur'] == 'administrateur') || ($_SESSION['type_utilisateur'] == 'moyens_genereaux')): ?>
                                         <td>
                                             <div style="text-align: center">

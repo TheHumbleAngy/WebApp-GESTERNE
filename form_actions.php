@@ -13,7 +13,7 @@
 <?php if ($source == 'employes') {
     if ($action == 'modifier') { ?>
 
-        <div class="col-md-8 col-md-offset-2" style="margin-top: 5%">
+        <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Modif. Employé
@@ -69,10 +69,10 @@
 
     <?php } elseif ($action == 'rechercher') { ?>
 
-        <div class="col-md-8 col-md-offset-2" style="margin-top: 5%">
+        <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Recherche > Employés
+                    Recherche <img src="img/icons_1775b9/right.png" width="20"> Employés
                     <a href='form_principale.php?page=administration&source=employes' type='button'
                        class='close'
                        data-dismiss='alert' aria-label='Close' style='position: inherit'>
@@ -138,7 +138,7 @@
 
     <?php } elseif ($action == 'supprimer') { ?>
 
-        <div class="col-md-8 col-md-offset-2" style="margin-top: 5%">
+        <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Suppr. Employé
@@ -196,7 +196,7 @@
 } elseif ($source == 'fournisseurs') {
     if ($action == 'modifier') { ?>
 
-        <div class="col-md-8 col-md-offset-2" style="margin-top: 5%">
+        <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Modif. Fournisseur
@@ -252,10 +252,10 @@
 
     <?php } elseif ($action == 'rechercher') { ?>
 
-        <div class="col-md-8 col-md-offset-2" style="margin-top: 5%">
+        <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Recherche > Fournisseur
+                    Recherche <img src="img/icons_1775b9/right.png" width="20"> Fournisseur
                     <a href='form_principale.php?page=administration&source=fournisseurs' type='button'
                        class='close'
                        data-dismiss='alert' aria-label='Close' style='position: inherit'>
@@ -322,7 +322,7 @@
 
     <?php } elseif ($action == 'supprimer') { ?>
 
-        <div class="col-md-8 col-md-offset-2" style="margin-top: 5%">
+        <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Suppr. Fournisseur
@@ -382,10 +382,10 @@
 } elseif ($source == 'demandes') {
     if ($action == 'rechercher') { ?>
 
-        <div class="col-md-8 col-md-offset-2" style="margin-top: 5%">
+        <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Recherche > Demandes
+                    Recherche <img src="img/icons_1775b9/right.png" width="20"> Demandes
                     <a href='form_principale.php?page=accueil' type='button'
                        class='close' data-dismiss='alert' aria-label='Close'
                        style='position: inherit'>
@@ -397,7 +397,7 @@
                         <table border="0">
                             <tr>
                                 <td>
-                                    <p style="font-size: small">Veuillez selectionner le critere de recherche a l'aide
+                                    <p style="font-size: small">Critère de recherche a l'aide
                                         de la liste déroulante. Entrez ensuite le texte à rechercher ou tapez quelques
                                         caractères qui, selon vous, existent dans l'element a rechercher. Enfin, cliquez
                                         sur le boutton en face pour proceder.</p>
@@ -452,10 +452,10 @@
 } elseif ($source == 'articles') {
     if ($action == 'rechercher') { ?>
 
-        <div class="col-md-8 col-md-offset-2" style="margin-top: 5%">
+        <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Recherche > Articles
+                    Recherche <img src="img/icons_1775b9/right.png" width="20"> Articles
                     <a href='form_principale.php?page=accueil' type='button'
                        class='close' data-dismiss='alert' aria-label='Close'
                        style='position: inherit'>
@@ -522,7 +522,7 @@
 
     <?php } elseif ($action == 'supprimer') { ?>
 
-        <div class="col-md-8 col-md-offset-2" style="margin-top: 5%">
+        <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Suppr. Article
@@ -579,7 +579,7 @@
 
     <?php } elseif ($action == 'modifier') { ?>
 
-        <div class="col-md-8 col-md-offset-2" style="margin-top: 5%">
+        <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Modif. Article
@@ -638,11 +638,11 @@
     <?php }
 } elseif ($source == 'proformas') {
     if ($action == 'rechercher') { ?>
-
-        <div class="col-md-7 col-md-offset-3">
+        <!--suppress ALL -->
+        <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Recherche > Factures Proformas
+                    Recherche <img src="img/icons_1775b9/right.png" width="20"> Factures Proformas
                     <a href='form_principale.php?page=accueil' type='button'
                        class='close' data-dismiss='alert' aria-label='Close'
                        style='position: inherit'>
@@ -650,14 +650,27 @@
                     </a>
                 </div>
                 <div class="panel-body">
+                    <div class="jumbotron info">
+                        <table border="0">
+                            <tr>
+                                <td>
+                                    <p style="font-size: small">Veuillez sélectionner le critère de recherche à l'aide
+                                        de la liste déroulante. Entrez ensuite le texte à rechercher ou tapez quelques
+                                        caractères qui, selon vous, existent dans l'élément a rechercher. Enfin, cliquez
+                                        sur le boutton en face pour continuer.</p>
+                                </td>
+                                <td style="padding-left: 10px; vertical-align: top">
+                                    <img src="img/icons_1775b9/about.png" height="40" width="40">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                     <form action="form_principale.php?page=proformas/rech_proformas"
                           method="post">
-                        <table class="formulaire"
-                               style="border-collapse: separate; border-spacing: 8px"
-                               border="0">
+                        <table class="formulaire" border="0" style="margin-left: auto; margin-right: auto">
                             <tr>
                                 <td class="champlabel">
-                                    Veuillez selectionner le critere de recherche :
+                                    Critère :
                                 </td>
                                 <td>
                                     <label>
@@ -670,8 +683,6 @@
                                         </select>
                                     </label>
                                 </td>
-                            </tr>
-                            <tr>
                                 <td class="champlabel">
                                     Texte à rechercher :
                                 </td>
@@ -681,13 +692,14 @@
                                                required>
                                     </label>
                                 </td>
+                                <td>
+                                    <button class="btn btn-default" type="submit" name="valider"
+                                            style="margin-left: 5px">
+                                        <span class="ui-icon ui-icon-circle-triangle-e"></span>
+                                    </button>
+                                </td>
                             </tr>
                         </table>
-                        <div style="text-align: center">
-                            <button class="btn btn-info" type="submit" name="valider" style="width: 150px">
-                                Rechercher
-                            </button>
-                        </div>
                     </form>
                 </div>
             </div>
@@ -697,10 +709,10 @@
 } elseif ($source == 'bons_commande') {
     if ($action == 'rechercher') { ?>
 
-        <div class="col-md-7 col-md-offset-3">
+        <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Recherche > Bons de Commande
+                    Recherche <img src="img/icons_1775b9/right.png" width="20"> Bons de Commande
                     <a href='form_principale.php?page=accueil' type='button'
                        class='close' data-dismiss='alert' aria-label='Close'
                        style='position: inherit'>
@@ -708,14 +720,27 @@
                     </a>
                 </div>
                 <div class="panel-body">
+                    <div class="jumbotron info">
+                        <table border="0">
+                            <tr>
+                                <td>
+                                    <p style="font-size: small">Veuillez sélectionner le critère de recherche à l'aide
+                                        de la liste déroulante. Entrez ensuite le texte à rechercher ou tapez quelques
+                                        caractères qui, selon vous, existent dans l'élément a rechercher. Enfin, cliquez
+                                        sur le boutton en face pour continuer.</p>
+                                </td>
+                                <td style="padding-left: 10px; vertical-align: top">
+                                    <img src="img/icons_1775b9/about.png" height="40" width="40">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                     <form action="form_principale.php?page=bons_commande/rech_bons_commande"
                           method="post">
-                        <table class="formulaire"
-                               style="border-collapse: separate; border-spacing: 8px"
-                               border="0">
+                        <table class="formulaire" border="0" style="margin-left: auto; margin-right: auto">
                             <tr>
                                 <td class="champlabel">
-                                    Veuillez selectionner le critere de recherche :
+                                    Critère :
                                 </td>
                                 <td>
                                     <label>
@@ -728,8 +753,6 @@
                                         </select>
                                     </label>
                                 </td>
-                            </tr>
-                            <tr>
                                 <td class="champlabel">
                                     Texte à rechercher :
                                 </td>
@@ -739,13 +762,14 @@
                                                required>
                                     </label>
                                 </td>
+                                <td>
+                                    <button class="btn btn-default" type="submit" name="valider"
+                                            style="margin-left: 5px">
+                                        <span class="ui-icon ui-icon-circle-triangle-e"></span>
+                                    </button>
+                                </td>
                             </tr>
                         </table>
-                        <div style="text-align: center">
-                            <button class="btn btn-info" type="submit" name="valider" style="width: 150px">
-                                Rechercher
-                            </button>
-                        </div>
                     </form>
                 </div>
             </div>
@@ -755,7 +779,7 @@
 } elseif ($source == 'utilisateurs') {
     if ($action == 'rechercher') { ?>
 
-        <div class="col-md-8 col-md-offset-2" style="margin-top: 5%">
+        <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Recherche
@@ -770,7 +794,7 @@
                         <table border="0">
                             <tr>
                                 <td>
-                                    <p style="font-size: small">Veuillez selectionner le critere de recherche a l'aide
+                                    <p style="font-size: small">Critère de recherche a l'aide
                                         de la liste déroulante. Entrez ensuite le texte à rechercher ou tapez quelques
                                         caractères qui, selon vous, existent dans l'element a rechercher. Enfin, cliquez
                                         sur le boutton en face pour proceder.</p>

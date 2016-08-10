@@ -143,7 +143,7 @@
     <div class="col-md-9" style="padding-top: 5%; margin-left: 12.66%">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <span class="icons8-clipboard"> Utilisateurs</span>
+                <img src="img/icons_1775b9/circled_user.png" width="20"> Utilisateurs
                 <a href='form_principale.php?page=accueil' type='button' class='close'
                    data-dismiss='alert' aria-label='Close' style='position: inherit'>
                     <span aria-hidden='true'>&times;</span>
@@ -155,7 +155,7 @@
                         <td>
                             <a class="a-minimenu" onclick="ajouter();">
                                 <div class="btn-minimenu">
-                                    <img src="img/icons_1775b9/add_user.png" width="30" height="30">
+                                    <img src="img/icons_1775b9/key_exchange.png" width="30" height="30">
                                     Ajouter
                                 </div>
                             </a>
@@ -163,7 +163,7 @@
                         <td>
                             <a class="a-minimenu" onclick="modifier();">
                                 <div class="btn-minimenu">
-                                    <img src="img/icons_1775b9/edit_user.png" width="30" height="30">
+                                    <img src="img/icons_1775b9/edit.png" width="30" height="30">
                                     Modifier
                                 </div>
                             </a>

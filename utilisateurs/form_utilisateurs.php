@@ -44,7 +44,7 @@
                             <td></td>
                             <td></td>
                             <td rowspan="2" style="padding-right: 0">
-                                <img src="img/icons_1775b9/add_user-100.png" height="80" width="80">
+                                <img src="img/icons_1775b9/key_exchange_filled.png" height="80" width="80">
                             </td>
                         </tr>
                         <tr>
@@ -86,14 +86,14 @@
             </div>
             <div class="panel-body">
                 <form method="post" action="">
-                    <table style="border-collapse: separate; border-spacing: 10px" border="0">
+                    <table style="border-collapse: separate; border-spacing: 10px" border="0" width="100%">
                         <tr>
                             <td class="champlabel">Employé:</td>
                             <td>
                                 <label>
                                     <select class="form-control" name="emp" required>
                                         <option disabled selected></option>
-                                        <?php //la liste des employés � qui un droit a d�j� �t� attriu�
+                                        <?php
                                             $sql = "SELECT code_emp, nom_emp, prenoms_emp FROM employes WHERE code_emp IN (SELECT code_emp FROM droits) ORDER BY nom_emp ASC ";
                                             $res = mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
                                             while ($data = mysqli_fetch_array($res)) {
@@ -108,7 +108,7 @@
                             <td></td>
                             <td></td>
                             <td rowspan="2" style="padding-right: 0">
-                                <img src="img/icons_1775b9/edit_user.png" height="80" width="80">
+                                <img src="img/icons_1775b9/edit.png" height="80" width="80">
                             </td>
                         </tr>
                         <tr>
