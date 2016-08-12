@@ -8,7 +8,7 @@
      * Ce script génère la liste des propositions de libellés dans les champs de saisie d'articles sous forme JSON
      */
     header("Content-Type: application/json; charset=UTF-8");
-    require_once '../bd/connection.php';
+    
 
     $json_email = array();
 

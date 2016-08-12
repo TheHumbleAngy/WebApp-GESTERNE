@@ -6,7 +6,7 @@
  * Time: 9:03 AM
  */
 
-require_once '../bd/connection.php';
+
 //echo "Hello";
 
 if (isset($_POST["nbr"])) {

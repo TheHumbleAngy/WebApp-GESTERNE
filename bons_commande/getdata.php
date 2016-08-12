@@ -4,8 +4,8 @@
      * User: Ange KOUAKOU
      * Date: 02/07/2016
      * Time: 09:21
-     */require_once '../bd/connection.php';
-    session_start();
+     */
+    $connexion = db_connect();
 ?>
 <!--suppress ALL -->
 <div class="panel panel-default">

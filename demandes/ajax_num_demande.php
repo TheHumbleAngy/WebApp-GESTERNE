@@ -6,7 +6,7 @@
      * Time: 9:58 AM
      */
 
-    require_once '../bd/connection.php';
+    
 
     $req = "SELECT code_dbs FROM demandes ORDER BY code_dbs DESC LIMIT 1";
     $resultat = $connexion->query($req);

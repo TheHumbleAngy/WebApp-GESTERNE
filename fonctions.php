@@ -5,22 +5,30 @@
      * Date: 3/13/14
      * Time: 11:46 AM
      */
+    
+    function db_connect() {
+        static $connexion;
 
-    require_once 'bd/connection.php';
+        if (!isset($connexion)) {
+            $config = parse_ini_file('../config.ini');
+            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+        }
 
-    function rediriger($page) {
-        header('Location: ' . $page);
-        exit;
+        if ($connexion === FALSE) 
+            return mysqli_connect_errno();
+        else
+            return $connexion;
     }
 
-    function login($email, $password, $connexion) {
+    function login($email, $password) {
+        $connexion = db_connect();
         $req = "SELECT * FROM employes WHERE email_emp = '" . $email . "' AND mdp = '" . $password . "'";
 
         $resultat = $connexion->query($req);
 
         if ($resultat) {
             if ($resultat->num_rows == 1) {
-                $ligne = $resultat->fetch_array(MYSQL_ASSOC);
+                $ligne = $resultat->fetch_array(MYSQLI_ASSOC);
 
                 session_start();
                 $_SESSION['etat_connecte'] = $ligne['etat_connecte'];
@@ -31,13 +39,17 @@
                     $_SESSION['nom_emp'] = $ligne['nom_emp'];
                     $_SESSION['prenoms_emp'] = $ligne['prenoms_emp'];
                     $_SESSION['mdp'] = $password;
-                    $_SESSION['login_string'] = TRUE;
+                    $_SESSION['test_login'] = TRUE;
 
                     //On met à jour la propriété etat_connecte de la table employés
                     $req = "UPDATE employes SET etat_connecte = 1 WHERE email_emp = '" . $email . "'";
+
                     $resultat = $connexion->query($req);
-                    if (!$resultat)
-                        exit($connexion->error);
+
+                    if (!$resultat) {
+                        //die($connexion->error);
+                        return FALSE;
+                    }
                     else {
                         $_SESSION['etat_connecte'] = 1;
 
@@ -48,23 +60,9 @@
         } else return FALSE;
     }
 
-    function login_check($connexion) {
-        // Check if all session variables are set
-        if (isset($_SESSION['username'], $_SESSION['login_string'])) {
-
-            $email_utilisateur = $_SESSION['username'];
-            $mdp = $_SESSION['mdp'];
-
-            $req = "SELECT mdp FROM employes WHERE email_emp = '" . $email_utilisateur . "' AND mdp = '" . $mdp . "'";
-            $result = $connexion->query($req);
-
-            if ($result) {
-                if ($result->num_rows == 1) {
-                    // Logged In!!!!
-                    return TRUE;
-                } else return FALSE;
-            } else return FALSE;
-        } else return FALSE;
+    function rediriger($page) {
+        header('Location: ' . $page);
+        exit;
     }
 
     function etat_connection($etat_connecte) {

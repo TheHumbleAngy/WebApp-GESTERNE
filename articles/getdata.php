@@ -8,7 +8,9 @@
      * Ce script génère la liste des articles où des opérations de modifications et suppressions peuvent
      * être faites sur chaque article
      */
-    require_once '../bd/connection.php';
+    //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
+    $config = parse_ini_file('../../config.ini');
+    $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 ?>
 
 <!--suppress ALL -->

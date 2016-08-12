@@ -5,7 +5,7 @@
  * Date: 29/10/2015
  * Time: 16:45
  */
-//require_once '../bd/connection.php';
+//
 
 if (isset($_POST['opt'])) {
     $option = $_POST['opt'];

@@ -252,6 +252,8 @@
 <?php //echo sizeof($_POST);
     if (sizeof($_POST) > 0) { //echo $_POST['validation']; //echo "test";
 
+        $connexion = db_connect();
+        
         if (isset($_POST['validation'])) {
             if ($_POST['validation'] == "valider ajout") {
                 $req = "SELECT code_droit FROM droits ORDER BY code_droit DESC LIMIT 1";

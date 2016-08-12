@@ -5,11 +5,10 @@
      * Date: 26/11/2015
      * Time: 15:03
      */
-
+    
     if (isset($_GET['operation']) && $_GET['operation'] == "ajout") {
         //TODO: Enregistrement d'un nouvel article
-
-        require_once '../bd/connection.php';
+        
         include 'class_articles.php';
 
         $article = new articles();
@@ -52,7 +51,7 @@
         //TODO: MAJ des infos depuis la form liste_articles
 
         $id = $_GET['id'];
-        require_once '../bd/connection.php';
+        
         include_once 'class_articles.php';
 
         $article = new articles();
@@ -93,7 +92,7 @@
         //TODO: Suppression des infos depuis la form liste_articles
 
         $id = $_POST['id'];
-        require_once '../bd/connection.php';
+        
         include_once 'class_articles.php';
 
         $article = new articles();
@@ -125,7 +124,6 @@
         //TODO: MAJ et suppression des infos depuis les forms modif_articles et suppr_articles
 
         $code = $_POST['code_art'];
-        require_once 'bd/connection.php';
         include_once 'class_articles.php';
 
         $article = new articles();

@@ -6,8 +6,8 @@
      * Time: 10:48 AM
      */
 
-require_once '../bd/connection.php';
-    //On v�rifie s'il y a un en registrement dans la base de donn�es
+    $connexion = db_connect();
+    //On vérifie s'il y a un en registrement dans la base de données
     $req = "SELECT code_bl FROM bons_livraison ORDER BY code_bl DESC LIMIT 1";
     $resultat = $connexion->query($req);
 

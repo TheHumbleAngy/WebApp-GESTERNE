@@ -5,7 +5,7 @@
  * Date: 01/12/2015
  * Time: 09:20
  */
-
+    $connexion = db_connect();
 if (isset($_POST['opt'])) {
     $option = $_POST['opt'];
     $element = $_POST['element'];

@@ -5,7 +5,7 @@
      * Date: 26/08/2015
      * Time: 15:10
      */
-    require_once '../bd/connection.php';
+    
 ?>
 <!--suppress ALL -->
 <div class="panel panel-default">

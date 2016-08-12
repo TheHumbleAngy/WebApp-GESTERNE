@@ -66,6 +66,8 @@
                                                 <div class="panel-body">
                                                     <div class="slider-stock">
                                                         <?php
+                                                            $connexion = db_connect();
+                                                            
                                                             $sql = "SELECT * FROM articles";
                                                             if ($resultat = $connexion->query($sql)) {
                                                                 if ($resultat->num_rows > 0) {
@@ -168,7 +170,7 @@
                                                     $sql = "SELECT COUNT(*) FROM demandes WHERE statut = 'non satisfaite'";
                                                     $nbr = 0;
                                                     if ($resultat = $connexion->query($sql)) {
-                                                        $ligne = $resultat->fetch_all(MYSQL_NUM);
+                                                        $ligne = $resultat->fetch_all(MYSQLI_NUM);
                                                         foreach ($ligne as $list) {
                                                             $nbr = $list[0];
                                                         }
@@ -216,7 +218,7 @@
                                                     $sql = "SELECT COUNT(*) FROM demandes WHERE statut = 'partielle'";
                                                     $nbr = 0;
                                                     if ($resultat = $connexion->query($sql)) {
-                                                        $ligne = $resultat->fetch_all(MYSQL_NUM);
+                                                        $ligne = $resultat->fetch_all(MYSQLI_NUM);
                                                         foreach ($ligne as $list) {
                                                             $nbr = $list[0];
                                                         }
@@ -279,7 +281,7 @@
                                             <?php
                                                 $sql = "SELECT MAX(date_entr) FROM entrees_stock";
                                                 if ($resultat = $connexion->query($sql)) {
-                                                    $ligne = $resultat->fetch_all(MYSQL_NUM);
+                                                    $ligne = $resultat->fetch_all(MYSQLI_NUM);
                                                     foreach ($ligne as $list) {
                                                         $dat = $list[0];
                                                     }
@@ -323,7 +325,7 @@
                                             <?php
                                                 $sql = "SELECT max(date_sort) FROM sorties_stock";
                                                 if ($resultat = $connexion->query($sql)) {
-                                                    $ligne = $resultat->fetch_all(MYSQL_NUM);
+                                                    $ligne = $resultat->fetch_all(MYSQLI_NUM);
                                                     foreach ($ligne as $list) {
                                                         $dat = $list[0];
                                                     }

@@ -6,6 +6,7 @@
      * Time: 1:10 PM
      */
     error_reporting(0);
+    $connexion = db_connect();
     if (isset($_GET['action']) && $_GET['action'] == "consultation") : ?>
 
         <?php

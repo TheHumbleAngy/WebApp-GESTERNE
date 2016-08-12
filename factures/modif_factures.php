@@ -5,7 +5,7 @@
  * Date: 20/03/14
  * Time: 09:09
  */
-//    require_once '../bd/connection.php';
+//    
 //    require_once '../fonctions.php';
 //    error_reporting(0);
 //

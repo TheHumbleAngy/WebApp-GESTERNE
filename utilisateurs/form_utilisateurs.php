@@ -5,7 +5,7 @@
      * Date: 13/11/2015
      * Time: 11:07
      */
-    require_once '../bd/connection.php';
+    
     $action = $_POST['action'];
 ?>
 

@@ -5,7 +5,7 @@
  * Date: 20/03/14
  * Time: 09:09
  */
-/*require_once '../bd/connection.php';
+/*
 require_once '../fonctions.php';
 error_reporting(0);
 
@@ -37,9 +37,9 @@ if ($valeur = $connexion->query($req)) {
 
 
 <?php
-require_once '../bd/connection.php';
+
 require_once '../fonctions.php';
-sec_session_start();
+
 //$_SESSION['expiration'] = time();
 ?>
 <!doctype html>

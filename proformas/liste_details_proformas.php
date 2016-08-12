@@ -1,5 +1,5 @@
 <?php
-    /*require_once '../bd/connection.php';
+    /*
     require_once '../fonctions.php';
     sec_session_start();
     $_SESSION['expiration'] = time();*/

@@ -6,7 +6,7 @@
  * Time: 15:36
  */
 
-require_once '../bd/connection.php';
+    $connexion = db_connect();
 
 if (isset($_POST['id'])) {
 

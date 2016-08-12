@@ -1,6 +1,5 @@
 *<?php
-    /*require_once '../../bd/connection.php';
-    require_once '../../fonctions.php';*/
+    $connexion = db_connect();
 ?>
 <!--suppress ALL -->
 <div class="col-md-10 col-md-offset-1">
@@ -125,7 +124,7 @@
             type: "GET",
             success: function (data) {
                 for (var i = 0; i < data.length; i += 1) {
-                    articles[i] = data[i].designation_art;
+                    console.log(articles[i] = data[i].designation_art);
                 }
             }
         })
@@ -136,7 +135,7 @@
     $('#designation_art').bind('blur', function () {
         if (articles.indexOf(this.value) > -1) {
             alert("Cet article existe déjà dans la base.");
-            this.value = "";
+            this.value = ""; this.focus();
         }
     });
 

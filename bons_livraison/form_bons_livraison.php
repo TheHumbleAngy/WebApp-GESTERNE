@@ -9,7 +9,7 @@
     });
 </script>
 
-<div class="col-md-11"  style="margin-left: 4.33%">
+<div class="col-md-11" style="margin-left: 4.33%">
     <div class="panel panel-default">
         <div class="panel-heading">
             Bon de Livraison
@@ -59,11 +59,12 @@
                                         <select name="code_four" class="form-control" id="four">
                                             <option selected disabled>Raison sociale</option>
                                             <?php
-                                            $sql = "SELECT code_four, nom_four FROM fournisseurs ORDER BY nom_four ASC ";
-                                            $res = mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
-                                            while ($data = mysqli_fetch_array($res)) {
-                                                echo '<option value="' . $data['code_four'] . '">' . $data['nom_four'] . '</option>';
-                                            }
+                                                $connexion = db_connect();
+                                                $sql = "SELECT code_four, nom_four FROM fournisseurs ORDER BY nom_four ASC ";
+                                                $res = mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
+                                                while ($data = mysqli_fetch_array($res)) {
+                                                    echo '<option value="' . $data['code_four'] . '">' . $data['nom_four'] . '</option>';
+                                                }
                                             ?>
                                         </select>
                                     </label>
@@ -126,8 +127,8 @@
 </div>
 
 <script>
-    $('#datereception_bl').datepicker({ dateFormat: 'yy-mm-dd' });
-    $('#dateetablissement_bl').datepicker({ dateFormat: 'yy-mm-dd' });
+    $('#datereception_bl').datepicker({dateFormat: 'yy-mm-dd'});
+    $('#dateetablissement_bl').datepicker({dateFormat: 'yy-mm-dd'});
     /* Ce script permet de remplir le combobox de la liste des bons de commande en fonction du fournisseur sélectionné */
     $(document).ready(function () {
         $("#four").change(function () {
@@ -156,7 +157,8 @@
 
         /* Ce script permet d'afficher la liste des articles du bon de commande sélectionné */
         $("#bon_commande").change(function () {
-            var bon = $("#bon_commande").val(); console.log(bon);
+            var bon = $("#bon_commande").val();
+            console.log(bon);
             $.ajax({
                 type: "POST",
                 url: "bons_livraison/ajax_articles_bons_livraison.php",
@@ -172,18 +174,18 @@
 </script>
 <?php
 
-if (sizeof($_POST) > 0) {
+    if (sizeof($_POST) > 0) {
 
-    $code_bl = htmlspecialchars($_POST['code_bl'], ENT_QUOTES);
-    $dateetablissement_bl = htmlspecialchars($_POST['dateetablissement_bl'], ENT_QUOTES);
-    $datereception_bl = htmlspecialchars($_POST['datereception_bl'], ENT_QUOTES);
-    $code_four = htmlspecialchars($_POST['code_four'], ENT_QUOTES);
-    $num_bc = htmlspecialchars($_POST['num_bc'], ENT_QUOTES);
-    $code_emp = htmlspecialchars($_POST['code_emp'], ENT_QUOTES);
-//    $statut_bl = htmlspecialchars($_POST['statut_bl'], ENT_QUOTES);
-    $commentaires_bl = htmlspecialchars($_POST['commentaires_bl'], ENT_QUOTES);
+        $code_bl = htmlspecialchars($_POST['code_bl'], ENT_QUOTES);
+        $dateetablissement_bl = htmlspecialchars($_POST['dateetablissement_bl'], ENT_QUOTES);
+        $datereception_bl = htmlspecialchars($_POST['datereception_bl'], ENT_QUOTES);
+        $code_four = htmlspecialchars($_POST['code_four'], ENT_QUOTES);
+        $num_bc = htmlspecialchars($_POST['num_bc'], ENT_QUOTES);
+        $code_emp = htmlspecialchars($_POST['code_emp'], ENT_QUOTES);
+        //    $statut_bl = htmlspecialchars($_POST['statut_bl'], ENT_QUOTES);
+        $commentaires_bl = htmlspecialchars($_POST['commentaires_bl'], ENT_QUOTES);
 
-    $req = "INSERT INTO bons_livraison (code_bl,
+        $req = "INSERT INTO bons_livraison (code_bl,
                                         num_bc,
                                         dateetablissement_bl,
                                         datereception_bl,
@@ -198,83 +200,84 @@ if (sizeof($_POST) > 0) {
                                         '$code_emp',
                                         '$commentaires_bl')";
 
-//    print_r($req);
-    $result = mysqli_query($connexion, $req) or die(mysqli_error($connexion));
+        //    print_r($req);
+        $result = mysqli_query($connexion, $req) or die(mysqli_error($connexion));
 
-    $n = $_POST['n'];
-    $tot = 0;
-    for ($i = 0; $i < $n; $i++) {
-        $req = "SELECT code_dbl FROM details_bon_livraison ORDER BY code_dbl DESC LIMIT 1";
-        $resultat = $connexion->query($req);
+        $n = $_POST['n'];
+        $tot = 0;
+        for ($i = 0; $i < $n; $i++) {
+            $req = "SELECT code_dbl FROM details_bon_livraison ORDER BY code_dbl DESC LIMIT 1";
+            $resultat = $connexion->query($req);
 
-        if ($resultat->num_rows > 0) {
-            $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
+            if ($resultat->num_rows > 0) {
+                $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
 
-            //reccuperation du code
-            $code_dbl = "";
-            foreach ($ligne as $data) {
-                $code_dbl = stripslashes($data['code_dbl']);
+                //reccuperation du code
+                $code_dbl = "";
+                foreach ($ligne as $data) {
+                    $code_dbl = stripslashes($data['code_dbl']);
+                }
+
+                //extraction des 4 derniers chiffres
+                $code_dbl = substr($code_dbl, -4);
+
+                //incrementation du nombre
+                $code_dbl += 1;
+
+                $b = "DBL";
+                $dat = date("Y");
+                $dat = substr($dat, -2);
+                $format = '%04d';
+                $resultat = $dat . "" . $b . "" . sprintf($format, $code_dbl);
+
+                //echo $resultat;
             }
+            else {
+                //s'il n'existe pas d'enregistrements dans la base de données
+                $code_dbl = 1;
+                $b = "DBL";
+                $dat = date("Y");
+                $dat = substr($dat, -2);
+                $format = '%04d';
+                $resultat = $dat . "" . $b . "" . sprintf($format, $code_dbl);
+            }
+            //on affecte au code le resultat
+            $code_dbl = $resultat;
 
-            //extraction des 4 derniers chiffres
-            $code_dbl = substr($code_dbl, -4);
+            $libelle_dbl = ($_POST['libelle_dbl'][$i]);
+            $qte_cmd = ($_POST['qte_cmd'][$i]);
+            $qte_livree = ($_POST['qte_livree'][$i]);
 
-            //incrementation du nombre
-            $code_dbl += 1;
+            $libelle_dbl = htmlspecialchars($libelle_dbl, ENT_QUOTES);
+            $qte_cmd = htmlspecialchars($qte_cmd, ENT_QUOTES);
+            $qte_livree = htmlspecialchars($qte_livree, ENT_QUOTES);
 
-            $b = "DBL";
-            $dat = date("Y");
-            $dat = substr($dat, -2);
-            $format = '%04d';
-            $resultat = $dat . "" . $b . "" . sprintf($format, $code_dbl);
+            $qte_restante = $qte_cmd - $qte_livree;
 
-            //echo $resultat;
-        } else {
-            //s'il n'existe pas d'enregistrements dans la base de données
-            $code_dbl = 1;
-            $b = "DBL";
-            $dat = date("Y");
-            $dat = substr($dat, -2);
-            $format = '%04d';
-            $resultat = $dat . "" . $b . "" . sprintf($format, $code_dbl);
-        }
-        //on affecte au code le resultat
-        $code_dbl = $resultat;
+            //On fait la somme des quantites restantes du bon de livraison en cours
+            $tot = (int)$tot + (int)$qte_restante;
 
-        $libelle_dbl = ($_POST['libelle_dbl'][$i]);
-        $qte_cmd = ($_POST['qte_cmd'][$i]);
-        $qte_livree = ($_POST['qte_livree'][$i]);
-
-        $libelle_dbl = htmlspecialchars($libelle_dbl, ENT_QUOTES);
-        $qte_cmd = htmlspecialchars($qte_cmd, ENT_QUOTES);
-        $qte_livree = htmlspecialchars($qte_livree, ENT_QUOTES);
-
-        $qte_restante = $qte_cmd - $qte_livree;
-
-        //On fait la somme des quantites restantes du bon de livraison en cours
-        $tot = $tot + $qte_restante;
-
-        $REQ = "INSERT INTO details_bon_livraison (code_dbl, code_bl, libelle_dbl, qte_livree, qte_restante)
+            $REQ = "INSERT INTO details_bon_livraison (code_dbl, code_bl, libelle_dbl, qte_livree, qte_restante)
 	            VALUES ('$code_dbl', '$code_bl', '$libelle_dbl', '$qte_livree', '$qte_restante')";
 
-//        print_r($REQ);
-        echo '<br/>';
-        //exécution de la requête REQ:
-        if ($requete = mysqli_query($connexion, $REQ) or die(mysql_error($connexion))) {
-            $_SESSION['temp'] = htmlspecialchars($_POST['code_emp'], ENT_QUOTES);
-            //header('Location: form_principale.php?page=articles/details_demandes/saisie_details_demandes_biens_ou_services')
+            //        print_r($REQ);
+            echo '<br/>';
+            //exécution de la requête REQ:
+            if ($requete = mysqli_query($connexion, $REQ) or die(mysql_error($connexion))) {
+                $_SESSION['temp'] = htmlspecialchars($_POST['code_emp'], ENT_QUOTES);
+                //header('Location: form_principale.php?page=articles/details_demandes/saisie_details_demandes_biens_ou_services')
+            }
         }
+
+        //On verifie si le total comptabilise des quantites restantes est superieur a 0. Cela voudra donc dire que le bon de livraison
+        //satisfait partiellement le bon de commande
+        if ($tot > 0)
+            $sql = "UPDATE bons_commande SET statut = 'livre partiellement' WHERE num_bc = '" . $num_bc . "'";
+        //Sinon, c'est a dire le total est a 0, on marque le bon de commande comme livre; le bon de livraison satisfait otalement la commande
+        else
+            $sql = "UPDATE bons_commande SET statut = 'livre' WHERE num_bc = '" . $num_bc . "'";
+
+        $result = mysqli_query($connexion, $sql) or die(mysqli_error($connexion));
+        mysqli_close($connexion);
     }
-
-    //On verifie si le total comptabilise des quantites restantes est superieur a 0. Cela voudra donc dire que le bon de livraison
-    //satisfait partiellement le bon de commande
-    if ($tot > 0)
-        $sql = "UPDATE bons_commande SET statut = 'livre partiellement' WHERE num_bc = '" . $num_bc . "'";
-    //Sinon, c'est a dire le total est a 0, on marque le bon de commande comme livre; le bon de livraison satisfait otalement la commande
-    else
-        $sql = "UPDATE bons_commande SET statut = 'livre' WHERE num_bc = '" . $num_bc . "'";
-
-    $result = mysqli_query($connexion, $sql) or die(mysqli_error($connexion));
-    mysqli_close($connexion);
-}
 ?>

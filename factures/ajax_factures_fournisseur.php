@@ -6,7 +6,7 @@
  * Time: 11:36 AM
  */
 
-require_once '../bd/connection.php';
+
 
 //On appelle ici tous les bons de commande qui ne figurent pas encore sur un bon de livraison
 $sql = "SELECT ref_fp FROM proformas
@@ -18,7 +18,7 @@ $sql = "SELECT ref_fp FROM proformas
 $resultat = $connexion->query($sql);
 
 $option = "";
-$data = $resultat->fetch_all(MYSQL_NUM);
+$data = $resultat->fetch_all(MYSQLI_NUM);
 $n = $resultat->num_rows;
 
 for ($i = 0; $i < $n; $i++) {

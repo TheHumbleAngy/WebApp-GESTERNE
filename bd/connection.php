@@ -6,17 +6,17 @@
      * Time: 12:22 PM
      */
     header('Content-Type: text/html; charset=utf-8');
-    //TODO: Ces informations sont modifiées en fonction du serveur utilisé
-    
+//Ces informations sont modifiées en fonction du serveur utilisé
+
     $bd_hote = 'localhost';
     $bd_utilisateur = 'angy';
     $bd_mdp = 'ncare';
     $bd_basededonnees = 'gestion';
-    
+
     $connexion = mysqli_connect($bd_hote, $bd_utilisateur, $bd_mdp, $bd_basededonnees);
-    
+
     if ($connexion->connect_error)
         die($connexion->connect_error);
-    
-    //Permet de tenir compte des caractères spéciaux pendant les eneregistrements
+
+//Permet de tenir compte des caractères spéciaux pendant les eneregistrements
     mysqli_set_charset($connexion, "utf8");

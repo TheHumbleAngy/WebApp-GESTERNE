@@ -44,7 +44,10 @@
             $this->niveau_cible_art = htmlspecialchars($_POST['niveau_cible_art'], ENT_QUOTES);
             $this->niveau_reappro_art = htmlspecialchars($_POST['niveau_reappro_art'], ENT_QUOTES);
 
-            $connexion = new mysqli('localhost', 'angy', 'ncare', 'gestion');
+            //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
+            $config = parse_ini_file('../../config.ini');
+            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+            
             $this->designation_art = mysqli_real_escape_string($connexion, $this->designation_art);
             $this->description_art = mysqli_real_escape_string($connexion, $this->description_art);
 
@@ -52,8 +55,10 @@
         }
 
         function enregistrement() {
-            $connexion = new mysqli('localhost', 'angy', 'ncare', 'gestion');
-
+            //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
+            $config = parse_ini_file('../../config.ini');
+            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+            
             if ($connexion->connect_error)
                 die($connexion->connect_error);
 
@@ -103,8 +108,10 @@
         }
 
         function modification($code) {
-            $connexion = new mysqli('localhost', 'angy', 'ncare', 'gestion');
-
+            //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
+            $config = parse_ini_file('../../config.ini');
+            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+            
             if ($connexion->connect_error)
                 die($connexion->connect_error);
 
@@ -124,8 +131,10 @@
         }
 
         function suppression($code) {
-            $connexion = new mysqli('localhost', 'angy', 'ncare', 'gestion');
-
+            //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
+            $config = parse_ini_file('../../config.ini');
+            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+            
             if ($connexion->connect_error)
                 die($connexion->connect_error);
 
@@ -140,15 +149,17 @@
 
     class entrees_articles extends mouvements {
         function recuperation() {
-            $this->type_mvt = htmlspecialchars($_POST['type_mvt'], ENT_QUOTES);
+//            $this->type_mvt = htmlspecialchars($_POST['type_mvt'], ENT_QUOTES);
             $this->date_mvt = date('Y-m-j');
 
             return TRUE;
         }
 
         function enregistrement() {
-            $connexion = new mysqli('localhost', 'angy', 'ncare', 'gestion');
-
+            //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
+            $config = parse_ini_file('../../config.ini');
+            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+            
             if ($connexion->connect_error)
                 die($connexion->connect_error);
 
@@ -275,8 +286,10 @@
         }
 
         function enregistrement() {
-            $connexion = new mysqli('localhost', 'angy', 'ncare', 'gestion');
-
+            //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
+            $config = parse_ini_file('../../config.ini');
+            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+            
             if ($connexion->connect_error)
                 die($connexion->connect_error);
 
@@ -329,10 +342,13 @@
             $this->rem = htmlspecialchars($_POST['obsv'][$i], ENT_QUOTES);
 
             //recuperation du code de l'article à partir du libelle
-            $connexion = new mysqli('localhost', 'angy', 'ncare', 'gestion');
+            //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
+            $config = parse_ini_file('../../config.ini');
+            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+            
             $art = htmlspecialchars($_POST['libelle_dd'][$i], ENT_NOQUOTES);
             $art = $connexion->real_escape_string($art);
-            $sql = 'SELECT code_art, designation_art FROM articles WHERE designation_art = "' . $art . '"';
+            $sql = "SELECT code_art, designation_art FROM articles WHERE designation_art = '" . $art . "'";
             if ($result = $connexion->query($sql)) {
                 if ($result->num_rows > 0) {
                     $row = $result->fetch_assoc();
@@ -364,7 +380,9 @@
         }
 
         function enregistrement() {
-            $connexion = new mysqli('localhost', 'angy', 'ncare', 'gestion');
+            //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
+            $config = parse_ini_file('../../config.ini');
+            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
             if ($connexion->connect_error)
                 die($connexion->connect_error);

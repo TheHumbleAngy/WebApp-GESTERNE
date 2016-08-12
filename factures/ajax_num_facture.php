@@ -6,7 +6,7 @@
      * Time: 10:41 AM
      */
 
-    require_once '../bd/connection.php';
+    
 
     $req = "SELECT num_fact FROM factures ORDER BY num_fact DESC LIMIT 1";
     $resultat = $connexion->query($req);

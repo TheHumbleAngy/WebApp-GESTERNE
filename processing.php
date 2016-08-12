@@ -1,14 +1,15 @@
 <?php
     require_once 'fonctions.php';
-    require_once 'bd/connection.php';
     
-    session_start();
+//    session_start();
+
+    $connexion = db_connect();
     
-    if (isset($_POST['email'], $_POST['password'])) {
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+    if (isset($_POST['txt_email'], $_POST['txt_password'])) {
+        $email = $_POST['txt_email'];
+        $password = $_POST['txt_password'];
         
-        if (login($email, $password, $connexion)) {
+        if (login($email, $password)) {
             header('Location: form_principale.php');
         } else {
             $status = $_SESSION['etat_connecte'];

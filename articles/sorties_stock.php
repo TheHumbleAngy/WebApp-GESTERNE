@@ -5,7 +5,7 @@
      * Date: 25/01/2016
      * Time: 17:13
      */
-    require_once '../bd/connection.php';
+    $connexion = db_connect();
 
     if (isset($_POST["nbr"])) {
         $nbr = htmlspecialchars($_POST['nbr'], ENT_QUOTES);

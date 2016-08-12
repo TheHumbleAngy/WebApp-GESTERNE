@@ -6,7 +6,7 @@
      * Time: 10:34 AM
      */
 
-    require_once '../bd/connection.php';
+    $connexion = db_connect();
 
     $req = "SELECT num_bc FROM bons_commande ORDER BY num_bc DESC LIMIT 1";
     $resultat = $connexion->query($req);

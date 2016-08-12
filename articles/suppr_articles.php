@@ -5,7 +5,8 @@
      * Date: 27/11/2015
      * Time: 12:44
      */
-
+    $connexion = db_connect();
+    
     if (isset($_POST['code_art'])) {
         $code = $_POST['code_art'];
 

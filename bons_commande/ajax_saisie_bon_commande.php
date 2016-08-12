@@ -5,8 +5,7 @@
      * Date: 31-Aug-15
      * Time: 3:49 PM
      */
-    require_once '../bd/connection.php';
-    session_start();
+    $connexion = db_connect();
 ?>
 <table class="formulaire" style="width: 100%" border="0">
     <tr>
@@ -90,6 +89,7 @@ dans la liste déroulante, veuillez le créer
             type: "GET",
             success: function (data) {
                 for (var i = 0; i < data.length; i += 1) {
+                    //noinspection JSUnresolvedVariable
                     articles[i] = data[i].designation_art;
                 }
                 $('input[name*="libelle"]').autocomplete({

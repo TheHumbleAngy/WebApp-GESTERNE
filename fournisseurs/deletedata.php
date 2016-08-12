@@ -5,7 +5,7 @@
  * Date: 26/08/2015
  * Time: 16:51
  */
-require_once '../bd/connection.php';
+
 
 if (isset($_POST['id'])) {
 

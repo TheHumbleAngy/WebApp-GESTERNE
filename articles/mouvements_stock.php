@@ -5,6 +5,8 @@
      * Date: 22/01/2016
      * Time: 11:21
      */
+    $connexion = db_connect();
+    
     if (isset($_GET['action']) && $_GET['action'] == "entree") : ?>
         <!--suppress ALL -->
         <div class="row">

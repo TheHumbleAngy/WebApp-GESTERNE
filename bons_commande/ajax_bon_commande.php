@@ -6,7 +6,7 @@
      * Time: 7:22 PM
      */
 
-    require_once '../bd/connection.php';
+    $connexion = db_connect();
 //echo "Hello";
 
     if (isset($_POST["proforma"])) {

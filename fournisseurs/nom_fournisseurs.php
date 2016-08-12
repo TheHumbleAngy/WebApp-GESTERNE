@@ -8,7 +8,7 @@
      * Ce script génère la liste des propositions de libellés dans les champs de saisie de fournisseurs sous forme JSON
      */
     header("Content-Type: application/json; charset=UTF-8");
-    require_once '../bd/connection.php';
+    
 
     $json_fournisseurs = array();
 

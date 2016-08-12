@@ -6,7 +6,7 @@
  * Time: 11:10 AM
  */
 
-require_once '../bd/connection.php';
+    $connexion = db_connect();
 
 if (isset($_POST['bon_cmd'])) {
     $bon_cmd = htmlspecialchars($_POST['bon_cmd'], ENT_QUOTES);

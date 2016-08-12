@@ -9,7 +9,7 @@
     if (isset($_GET['operation']) && $_GET['operation'] == "ajout") {
         //TODO: Enregistrement d'un nouveau fournisseur
 
-        require_once '../bd/connection.php';
+        
         include_once 'class_fournisseurs.php';
 
         $fournisseur = new fournisseurs();
@@ -41,7 +41,7 @@
         //TODO: MAJ des infos depuis la form liste_fournisseurs
 
         $id = $_GET['id'];
-        require_once '../bd/connection.php';
+        
         include_once 'class_fournisseurs.php';
 
         $fournisseur = new fournisseurs();
@@ -82,7 +82,7 @@
         //TODO: Suppression des infos depuis la form liste_fournisseurs
 
         $id = $_POST['id'];
-        require_once '../bd/connection.php';
+        
         include_once 'class_fournisseurs.php';
 
         $fournisseur = new fournisseurs();

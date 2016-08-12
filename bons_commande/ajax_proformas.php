@@ -6,14 +6,14 @@
      * Time: 3:11 PM
      */
 
-    require_once '../bd/connection.php';
+    $connexion = db_connect();
 
 //On appelle ici toutes les proformas qui ne figurent pas encore sur un bon de commande
     $sql = "SELECT ref_fp FROM proformas";
 
     $resultat = $connexion->query($sql);
     $option = "";
-    $data = $resultat->fetch_all(MYSQL_NUM);
+    $data = $resultat->fetch_all(MYSQLI_NUM);
     $n = $resultat->num_rows;
     for ($i = 0; $i < $n; $i++) {
         $option .= $data[$i][0] . ";";

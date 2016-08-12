@@ -10,7 +10,7 @@
         //TODO: Suppression des infos depuis la form liste_demandes
 
         $id = $_POST['id'];
-        require_once '../bd/connection.php';
+        
         include_once 'class_demandes.php';
 
         $demande = new demandes();

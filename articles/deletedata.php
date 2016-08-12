@@ -8,7 +8,7 @@
      * Ce script permet de supprimer un article et d'afficher un message par la suite
      */
 
-    require_once '../bd/connection.php';
+    $connexion = db_connect();
 
     if (isset($_POST['id'])) {
 

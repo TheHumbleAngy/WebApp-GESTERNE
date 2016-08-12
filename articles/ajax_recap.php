@@ -6,7 +6,7 @@
      * Time: 18:11
      */
 
-    require_once '../bd/connection.php';
+    $connexion = db_connect();
     
     if (isset($_POST['debut']) && isset($_POST['fin'])) {
         $debut = $_POST['debut'];

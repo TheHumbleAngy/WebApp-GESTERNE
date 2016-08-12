@@ -5,7 +5,7 @@
  * Date: 11/04/14
  * Time: 17:02
  */
-
+    $connexion = db_connect();
 if (isset($_POST['code_bl'])) {
     /*print_r($_POST['code_bl']);
     echo '<br>';
@@ -22,14 +22,14 @@ if (isset($_POST['code_bl'])) {
     print_r($_POST['statut_bl']);
     echo '<br>';*/
 
-    $code_bl = mysqli_real_escape_string($connexion, $_POST['code_bl'], ENT_QUOTES);
-    $dateetablissement_bl = mysqli_real_escape_string($connexion, $_POST['dateetablissement_bl'], ENT_QUOTES);
-    $datereception_bl = mysqli_real_escape_string($connexion, $_POST['datereception_bl'], ENT_QUOTES);
-    $code_four = mysqli_real_escape_string($connexion, $_POST['code_four'], ENT_QUOTES);
-    $code_emp = mysqli_real_escape_string($connexion, $_POST['code_emp'], ENT_QUOTES);
-    /*$num_bc = mysqli_real_escape_string($connexion, $_POST['num_bc'], ENT_QUOTES);*/
-    $statut_bl = mysqli_real_escape_string($connexion, $_POST['statut_bl'], ENT_QUOTES);
-    $commentaires_bl = mysqli_real_escape_string($connexion, $_POST['commentaires_bl'], ENT_QUOTES);
+    $code_bl = mysqli_real_escape_string($connexion, $_POST['code_bl']);
+    $dateetablissement_bl = mysqli_real_escape_string($connexion, $_POST['dateetablissement_bl']);
+    $datereception_bl = mysqli_real_escape_string($connexion, $_POST['datereception_bl']);
+    $code_four = mysqli_real_escape_string($connexion, $_POST['code_four']);
+    $code_emp = mysqli_real_escape_string($connexion, $_POST['code_emp']);
+    /*$num_bc = mysqli_real_escape_string($connexion, $_POST['num_bc']);*/
+    $statut_bl = mysqli_real_escape_string($connexion, $_POST['statut_bl']);
+    $commentaires_bl = mysqli_real_escape_string($connexion, $_POST['commentaires_bl']);
 
     /*$code_bl = mysqli_real_escape_string($connexion, $_POST['code_bl'], ENT_QUOTES);
     $dateetablissement_bl = mysqli_real_escape_string($connexion, $_POST['dateetablissement_bl'], ENT_QUOTES);

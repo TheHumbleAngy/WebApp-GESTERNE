@@ -6,7 +6,7 @@
  * Time: 11:58 AM
  */
 
-require_once '../bd/connection.php';
+
 
 if (isset($_POST["proforma"])) {
     $pro = htmlspecialchars($_POST['proforma'], ENT_QUOTES);

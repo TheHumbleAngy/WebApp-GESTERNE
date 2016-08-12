@@ -6,8 +6,6 @@
      * Time: 2:59 PM
      */
 
-    require_once '../bd/connection.php';
-
     if (isset($_POST["nbr"])) {
         $nbr = htmlspecialchars($_POST['nbr'], ENT_QUOTES);
 

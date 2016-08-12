@@ -6,7 +6,7 @@
      * Time: 10:10 AM
      */
 
-    require_once '../bd/connection.php';
+    
 
     $req = "SELECT ref_fp FROM proformas ORDER BY ref_fp DESC LIMIT 1";
     $resultat = $connexion->query($req);

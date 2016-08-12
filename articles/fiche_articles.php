@@ -7,9 +7,10 @@
      */
 
     require_once "../fpdf/fpdf.php";
-    require_once "../bd/connection.php";
+    require_once "../fonctions.php";
     header('Content-Type: text/html; charset=utf-8');
 
+    /** @noinspection PhpUndefinedClassInspection */
     class PDF_MC_Table extends FPDF
     {
         var $widths;
@@ -174,6 +175,7 @@
         $pdf->Row(array("A", "B", "C", "D", "E"));*/
 
     //DETAILS DE LA DEMANDE
+    $connexion = db_connect();
     $sql = "SELECT code_grp, designation_art, description_art, niveau_reappro_art, niveau_cible_art, stock_art FROM articles ORDER BY designation_art";
     if ($valeur = $connexion->query($sql)) {
         $ligne = $valeur->fetch_all(MYSQLI_ASSOC);

@@ -6,10 +6,8 @@
      * Time: 13:35
      */
 
-    /*require_once '../bd/connection.php';
+    /*
     require_once '../fonctions.php';*/
-
-    session_start();
 
     $email_empl = $_SESSION['email'];
 

@@ -9,7 +9,7 @@
     if (isset($_GET['operation']) && $_GET['operation'] == "ajout") {
         //TODO: Enregistrement d'un nouvel employé
 
-        require_once '../bd/connection.php';
+        
         include_once 'class_employes.php';
 
         $employe = new employes();
@@ -51,7 +51,7 @@
         //TODO: MAJ des infos depuis la form liste_employes
 
         $id = $_GET['id'];
-        require_once '../bd/connection.php';
+        
         include_once 'class_employes.php';
 
         $employe = new employes();
@@ -92,7 +92,7 @@
         //TODO: Suppression des infos depuis la form liste_employes
 
         $id = $_POST['id'];
-        require_once '../bd/connection.php';
+        
         include_once 'class_employes.php';
 
         $employe = new employes();

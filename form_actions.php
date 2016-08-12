@@ -12,7 +12,7 @@
 
 <?php if ($source == 'employes') {
     if ($action == 'modifier') { ?>
-
+        <!--suppress ALL-->
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -45,6 +45,7 @@
                                         <select name="code" required class="form-control">
                                             <option disabled selected></option>
                                             <?php
+                                                $connexion = db_connect();
                                                 $sql = "SELECT code_emp, prenoms_emp, nom_emp FROM employes ORDER BY nom_emp ASC ";
                                                 $res = mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
                                                 while ($data = mysqli_fetch_array($res)) {
@@ -170,6 +171,7 @@
                                         <select name="code" required class="form-control">
                                             <option disabled selected></option>
                                             <?php
+                                                $connexion = db_connect();
                                                 $sql = "SELECT code_emp, prenoms_emp, nom_emp FROM employes ORDER BY nom_emp ASC ";
                                                 $res = mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
                                                 while ($data = mysqli_fetch_array($res)) {
@@ -228,6 +230,7 @@
                                         <select name="code" required class="form-control">
                                             <option disabled selected></option>
                                             <?php
+                                                $connexion = db_connect();
                                                 $sql = "SELECT code_four, nom_four FROM fournisseurs ORDER BY nom_four ASC";
                                                 $res = mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
                                                 while ($data = mysqli_fetch_array($res)) {
@@ -356,6 +359,7 @@
                                         <select name="code" required class="form-control">
                                             <option disabled selected></option>
                                             <?php
+                                                $connexion = db_connect();
                                                 $sql = "SELECT code_four, nom_four FROM fournisseurs ORDER BY nom_four ASC ";
                                                 $res = mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
                                                 while ($data = mysqli_fetch_array($res)) {
@@ -555,6 +559,7 @@
                                         <select name="code_art" required class="form-control">
                                             <option disabled selected></option>
                                             <?php
+                                                $connexion = db_connect();
                                                 $sql = "SELECT * FROM articles ORDER BY designation_art ASC ";
                                                 $res = mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
                                                 while ($data = mysqli_fetch_array($res)) {
@@ -613,6 +618,7 @@
                                         <select name="code_art" required class="form-control">
                                             <option disabled selected></option>
                                             <?php
+                                                $connexion = db_connect();
                                                 $sql = "SELECT code_art, designation_art FROM articles ORDER BY designation_art ASC ";
                                                 $res = mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
                                                 while ($data = mysqli_fetch_array($res)) {

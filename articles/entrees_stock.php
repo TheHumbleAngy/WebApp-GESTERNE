@@ -7,7 +7,7 @@
      *
      * Ce script permet de générer les champs de saisie des entrées en stock
      */
-    require_once '../bd/connection.php';
+    $connexion = db_connect();
 
     if (isset($_POST["nbr"])) {
         $nbr = htmlspecialchars($_POST['nbr'], ENT_QUOTES);

@@ -1,8 +1,7 @@
 <?php
     ob_start();
-    require_once 'bd\connection.php';
-    require_once 'fonctions.php';
     session_start();
+    require_once 'fonctions.php';
 
     if (!isset($_SESSION['user_id'])) { //TODO: conditionner aussi le paramètre de connexion
         header('Location: index.php');
@@ -16,6 +15,8 @@
     $page .= '.php';
 
     header('Content-Type: text/html; charset=utf-8');
+
+    $connexion = db_connect();
 
     $sql = "SELECT nom_emp, prenoms_emp FROM employes WHERE code_emp = '" . $_SESSION['user_id'] . "'";
     if ($resultat = $connexion->query($sql)) {
