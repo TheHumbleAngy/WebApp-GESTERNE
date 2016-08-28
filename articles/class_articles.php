@@ -37,19 +37,12 @@
     class articles extends class_articles {
         function recuperation() {
             $this->stock_art = htmlspecialchars($_POST['stock_art'], ENT_QUOTES);
-            $this->designation_art = htmlspecialchars($_POST['designation_art'], ENT_QUOTES);
+            $this->designation_art = addslashes($_POST['designation_art']);
             $this->date_art = date("Y/m/d");
             $this->code_grp = htmlspecialchars($_POST['code_grp'], ENT_QUOTES);
-            $this->description_art = htmlspecialchars($_POST['description_art'], ENT_QUOTES);
+            $this->description_art = addslashes($_POST['description_art']);
             $this->niveau_cible_art = htmlspecialchars($_POST['niveau_cible_art'], ENT_QUOTES);
             $this->niveau_reappro_art = htmlspecialchars($_POST['niveau_reappro_art'], ENT_QUOTES);
-
-            //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
-            $config = parse_ini_file('../../config.ini');
-            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
-            
-            $this->designation_art = mysqli_real_escape_string($connexion, $this->designation_art);
-            $this->description_art = mysqli_real_escape_string($connexion, $this->description_art);
 
             return TRUE;
         }
@@ -61,9 +54,6 @@
             
             if ($connexion->connect_error)
                 die($connexion->connect_error);
-
-            $this->designation_art = mysqli_real_escape_string($connexion, $this->designation_art);
-            $this->designation_art = utf8_decode($this->designation_art);
 
             $req = "SELECT code_art FROM articles ORDER BY code_art DESC LIMIT 1";
             $resultat = $connexion->query($req);
@@ -84,7 +74,7 @@
                 //incrementation du nombre
                 $code_art += 1;
             } else {
-                //s'il n'existe pas d'enregistrements dans la base de donn�es
+                //s'il n'existe pas d'enregistrements dans la base de données
                 $code_art = 1;
             }
 
@@ -99,8 +89,7 @@
 
             $sql = "INSERT INTO articles (code_art, code_grp, designation_art, date_art, description_art, niveau_reappro_art, niveau_cible_art, stock_art)
                      VALUES ('$this->code_art', '$this->code_grp', '$this->designation_art', '$this->date_art', '$this->description_art', '$this->niveau_reappro_art', '$this->niveau_cible_art', '$this->stock_art')";
-
-            //            print_r($sql);
+            //print_r($sql);
             if ($result = mysqli_query($connexion, $sql))
                 return TRUE;
             else

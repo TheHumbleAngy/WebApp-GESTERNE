@@ -140,7 +140,7 @@
     </div>
 
 <?php elseif ($source == 'utilisateurs') : ?>
-    <div class="col-md-9" style="padding-top: 5%; margin-left: 12.66%">
+    <div class="col-md-9" style="margin-left: 12.66%">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <img src="img/icons_1775b9/circled_user.png" width="20"> Utilisateurs

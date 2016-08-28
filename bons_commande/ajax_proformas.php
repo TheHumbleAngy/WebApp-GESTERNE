@@ -6,7 +6,8 @@
      * Time: 3:11 PM
      */
 
-    $connexion = db_connect();
+    $config = parse_ini_file('../../config.ini');
+    $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
 //On appelle ici toutes les proformas qui ne figurent pas encore sur un bon de commande
     $sql = "SELECT ref_fp FROM proformas";

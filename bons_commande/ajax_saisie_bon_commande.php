@@ -5,7 +5,10 @@
      * Date: 31-Aug-15
      * Time: 3:49 PM
      */
-    $connexion = db_connect();
+    $config = parse_ini_file('../../config.ini');
+    $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+
+    session_start();
 ?>
 <table class="formulaire" style="width: 100%" border="0">
     <tr>
@@ -22,7 +25,7 @@
                         }
                     }
                 ?>
-                <input type="text" name="nom_emp" class="form-control"
+                <input type="text" name="nom_emp" class="form-control" size="30"
                        value="<?php echo $nom_prenoms_emp; ?>" readonly>
                 <input type="hidden" name="code_emp" value="<?php echo $code_emp; ?>">
             </label>

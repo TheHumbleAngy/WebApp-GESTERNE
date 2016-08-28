@@ -6,7 +6,8 @@
      * Time: 10:10 AM
      */
 
-    
+    $config = parse_ini_file('../../config.ini');
+    $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
     $req = "SELECT ref_fp FROM proformas ORDER BY ref_fp DESC LIMIT 1";
     $resultat = $connexion->query($req);

@@ -5,7 +5,9 @@
      * Date: 13/11/2015
      * Time: 11:07
      */
-    
+    $config = parse_ini_file('../../config.ini');
+    $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+
     $action = $_POST['action'];
 ?>
 
@@ -14,7 +16,7 @@
     <div class="col-md-7" style="margin-left: 20.83%">
         <div class="panel panel-default">
             <div class="panel-heading" style="font-size: 12px; font-weight: bolder">
-                Formulaire Utilisateur
+                Création d'un Utilisateur
                 <a href='form_principale.php?page=administration&source=utilisateurs' type='button'
                    class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                     <span aria-hidden='true'>&times;</span>
@@ -78,7 +80,7 @@
     <div class="col-md-7" style="margin-left: 20.83%">
         <div class="panel panel-default">
             <div class="panel-heading" style="font-size: 12px; font-weight: bolder">
-                Modification d'un Utilisateur
+                Modification des droits d'un Utilisateur
                 <a href='form_principale.php?page=administration&source=utilisateurs' type='button'
                    class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                     <span aria-hidden='true'>&times;</span>
@@ -172,7 +174,7 @@
                                     <tr>
                                         <td><?php echo stripslashes($list['code_emp']); ?></td>
                                         <td><?php echo stripslashes($list['prenoms_emp']) . ' ' . stripslashes($list['nom_emp']); ?></td>
-                                        <td><?php echo stripslashes($list['libelle_droit']); ?></td>
+                                        <td><?php echo ucfirst(stripslashes($list['libelle_droit'])); ?></td>
                                     </tr>
                                     <?php
                                 }

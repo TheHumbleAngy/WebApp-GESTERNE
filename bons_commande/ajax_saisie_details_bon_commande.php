@@ -23,7 +23,7 @@
                 <th class="entete" style="text-align: center; width: 60%">Libelle</th>
                 <th class="entete" style="text-align: center">Quantité</th>
                 <th class="entete" style="text-align: center; width: 15%" title="Prix Unitaire">P.U.</th>
-                <th class="entete" style="text-align: center; width: 15%" title="En pourcentage">Remise</th>
+                <th class="entete" style="text-align: center; width: 15%" title="En pourcentage">Remise (%)</th>
             </tr>
         </thead>
             ';

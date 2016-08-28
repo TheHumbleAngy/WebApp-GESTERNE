@@ -23,10 +23,10 @@ if (isset($_POST["nbr"])) {
         <table border="0" class="table table-hover table-condensed">
         <thead>
             <tr>
-                <th class="entete" style="text-align: center; width: 60%">Libelle</th>
+                <th class="entete" style="text-align: center; width: 60%">Libellé</th>
                 <th class="entete" style="text-align: center">Quantité</th>
                 <th class="entete" style="text-align: center; width: 15%">P.U.</th>
-                <th class="entete" style="text-align: center; width: 15%">Remise</th>
+                <th class="entete" style="text-align: center; width: 15%">Remise (%)</th>
             </tr>
         </thead>
             ';

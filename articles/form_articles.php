@@ -1,4 +1,4 @@
-*<?php
+<?php
     $connexion = db_connect();
 ?>
 <!--suppress ALL -->

@@ -60,7 +60,7 @@
                         <th class="entete" style="text-align: center">Libellé</th>
                         <th class="entete" style="text-align: center">Quantité</th>
                         <th class="entete" style="text-align: center">Prix Unitaire</th>
-                        <th class="entete" style="text-align: center">Remise</th>
+                        <th class="entete" style="text-align: center">Remise (%)</th>
                         <th class="entete" style="text-align: center">Prix TTC</th>
                     </tr>
                 </thead>

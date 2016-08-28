@@ -23,25 +23,14 @@
 
     class fournisseurs extends class_fournisseurs
     {
-        function __construct() {
-            $this->code_four = "";
-            $this->nom_four = "";
-            $this->email_four = "";
-            $this->telephonepro_four = "";
-            $this->fax_four = "";
-            $this->adresse_four = "";
-            $this->notes_four = "";
-            $this->activite_four = "";
-        }
-
         function recuperation() {
-            $this->nom_four = htmlspecialchars($_POST['nom_four'], ENT_QUOTES);
+            $this->nom_four = addslashes($_POST['nom_four']);
             $this->email_four = htmlspecialchars($_POST['email_four'], ENT_QUOTES);
             $this->telephonepro_four = htmlspecialchars($_POST['telephonepro_four'], ENT_QUOTES);
             $this->fax_four = htmlspecialchars($_POST['fax_four'], ENT_QUOTES);
-            $this->adresse_four = htmlspecialchars($_POST['adresse_four'], ENT_QUOTES);
-            $this->notes_four = htmlspecialchars($_POST['notes_four'], ENT_QUOTES);
-            $this->activite_four = htmlspecialchars($_POST['activite_four'], ENT_QUOTES);
+            $this->adresse_four = addslashes($_POST['adresse_four']);
+            $this->notes_four = addslashes($_POST['notes_four']);
+            $this->activite_four = addslashes($_POST['activite_four']);
 
             return TRUE;
         }

@@ -6,7 +6,8 @@
      * Time: 10:34 AM
      */
 
-    $connexion = db_connect();
+    $config = parse_ini_file('../../config.ini');
+    $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
     $req = "SELECT num_bc FROM bons_commande ORDER BY num_bc DESC LIMIT 1";
     $resultat = $connexion->query($req);

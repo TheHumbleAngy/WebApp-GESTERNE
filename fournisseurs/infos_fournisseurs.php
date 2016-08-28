@@ -8,7 +8,8 @@
      * Ce script permet de générer la liste des fournisseurs à afficher dans l'aperçu de la forme de saisie des fournisseurs
      */
     header("Content-Type: application/json; charset=UTF-8");
-    
+    $config = parse_ini_file('../../config.ini');
+    $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
     $json_fournisseurs = "";
     $sql = "SELECT code_four, nom_four, telephonepro_four, activite_four FROM fournisseurs";

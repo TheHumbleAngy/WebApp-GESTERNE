@@ -77,9 +77,9 @@
         function recuperation_details($code_dbs, $i) {
             $this->code_dbs = $code_dbs;
             $this->nature_dd = htmlspecialchars($_POST['nature'][$i], ENT_QUOTES);
-            $this->libelle_dd = htmlspecialchars($_POST['libelle'][$i], ENT_QUOTES);
+            $this->libelle_dd = addslashes($_POST['libelle'][$i]);
             $this->qte_dd = htmlspecialchars($_POST['qte'][$i], ENT_QUOTES);
-            $this->observations_dd = htmlspecialchars($_POST['obv'][$i], ENT_QUOTES);
+            $this->observations_dd = addslashes($_POST['obv'][$i]);
             
             return TRUE;
         }
@@ -134,14 +134,10 @@
             $resultat = $dat . "" . $b . "" . sprintf($format, $code_dd);
             //on affecte au code le resultat
             $this->code_dd = $resultat;
-            $this->libelle_dd = mysqli_real_escape_string($connexion, $this->libelle_dd);
-            //$this->libelle_dd = mysql_real_escape_string($this->libelle_dd);
-            //$this->libelle_dd = htmlspecialchars($this->libelle_dd, ENT_NOQUOTES);
+
             $sql = 'INSERT INTO details_demande (code_dd, nature_dd, code_dbs, libelle_dd, qte_dd, observations_dd)
                         VALUES ("' . $this->code_dd . '", "' . $this->nature_dd . '", "' . $this->code_dbs . '", "' . $this->libelle_dd . '", ' . $this->qte_dd . ', "' . $this->observations_dd . '")';
-            /*$sql = "INSERT INTO details_demande (code_dd, nature_dd, code_dbs, libelle_dd, qte_dd, observations_dd)
-	                    VALUES ('$this->code_dd', '$this->nature_dd', '$this->code_dbs', '$this->libelle_dd', $this->qte_dd, '$this->observations_dd')";*/
-                    //print_r($sql);
+            //print_r($sql);
             
             //exécution de la requète REQ:
 

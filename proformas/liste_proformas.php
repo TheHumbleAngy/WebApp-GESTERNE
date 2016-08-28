@@ -24,6 +24,7 @@
                     <th class="entete" style="text-align: center">Date d'Etablissement</th>
                     <th class="entete" style="text-align: center">Date de Reception</th>
                     <th class="entete" style="text-align: center">Notes</th>
+                    <th class="entete" style="text-align: center">Action</th>
                     <?php //if (($_SESSION['type_utilisateur'] == 'administrateur') || ($_SESSION['type_utilisateur'] == 'moyens_genereaux')): ?>
                     <!--                        <td class="entete" style="text-align: center">Actions</td>-->
                     <?php //endif ?>
@@ -36,6 +37,26 @@
                         if ($resultat->num_rows > 0) {
                             $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                             foreach ($ligne as $list) {
+                                $date_eta = stripslashes($list['dateetablissement_fp']);
+                                $date_rcp = stripslashes($list['datereception_fp']);
+
+                                $arr = preg_split("/-/", $date_eta);
+                                $date_eta = "";
+                                for ($i = count($arr) - 1; $i >= 0; $i--) {
+                                    if ($i <> 0)
+                                        $date_eta .= $arr[$i] . "-";
+                                    else
+                                        $date_eta .= $arr[$i];
+                                }
+
+                                $arr = preg_split("/-/", $date_rcp);
+                                $date_rcp = "";
+                                for ($i = count($arr) - 1; $i >= 0; $i--) {
+                                    if ($i <> 0)
+                                        $date_rcp .= $arr[$i] . "-";
+                                    else
+                                        $date_rcp .= $arr[$i];
+                                }
                                 ?>
                                 <tr>
                                     <td style="text-align: center">
@@ -55,31 +76,48 @@
                                            title="<?php echo $str; ?>"
                                            role="button"><?php echo stripslashes($list['ref_fp']); ?></a>
                                     </td>
-                                    <td><?php echo stripslashes($list['dateetablissement_fp']); ?></td>
-                                    <td><?php echo stripslashes($list['datereception_fp']); ?></td>
+                                    <td><?php echo $date_eta; ?></td>
+                                    <td><?php echo $date_rcp; ?></td>
                                     <td><?php echo stripslashes($list['notes_fp']); ?></td>
-
-                                    <?php //if (($_SESSION['type_utilisateur'] == 'administrateur') || ($_SESSION['type_utilisateur'] == 'moyens_genereaux')): ?>
                                     <input type="hidden" name="ref_fp"
                                            value="<?php echo stripslashes($list['ref_fp']); ?>"/>
-                                    <!--<td style="text-align: center">
-                                        <div style="text-align: center">
-                                            <a class="btn btn-default modifier" data-toggle="modal"
-                                               data-target="#modalModifier<?php /*echo stripslashes($list['ref_fp']); */ ?>">
-                                                <img height="20" width="20" src="img/icons_1775b9/ball_point_pen_filled.png"
-                                                     title="Modifier"/>
-                                            </a>
-                                            <a class="btn btn-default modifier" data-toggle="modal"
-                                               data-target="#modalSupprimer<?php /*echo stripslashes($list['ref_fp']); */ ?>">
-                                                <img height="20" width="20" src="img/icons_1775b9/cancel.png" title="Supprimer"/>
-                                            </a>
+
+                                    <?php //if (($_SESSION['type_utilisateur'] == 'administrateur') || ($_SESSION['type_utilisateur'] == 'moyens_genereaux')): ?>
+                                    <td style="text-align: center">
+                                        <a class="btn btn-default" data-toggle="modal"
+                                           data-target="#modalSupprimer<?php echo stripslashes($list['ref_fp']); ?>">
+                                            <img height="20" width="20" src="img/icons_1775b9/cancel.png" title="Supprimer"/>
+                                        </a>
+                                        <div class="modal fade"
+                                             id="modalSupprimer<?php echo stripslashes($list['ref_fp']); ?>"
+                                             tabindex="-1"
+                                             role="dialog">
+                                            <div class="modal-dialog delete" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close"><span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                        <h4 class="modal-title"
+                                                            id="modalSupprimer<?php echo stripslashes($list['ref_fp']); ?>">
+                                                            Confirmation</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Voulez-vous supprimer
+                                                        la demande "<?php echo stripslashes($list['ref_fp']); ?>" de la
+                                                        base ?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-default" data-dismiss="modal">Non</button>
+                                                        <button class="btn btn-primary" data-dismiss="modal"
+                                                                onclick="suppressionInfos('<?php echo stripslashes($list['ref_fp']); ?>')">
+                                                            Oui
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </td>-->
-                                    <!--<td style="text-align: center">
-                                                        <a href="form_principale.php?page=factures_proforma/suppression_factures_proforma&id=<?php /*echo stripslashes($list['ref_fp']); */ ?> "><img
-                                                                height="20" width="20" src="img/delete.png"
-                                                                title="Supprimer"/></a>
-                                                    </td>-->
+                                    </td>
                                     <?php //endif ?>
                                 </tr>
                                 <?php

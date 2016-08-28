@@ -67,7 +67,7 @@
                                                         }
                                                     }
                                                 ?>
-                                                <input type="text" name="code_emp" class="form-control"
+                                                <input type="text" name="code_emp" class="form-control" size="30"
                                                        value="<?php echo $nom_prenoms_emp; ?>" readonly>
                                             </label>
                                         </td>
@@ -90,7 +90,7 @@
                                             ?>
                                             <div class="col-md-12">
                                                 <div class="panel panel-default">
-                                                    <table border="0" class="table table-hover table-condensed">
+                                                    <table border="0" class="table table-hover table-bordered">
                                                         <thead>
                                                         <tr>
                                                             <th class="entete" style="text-align: center; width: 45%">
@@ -185,7 +185,7 @@
                                                 }
                                             }
                                         ?>
-                                        <input type="text" name="code_emp" class="form-control"
+                                        <input type="text" name="code_emp" class="form-control" size="30"
                                                value="<?php echo $nom_prenoms_emp; ?>" readonly>
                                     </label>
                                 </td>
@@ -207,59 +207,6 @@
                                     </label>
                                 </td>
                             </tr>
-
-                            <script>
-                                var articles = ["a", "b"],
-                                    x = $('input[name*="libelle"]'),
-                                    nbr_art = $('input[type=number]#nbr_articles');
-
-                                function smt() {
-                                    $.ajax({
-                                        url: "articles/libelles_articles.php",
-                                        dataType: "json",
-                                        type: "GET",
-                                        success: function (data) {
-                                            for (var i = 0; i < data.length; i += 1) {
-                                                articles[i] = data[i].designation_art;
-                                            }
-                                        }
-                                    });
-                                }
-
-                                nbr_art.bind('keyup mouseup', function () {
-                                    var n = $("#nbr_articles").val();
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "demandes/ajax_saisie_demandes.php",
-                                        data: {
-                                            nbr: n
-                                        },
-                                        success: function (resultat) {
-                                            if (n > 0) {
-                                                $('.feedback').html(resultat);
-                                            }
-                                        }
-                                    });
-                                });
-
-                                nbr_art.bind('blur', function () {
-                                    $.ajax({
-                                        url: "articles/libelles_articles.php",
-                                        dataType: "json",
-                                        type: "GET",
-                                        success: function (data) {
-                                            for (var i = 0; i < data.length; i += 1) {
-                                                articles[i] = data[i].designation_art;
-                                            }
-                                            console.log(articles);
-                                            $('input[name*="libelle"]').autocomplete({
-                                                source: articles
-                                            });
-                                        }
-                                    })
-                                });
-                            </script>
-
                         </table>
                         <br>
 
@@ -268,6 +215,46 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            var articles = ["a", "b"],
+                x = $('input[name*="libelle"]'),
+                nbr_articles = $('input[type=number]#nbr_articles');
+
+            nbr_articles.bind('keyup mouseup', function () {
+                var n = $("#nbr_articles").val();
+                $.ajax({
+                    type: "POST",
+                    url: "demandes/ajax_saisie_demandes.php",
+                    data: {
+                        nbr: n
+                    },
+                    success: function (resultat) {
+                        if (n > 0) {
+                            $('.feedback').html(resultat);
+                        }
+                    }
+                });
+            });
+
+            nbr_articles.bind('blur', function () {
+                $.ajax({
+                    url: "articles/libelles_articles.php",
+                    dataType: "json",
+                    type: "GET",
+                    success: function (data) {
+                        for (var i = 0; i < data.length; i += 1) {
+                            articles[i] = data[i].designation_art;
+                        }
+                        console.dir(data);
+                        console.log(articles);
+                        $('input[name*="libelle"]').autocomplete({
+                            source: articles
+                        });
+                    }
+                })
+            });
+        </script>
         </body>
 
         <?php
@@ -284,7 +271,6 @@
 
                     for ($i = 0; $i < $nbr; $i++) {
                         if ($details_demande->recuperation_details($demande->code_dbs, $i)) {
-                            //$details_demande->enregistrement();
                             if ($details_demande->enregistrement())
                                 header('Location: form_principale.php?page=demandes/form_demandes&action=ajout');
                             else

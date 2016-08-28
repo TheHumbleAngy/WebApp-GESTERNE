@@ -20,7 +20,7 @@
             <!--suppress ALL -->
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
-                    <div class="panel-heading" style="font-size: 12px; font-weight: bolder">
+                    <div class="panel-heading">
                         Facture Proforma
                         <a href='form_principale.php?page=proformas/liste_proformas' type='button'
                            class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
@@ -45,7 +45,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="champlabel">*Fournisseur :</td>
+                                            <td class="champlabel">Fournisseur :</td>
                                             <td>
                                                 <label>
                                                     <?php
@@ -64,11 +64,11 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="champlabel" title="Date d'établissement de la Proforma">*Date :
+                                            <td class="champlabel" title="Date d'établissement de la Proforma">Date :
                                             </td>
                                             <td>
                                                 <label>
-                                                    <input type="text" name="dateetablissement_fp" size="10"
+                                                    <input type="text" name="dateetablissement_fp"
                                                            value="<?php echo $data['dateetablissement_fp']; ?>" readonly
                                                            class="form-control"/>
                                                 </label>
@@ -83,10 +83,10 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="champlabel">*Date de reception :</td>
+                                            <td class="champlabel">Date de reception :</td>
                                             <td>
                                                 <label>
-                                                    <input type="text" name="datereception_fp" size="10"
+                                                    <input type="text" name="datereception_fp"
                                                            value="<?php echo $data['datereception_fp']; ?>"
                                                            class="form-control" readonly/>
                                                 </label>
@@ -107,19 +107,21 @@
                                         ?>
                                         <div class="col-md-12">
                                             <div class="panel panel-default">
-                                                <table border="0" class="table table-hover table-bordered">
+                                                <table class="table table-hover table-bordered">
+                                                    <thead>
                                                     <tr>
-                                                        <td class="entete" style="text-align: center; width: 65%">
-                                                            Libelle
-                                                        </td>
-                                                        <td class="entete" style="text-align: center">Quantité</td>
-                                                        <td class="entete" style="text-align: center; width: 10%">P.U.
-                                                        </td>
-                                                        <td class="entete" style="text-align: center">Remise</td>
-                                                        <td class="entete" style="text-align: center; width: 20%">Prix
+                                                        <th class="entete" style="text-align: center; width: 65%">
+                                                            Libellé
+                                                        </th>
+                                                        <th class="entete" style="text-align: center">Quantité</th>
+                                                        <th class="entete" style="text-align: center; width: 10%">P.U.
+                                                        </th>
+                                                        <th class="entete" style="text-align: center">Remise</th>
+                                                        <th class="entete" style="text-align: center; width: 20%">Prix
                                                             TTC
-                                                        </td>
+                                                        </th>
                                                     </tr>
+                                                    </thead>
                                                     <?php
                                                     $total = 0;
                                                     foreach ($ligne as $list) {
@@ -144,11 +146,11 @@
                                                             <td class="champlabel"
                                                                 style="text-align: center"><?php echo $list['remise_dfp'] . '%'; ?></td>
                                                             <td class="champlabel"
-                                                                style="text-align: right"><?php echo number_format($ttc, 0, ',', ' '); ?></td>
+                                                                style="text-align: right; color: #0e76bc"><?php echo number_format($ttc, 0, ',', ' '); ?></td>
                                                         </tr>
                                                         <?php
                                                     } ?>
-                                                    <tr style="font-weight: bolder">
+                                                    <tr style="font-weight: bolder; font-family: OpenSans-Semibold, serif; color: #0e76bc">
                                                         <td class="entete" style="text-align: center" colspan="4">
                                                             TOTAL
                                                         </td>
@@ -275,6 +277,19 @@
                                         $('#datereception_fp').datepicker({ dateFormat: 'dd-mm-yy' });
                                     });
 
+                                    var date_eta = "";
+
+                                    $('#dateetablissement_fp').on('change', function () {
+                                        date_eta = this.value;
+                                    })
+
+                                    $('#datereception_fp').on('change', function () {
+                                        if (this.value < date_eta) {
+                                            alert("Veuillez choisir une date antérieure à la date d'établissement.");
+                                            this.value = "";
+                                        }
+                                    })
+
                                     var articles = ["a", "b"],
                                         nbr_art = $('input[type=number]#nbr_articles');
 
@@ -368,10 +383,35 @@
 
         $ref_fp = $resultat;
 
-        $code_four = htmlspecialchars($_POST['code_four'], ENT_QUOTES);
-        $dateetablissement_fp = htmlspecialchars($_POST['dateetablissement_fp'], ENT_QUOTES);
-        $datereception_fp = htmlspecialchars($_POST['datereception_fp'], ENT_QUOTES);
-        $notes_fp = htmlspecialchars($_POST['notes_fp'], ENT_QUOTES);
+        $code_four = $_POST['code_four'];
+        $dateetablissement_fp = $_POST['dateetablissement_fp'];
+        $datereception_fp = $_POST['datereception_fp'];
+        $notes_fp = addslashes($_POST['notes_fp']);
+
+        $dateetablissement_fp = strtr($dateetablissement_fp, "/", "-");
+        $datereception_fp = strtr($datereception_fp, "/", "-");
+
+        $arr = preg_split("/-/", $dateetablissement_fp);
+
+        $dateetablissement_fp = "";
+        for ($i = count($arr) - 1; $i >= 0; $i--) {
+            if ($i <> 0)
+                $dateetablissement_fp .= $arr[$i] . "-";
+            else
+                $dateetablissement_fp .= $arr[$i];
+        }
+//        print_r($dateetablissement_fp);
+
+        $arr = preg_split("/-/", $datereception_fp);
+
+        $datereception_fp = "";
+        for ($i = count($arr) - 1; $i >= 0; $i--) {
+            if ($i <> 0)
+                $datereception_fp .= $arr[$i] . "-";
+            else
+                $datereception_fp .= $arr[$i];
+        }
+//        print_r($datereception_fp);
 
         $requete = "INSERT INTO proformas(
                                 ref_fp,
@@ -385,6 +425,7 @@
                                 '$datereception_fp',
                                 '$notes_fp')";
 
+//        print_r($requete);
         if ($requete = mysqli_query($connexion, $requete)) {
 
             $n = $_POST['nbr'];
@@ -439,17 +480,17 @@
                 $REQ = "INSERT INTO details_proforma (id_dfp, ref_fp, libelle, qte_dfp, pu_dfp, remise_dfp)
 	            VALUES ('$id_dfp', '$ref_fp', '$libelle', '$qte', '$pu', '$rem')";
 
-                $requete = mysqli_query($connexion, $REQ) or die(mysql_error($connexion));
+                $requete = mysqli_query($connexion, $REQ) or die(mysqli_error($connexion));
             }
 
-            echo "
+            /*echo "
             <div class='alert alert-success alert-dismissible' role='alert' style='width: 98%; margin-right: auto; margin-left: auto'>
                 <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                     <span aria-hidden='true'>&times;</span>
                 </button>
-                <strong>Succes!</strong><br/> La proforma a bien ete saisie.
+                <strong>Succès!</strong><br/> La proforma a bien été saisie.
             </div>
-            ";
+            ";*/
         }
         else {
             echo "

@@ -6,7 +6,8 @@
      * Time: 9:58 AM
      */
 
-    
+    $config = parse_ini_file('../../config.ini');
+    $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
     $req = "SELECT code_dbs FROM demandes ORDER BY code_dbs DESC LIMIT 1";
     $resultat = $connexion->query($req);

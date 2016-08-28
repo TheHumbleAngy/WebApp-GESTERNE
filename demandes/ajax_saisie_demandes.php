@@ -6,9 +6,6 @@
      * Time: 6:55 PM
      */
     
-    
-    //echo "Hello";
-    
     if (isset($_POST["nbr"])) {
         $nbr = htmlspecialchars($_POST['nbr'], ENT_QUOTES);
         

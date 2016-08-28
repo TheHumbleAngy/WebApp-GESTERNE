@@ -96,7 +96,7 @@
                             </tr>
                         </table>
                     </div>
-                    <form action="form_principale.php?page=employes/rech_employes" method="post">
+                    <form action="form_principale.php?page=employes/getdata" method="post">
                         <table class="formulaire" border="0" style="margin-left: auto; margin-right: auto">
                             <tr>
                                 <td>
@@ -281,7 +281,7 @@
                             </tr>
                         </table>
                     </div>
-                    <form action="form_principale.php?page=fournisseurs/rech_fournisseurs"
+                    <form action="form_principale.php?page=fournisseurs/getdata"
                           method="post">
                         <table class="formulaire" border="0" style="margin-left: auto; margin-right: auto">
                             <tr>
@@ -412,8 +412,7 @@
                             </tr>
                         </table>
                     </div>
-                    <form action="form_principale.php?page=demandes/rech_demandes"
-                          method="post">
+                    <form action="form_principale.php?page=demandes/getdata" method="post">
                         <table class="formulaire" border="0" style="margin-left: auto; margin-right: auto">
                             <tr>
                                 <td>
@@ -483,7 +482,7 @@
                             </tr>
                         </table>
                     </div>
-                    <form action="form_principale.php?page=articles/rech_articles"
+                    <form action="form_principale.php?page=articles/getdata"
                           method="post">
                         <table class="formulaire" border="0" style="margin-left: auto; margin-right: auto">
                             <tr>
@@ -494,7 +493,7 @@
                                     <label>
                                         <select name="opt" required class="form-control">
                                             <option disabled selected></option>
-                                            <option value="numero">Numero</option>
+                                            <option value="numero">Numéro</option>
                                             <option value="groupe">Groupe</option>
                                             <option value="designation">Désignation</option>
                                             <option value="description">Description</option>

@@ -25,10 +25,6 @@
         });
     }
 
-    function majInfos(code) {
-        //Pour le moment, la modification d'une demande n'est pas permise
-    }
-
     function suppressionInfos(code) {
         $.ajax({
             type: 'POST',

@@ -7,6 +7,7 @@
      *
      * Ce script génère la liste des propositions de libellés dans les champs de saisie d'articles sous forme JSON
      */
+//    echo json_encode("Test");
     header("Content-Type: application/json; charset=UTF-8");
     //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
     $config = parse_ini_file('../../config.ini');

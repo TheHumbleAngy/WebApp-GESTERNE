@@ -22,39 +22,43 @@
 
     function login($email, $password) {
         $connexion = db_connect();
+
         $req = "SELECT * FROM employes WHERE email_emp = '" . $email . "' AND mdp = '" . $password . "'";
-
-        $resultat = $connexion->query($req);
-
-        if ($resultat) {
+        if ($resultat = $connexion->query($req)) {
             if ($resultat->num_rows == 1) {
                 $ligne = $resultat->fetch_array(MYSQLI_ASSOC);
+                $code_emp = $ligne['code_emp'];
 
-                session_start();
-                $_SESSION['etat_connecte'] = $ligne['etat_connecte'];
+                $req = "SELECT * FROM droits WHERE code_emp = '" . $code_emp . "'";
+                if ($result = $connexion->query($req)) {
+                    if ($result->num_rows === 1) {
+                        session_start();
+                        $_SESSION['etat_connecte'] = $ligne['etat_connecte'];
 
-                if ($ligne['etat_connecte'] == 0) {
-                    $_SESSION['user_id'] = $ligne['code_emp'];
-                    $_SESSION['email'] = $email;
-                    $_SESSION['nom_emp'] = $ligne['nom_emp'];
-                    $_SESSION['prenoms_emp'] = $ligne['prenoms_emp'];
-                    $_SESSION['mdp'] = $password;
-                    $_SESSION['test_login'] = TRUE;
+                        if ($ligne['etat_connecte'] == 0) {
+                            $_SESSION['user_id'] = $ligne['code_emp'];
+                            $_SESSION['email'] = $email;
+                            $_SESSION['nom_emp'] = $ligne['nom_emp'];
+                            $_SESSION['prenoms_emp'] = $ligne['prenoms_emp'];
+                            $_SESSION['mdp'] = $password;
+                            $_SESSION['test_login'] = TRUE;
 
-                    //On met à jour la propriété etat_connecte de la table employés
-                    $req = "UPDATE employes SET etat_connecte = 1 WHERE email_emp = '" . $email . "'";
+                            //On met à jour la propriété etat_connecte de la table employés
+                            $req = "UPDATE employes SET etat_connecte = 1 WHERE email_emp = '" . $email . "'";
 
-                    $resultat = $connexion->query($req);
+                            $resultat = $connexion->query($req);
 
-                    if (!$resultat) {
-                        //die($connexion->error);
-                        return FALSE;
-                    }
-                    else {
-                        $_SESSION['etat_connecte'] = 1;
+                            if (!$resultat) {
+                                //die($connexion->error);
+                                return FALSE;
+                            }
+                            else {
+                                $_SESSION['etat_connecte'] = 1;
 
-                        return TRUE;
-                    }
+                                return TRUE;
+                            }
+                        } else return FALSE;
+                    } else return FALSE;
                 } else return FALSE;
             } else return FALSE;
         } else return FALSE;
