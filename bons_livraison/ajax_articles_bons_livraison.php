@@ -6,7 +6,8 @@
  * Time: 11:10 AM
  */
 
-    $connexion = db_connect();
+    $config = parse_ini_file('../../config.ini');
+    $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
 if (isset($_POST['bon_cmd'])) {
     $bon_cmd = htmlspecialchars($_POST['bon_cmd'], ENT_QUOTES);
@@ -32,7 +33,7 @@ if (isset($_POST['bon_cmd'])) {
                     <th class='entete' style='text-align: center'>Quantité</th>
                     <th class='entete' style='text-align: center'>Prix Unitaire</th>
                     <th class='entete' style='text-align: center'>Remise</th>
-                    <th class='entete' style='text-align: center'>Prix TTC</th>
+                    <th class='entete' style='text-align: center'>Prix T.T.C</th>
                 </tr>
                 </thead>
         ";

@@ -2,58 +2,50 @@
     /**
      * Created by PhpStorm.
      * User: Ange KOUAKOU
-     * Date: 17/03/2016
-     * Time: 17:39
+     * Date: 14/09/2016
+     * Time: 17:14
      */
 
     require_once "../fpdf/fpdf.php";
-    header('Content-Type: text/html; charset=utf-8');
+    header('Content-Type: text/html; charset=iso-8859-1');
+    session_start();
 
-    /** @noinspection PhpUndefinedClassInspection */
     class PDF_MC_Table extends FPDF
     {
         var $widths;
         var $aligns;
 
-        // Page header
         function Header()
         {
-            $this->Image('../img/logo2.png', 10, 6, 30);
+            $this->Image('../img/logo2.png', 10, 10, 70);
             $this->SetFont('Arial', 'B', 15);
-            $this->Cell(120, 20);
-            $this->Cell(30, 10, 'LISTE DES ARTICLES', 0, 0, 'C');
-            $this->Ln(15);
-            $this->SetFont('Arial', 'B', 11);
-            $this->SetFillColor(228, 228, 228);
-            $this->Rect(10, 25, 277, 8, 'DF');
-            $this->Cell(85, 8, "DESIGNATION", 1);
-            $this->Cell(62, 8, "GROUPE", 1);
-            $this->Cell(70, 8, "DETAILS", 1);
-            $this->Cell(60, 8, "DESCRIPTION", 1);
-//            $this->Cell(32, 8, "CONTACT", 1);
-            $this->Ln(8);
+            $this->Ln(20);
+            $this->Cell(85, 20);
+            $this->Cell(20, 20, "DEMANDE D'ABSENCE", 0, 0, 'C');
+            $this->Ln(25);
+            $this->SetFont('Arial', '', 11);
+            $this->Cell(135, 8);
+            $this->Cell(60, 8, "Abidjan, le " . date("d/m/Y"), 0);
+            $this->Ln(16);
         }
 
-        // Page footer
         function Footer()
         {
             // Arial italic 8
-            $this->SetFont('Arial', 'I', 8);
+            $this->SetFont('Arial', 'I', 6);
             // Position at 10px from bottom
             $this->SetY(-10);
             $this->Cell(0, 0, "GESTERNE", 0);
             // Position at 138px from left, that is approximately the center bottom of the page
             $this->SetX(138);
-
             // Page number
-            /*
-            $this->Image('logo1.png');
+
+            /*$this->Image('logo1.png');
             $this->SetLeftMargin(84);
             $this->Cell(22, 0, $this->Image('logo1.png') . '', 0, 0, 'C');
-            $this->Ln(1);*/
-            $this->Cell(10, 0, $this->PageNo(), 0, 0, 'R');
-            $this->SetX(263);
-            $this->Cell(0, 0, "Moyens Generaux", 0);
+            $this->Ln(1);
+            $this->SetX(-30);
+            $this->Cell(0, 0, "Moyens Generaux", 0);*/
         }
 
         function SetWidths($w)
@@ -153,6 +145,34 @@
                 $x = $this->GetX();
                 $y = $this->GetY();
                 //Draw the border
+                //$this->Cell($w, $h);
+                //Print the text
+                $this->MultiCell($w, 5, $data[$i], 0, $a);
+                //Put the position to the right of the cell
+                $this->SetXY($x + $w, $y);
+            }
+            //Go to the next line
+            $this->Ln($h);
+        }
+
+        function Row_Border($data)
+        {
+            //Calculate the height of the row
+            $nb = 0;
+            for ($i = 0; $i < count($data); $i++)
+                $nb = max($nb, $this->NbLines($this->widths[$i], $data[$i]));
+            $h = 5 * $nb;
+
+            //Issue a page break first if needed
+            $this->CheckPageBreak($h);
+            //Draw the cells of the row
+            for ($i = 0; $i < count($data); $i++) {
+                $w = $this->widths[$i];
+                $a = isset($this->aligns[$i]) ? $this->aligns[$i] : 'L';
+                //Save the current position
+                $x = $this->GetX();
+                $y = $this->GetY();
+                //Draw the border
                 $this->Rect($x, $y, $w, $h);
                 //Print the text
                 $this->MultiCell($w, 5, $data[$i], 0, $a);
@@ -164,32 +184,90 @@
         }
     }
 
-    $pdf = new PDF_MC_Table('L');
+    $pdf = new PDF_MC_Table('P');
     $pdf->AddPage();
-    $pdf->SetTitle("Gesterne | Liste des Articles", TRUE);
+    $pdf->SetTitle("Gesterne | Demande d'Absence", TRUE);
     $pdf->SetFont('Arial', '', 10);
-    $pdf->SetWidths(array(85, 62, 70, 60));
-
-    /*for ($i = 0; $i < 5; $i++)
-        $pdf->Row(array("A", "B", "C", "D", "E"));*/
+    $pdf->SetWidths(array(25, 70, 40, 60, 82));
 
     //DETAILS DE LA DEMANDE
     $config = parse_ini_file('../../config.ini');
     $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
-    $sql = "SELECT code_grp, designation_art, description_art, niveau_reappro_art, niveau_cible_art, stock_art FROM articles ORDER BY designation_art";
+    $sql = "SELECT nom_emp, prenoms_emp, fonction_emp, motif_dab, lieu_dab, duree_dab 
+            FROM employes AS e INNER JOIN demandes_absence AS d 
+            ON e.code_emp = d.code_emp
+            WHERE e.code_emp = '" . $_SESSION['user_id'] . "' AND d.code_dab = '" . $_SESSION['id'] . "'";
     if ($valeur = $connexion->query($sql)) {
-        $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
-        $i = 1;
-        foreach ($ligne as $list) {
-            $req = "SELECT designation_grp FROM groupe_articles WHERE code_grp = '" . $list['code_grp'] . "'";
-            if ($val = $connexion->query($req)) {
-                $row = $val->fetch_all(MYSQLI_ASSOC);
-                foreach ($row as $data) {
-                    $pdf->Row(array($list['designation_art'], $data['designation_grp'], "Stock Actuel : " . $list['stock_art']  . "\nNiveau Reappro : " . $list['niveau_reappro_art'] . "\nNiveau Cible : " . $list['niveau_cible_art'], $list['description_art']));
-                }
+        if ($valeur->num_rows > 0) {
+            $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
+            $i = 1;
+            foreach ($ligne as $list) {
+                $nom_emp = $list['nom_emp'] . " " . $list['prenoms_emp'];
+                $fct = $list['fonction_emp'];
+                $motif = $list['motif_dab'];
+                $lieu = $list['lieu_dab'];
+                $duree = $list['duree_dab'];
+
             }
         }
     }
+
+    $date_dbs = date("d/m/Y");
+    $pdf->SetLineWidth(0.5);
+
+    $pdf->Line(20, 69, 210 - 25, 69);
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->SetWidths(array(15, 60, 50));
+    $pdf->Row(array("", "NOM ET PRENOMS", $nom_emp));
+    $pdf->Ln(4);
+    
+    $pdf->Line(20, 78, 210 - 25, 78);
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->SetWidths(array(15, 60, 100));
+    $pdf->Row(array("", "QUALITE", $fct));
+    $pdf->Ln(4);
+    
+    $pdf->Line(20, 87, 210 - 25, 87);
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->SetWidths(array(15, 60, 100));
+    if (strlen($motif) >= 55) {
+        $pdf->Row(array("", "MOTIF", iconv('UTF-8', 'windows-1252', $motif)));
+        $pdf->Ln(8);
+    } else {
+        $pdf->Row(array("", "MOTIF", iconv('UTF-8', 'windows-1252', $motif)));
+        $pdf->Ln(13);
+    }
+
+    $pdf->Line(20, 105, 210 - 25, 105);
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->SetWidths(array(15, 60, 100));
+    $pdf->Row(array("", "LIEU", iconv('UTF-8', 'windows-1252', $lieu)));
+    $pdf->Ln(4);
+    
+    $pdf->Line(20, 114, 210 - 25, 114);
+    $pdf->SetFont('Arial', '', 10);
+    $pdf->SetWidths(array(15, 60, 50));
+    $pdf->Row(array("", "DUREE", strtoupper($duree)));
+    $pdf->Ln(12);
+    
+    $pdf->Line(20, 123, 210-25, 123);
+
+    $pdf->SetWidths(array(55, 55, 55));
+    
+    $pdf->Cell(10);
+    $pdf->SetFont('Arial', 'B', 11);
+    $pdf->Row_Border(array("VISA DE L'INTERESSE", "VISA DU SUPERIEUR HIERARCHIQUE", "VISA DU DIRECTEUR GENERAL"));
+    $pdf->Cell(10);
+    $pdf->Cell(55, 30, "", 1);
+    $pdf->Cell(55, 30, "", 1);
+    $pdf->Cell(55, 30, "", 1);
+    $pdf->Ln(100);
+
+    $pdf->SetFont('Arial', '', 8);
+    $pdf->Cell(10, 8);
+    $str = "*Il s’agit ici des absences ci-après : journée, semaine, mois.";
+    $str = iconv('UTF-8', 'windows-1252', $str);
+    $pdf->Cell(60, 8, $str, 0);
 
     $pdf->Output();

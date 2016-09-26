@@ -6,9 +6,6 @@
  * Time: 9:03 AM
  */
 
-
-//echo "Hello";
-
 if (isset($_POST["nbr"])) {
     $nbr = htmlspecialchars($_POST['nbr'], ENT_QUOTES);
 
@@ -60,12 +57,7 @@ if (isset($_POST["nbr"])) {
                     $("input[type=text]#pu").click(function(){
                         var pu = $("input[type=text]#pu").val();
                         var qte = $("input[type=number]#qte").val();
-                        //alert("hello");
-                        /*var total_ht = $("input[type=text][name=total_ht]");
-                        var total_ttc = $("input[type=text]#total_ttc");*/
-
-                        /*total_ht.val(qte * pu);
-                        total_ttc.text(pu * qte * 0.18);*/
+                        
                         $.ajax({
                             type: "POST",
                             url: "proformas/ajax_details_proforma.php",
@@ -91,5 +83,4 @@ if (isset($_POST["nbr"])) {
     </div>
 </div>
 ';
-    //echo $info;
 }

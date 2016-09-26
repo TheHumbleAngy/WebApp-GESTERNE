@@ -13,7 +13,7 @@
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Mouvement de Stock
+                        Mouvement de Stock - Entrée
                         <a href='form_principale.php?page=accueil' type='button' class='close' data-dismiss='alert'
                            aria-label='Close' style='position: inherit'>
                             <span aria-hidden='true'>&times;</span>
@@ -42,12 +42,12 @@
                         </div>
 
                         <form method="post">
-                            <table class="formulaire" border="0">
+                            <table class="formulaire" border="0" width="100%">
                                 <tr>
-                                    <td class="champlabel" style="vertical-align: bottom; padding-bottom: 5px">Nombre
+                                    <td class="champlabel" style="vertical-align: bottom; padding-bottom: 5px; width: 15%">Nombre
                                         d'articles :
                                     </td>
-                                    <td style="vertical-align: bottom">
+                                    <td style="vertical-align: bottom; width: 5%">
                                         <label>
                                             <input type="number" min="1" class="form-control" id="nbr_articles"
                                                    name="nbr"
@@ -126,7 +126,7 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Mouvement de Stock
+                        Mouvement de Stock - Sortie
                         <a href='form_principale.php?page=accueil' type='button' class='close' data-dismiss='alert'
                            aria-label='Close' style='position: inherit'>
                             <span aria-hidden='true'>&times;</span>
@@ -190,26 +190,6 @@
         </div>
 
         <script>
-            //Ce script permet d'afficher la liste des articles à saisir
-            var articles = ["a", "b"],
-                nbr_art = $('input[type=number]#nbr_articles');
-
-            nbr_art.bind('keyup mouseup', function () {
-                var n = $("#nbr_articles").val();
-                $.ajax({
-                    type: "POST",
-                    url: "articles/sorties_stock.php",
-                    data: {
-                        nbr: n
-                    },
-                    success: function (resultat) {
-                        if (n > 0) {
-                            $('.feedback').html(resultat);
-                        }
-                    }
-                });
-            });
-
             /* Ce script permet d'afficher les différents articles figurant sur la demande sélectionnée */
             $("select.demandes").change(function () {
                 var dmd = $(".demandes option:selected").val();

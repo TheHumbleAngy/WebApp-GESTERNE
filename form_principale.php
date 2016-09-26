@@ -9,6 +9,12 @@
 
     setlocale(LC_TIME, 'fr_FR.utf8', 'fra');
 
+    $_SESSION['last_activity'] = time();
+    /*if ($_SESSION['login_time'] < time() + 60) {
+        header('Location: processing.php');
+    }*/
+    //echo $_SESSION['login_time'];
+
     $page = "accueil";
     if (isset($_GET['page']))
         $page = $_GET['page'];
@@ -21,6 +27,13 @@
     $sql = "SELECT nom_emp, prenoms_emp FROM employes WHERE code_emp = '" . $_SESSION['user_id'] . "'";
     if ($resultat = $connexion->query($sql)) {
         $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
+        $droit = "normal";
+        $req = "SELECT libelle_droit FROM droits WHERE code_emp = '" . $_SESSION['user_id'] . "'";
+        if ($res = $connexion->query($req)) {
+            $rows = $res->fetch_all(MYSQLI_ASSOC);
+            $droit = $rows[0]['libelle_droit'];
+        }
+
         foreach ($ligne as $data) {
             $nom = $data['prenoms_emp'] . ' ' . $data['nom_emp'];
             ?>
@@ -54,7 +67,6 @@
             </head>
             <html>
         <body class="arriere_plan">
-        <?php //header('Content-Type: text/html; charset=UTF-8'); ?>
         <div class="container" style="padding-right: 0; padding-left: 0">
 
             <div style="position: fixed; top: 0; z-index: 100; width: 100%; box-shadow: 0 0 8px #000">
@@ -84,48 +96,105 @@
                             <ul class="nav main">
                                 <li class="ic-form-style">
                                     <a>
-                                        <span>Formulaires</span>
+                                        <span>Demandes</span>
                                     </a>
                                     <ul>
                                         <li>
-                                            <a href="form_principale.php?page=demandes/form_demandes&action=ajout">Demande</a>
+                                            <a href="form_principale.php?page=demandes/form_absences">Absence</a>
                                         </li>
-                                        <li><a href="form_principale.php?page=proformas/form_proformas">Proforma</a>
+                                        <li>
+                                            <a href="form_principale.php?page=demandes/form_demandes&action=ajout">Biens
+                                                & Services</a>
                                         </li>
-                                        <li><a href="form_principale.php?page=bons_commande/form_bon_commande">Bon de
-                                                Commande</a></li>
-                                        <li><a href="form_principale.php?page=factures/form_factures">Facture</a></li>
-                                        <li><a href="form_principale.php?page=bons_livraison/form_bons_livraison">Bon de
-                                                Livraison</a></li>
+                                        <li>
+                                            <a href="form_principale.php?page=demandes/form_conges&action=ajout">Congés</a>
+                                        </li>
+                                        <li>
+                                            <a href="">Permission</a>
+                                        </li>
+
+
                                     </ul>
                                 </li>
+                                <li class="ic-bon">
+                                    <a>
+                                        <span>Bons & Fiches</span>
+                                    </a>
+                                    <ul>
+                                        <li>
+                                            <a href="">Bon de Carburant</a>
+                                        </li>
+                                        <?php if ($droit === "administrateur" || $droit === "moyens generaux"): ?>
+                                            <li><a href="form_principale.php?page=bons_commande/form_bon_commande">Bon
+                                                    de
+                                                    Commande</a></li>
+                                            <li><a href="form_principale.php?page=bons_livraison/form_bons_livraison">Bon
+                                                    de
+                                                    Livraison</a></li>
+                                        <?php endif; ?>
+                                        <li>
+                                            <a href="">Bon Provisoire</a>
+                                        </li>
+                                        <li>
+                                            <a href="">Réception de Matériel</a>
+                                        </li>
+                                        <li>
+                                            <a href="">Bon de Sortie</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <?php if ($droit === "administrateur" || $droit === "moyens generaux"): ?>
+                                    <li class="ic-facture">
+                                        <a>
+                                            <span>Factures</span>
+                                        </a>
+                                        <ul>
+                                            <li><a href="form_principale.php?page=proformas/form_proformas">Facture
+                                                    Proforma</a>
+                                            </li>
+                                            <li><a href="form_principale.php?page=factures/form_factures">Facture</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                <?php endif; ?>
                                 <li class="ic-grid-tables">
                                     <a>
                                         <span>Listes</span>
                                     </a>
                                     <ul>
                                         <li><a href="form_principale.php?page=demandes/liste_demandes">Demandes</a></li>
-                                        <li><a href="form_principale.php?page=proformas/liste_proformas">Proformas</a></li>
-                                        <li><a href="form_principale.php?page=bons_commande/liste_bons_commande">Bons de Commande</a></li>
-                                        <li><a href="form_principale.php?page=factures/liste_factures">Factures</a></li>
-                                        <li><a href="#">Bons de Livraison</a></li>
+                                        <?php if ($droit === "administrateur" || $droit === "moyens generaux"): ?>
+                                            <li><a href="form_principale.php?page=proformas/liste_proformas">Factures
+                                                    Proformas</a></li>
+                                            <li><a href="form_principale.php?page=bons_commande/liste_bons_commande">Bons
+                                                    de
+                                                    Commande</a></li>
+                                            <li><a href="form_principale.php?page=factures/liste_factures">Factures</a>
+                                            </li>
+                                            <li><a href="form_principale.php?page=bons_livraison/liste_bons_livraison">Bons
+                                                    de Livraison</a></li>
+                                        <?php endif; ?>
 
                                     </ul>
                                 </li>
-                                <li class="ic-imprimer">
-                                    <a>
-                                        <span>Imprimer</span>
-                                    </a>
-                                    <ul>
-                                        <li><a href="employes/fiche_employes.php" target="_blank">Liste des Employés</a>
-                                        </li>
-                                        <li><a href="fournisseurs/fiche_fournisseurs.php" target="_blank">Liste
-                                                des Fournisseurs</a>
-                                        </li>
-                                        <li><a href="articles/fiche_articles.php" target="_blank">Liste des Articles</a>
-                                        </li>
-                                    </ul>
-                                </li>
+                                <?php if ($droit === "administrateur" || $droit === "moyens generaux"): ?>
+                                    <li class="ic-imprimer">
+                                        <a>
+                                            <span>Imprimer</span>
+                                        </a>
+                                        <ul>
+                                            <li><a href="employes/fiche_employes.php" target="_blank">Liste des
+                                                    Employés</a>
+                                            </li>
+                                            <li><a href="fournisseurs/fiche_fournisseurs.php" target="_blank">Liste
+                                                    des Fournisseurs</a>
+                                            </li>
+                                            <li><a href="articles/fiche_articles.php" target="_blank">Liste des
+                                                    Articles</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                <?php endif; ?>
                                 <li class="ic-statistique">
                                     <a>
                                         <span>Statistiques</span>
@@ -147,27 +216,32 @@
                                         <span>Recherche</span>
                                     </a>
                                     <ul>
-                                        <li>
-                                            <a href="form_principale.php?page=form_actions&source=employes&action=rechercher">Employés</a>
-                                        </li>
-                                        <li>
-                                            <a href="form_principale.php?page=form_actions&source=fournisseurs&action=rechercher">Fournisseurs</a>
-                                        </li>
+                                        <?php if ($droit === "administrateur" || $droit === "moyens generaux"): ?>
+                                            <li>
+                                                <a href="form_principale.php?page=form_actions&source=employes&action=rechercher">Employés</a>
+                                            </li>
+                                            <li>
+                                                <a href="form_principale.php?page=form_actions&source=fournisseurs&action=rechercher">Fournisseurs</a>
+                                            </li>
+                                        <?php endif; ?>
                                         <li>
                                             <a href="form_principale.php?page=form_actions&source=demandes&action=rechercher">Demandes</a>
                                         </li>
-                                        <li>
-                                            <a href="form_principale.php?page=form_actions&source=proformas&action=rechercher">Proformas</a>
-                                        </li>
-                                        <li>
-                                            <a href="form_principale.php?page=form_actions&source=factures&action=rechercher">Factures</a>
-                                        </li>
-                                        <li>
-                                            <a href="form_principale.php?page=form_actions&source=bons_commande&action=rechercher">Bons
-                                                de Commande</a></li>
-                                        <li>
-                                            <a href="form_principale.php?page=form_actions&source=bons_livraison&action=rechercher">Bons
-                                                de Livraison</a></li>
+                                        <?php if ($droit === "administrateur" || $droit === "moyens generaux"): ?>
+                                            <li>
+                                                <a href="form_principale.php?page=form_actions&source=proformas&action=rechercher">Factures
+                                                    Proformas</a>
+                                            </li>
+                                            <li>
+                                                <a href="form_principale.php?page=form_actions&source=factures&action=rechercher">Factures</a>
+                                            </li>
+                                            <li>
+                                                <a href="form_principale.php?page=form_actions&source=bons_commande&action=rechercher">Bons
+                                                    de Commande</a></li>
+                                            <li>
+                                                <a href="form_principale.php?page=form_actions&source=bons_livraison&action=rechercher">Bons
+                                                    de Livraison</a></li>
+                                        <?php endif; ?>
                                     </ul>
                                 </li>
                                 <li class="ic-a_propos">
@@ -179,7 +253,8 @@
                                             <a href="form_principale.php?page=apropos">A Propos</a>
                                         </li>
                                         <li>
-                                            <a href="http://192.168.1.190:8087/NCARE_WEBSITE/" target="_blank">Notre Site Web</a>
+                                            <a href="http://192.168.1.190:8087/NCARE_WEBSITE/" target="_blank">Notre
+                                                Site Web</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -193,70 +268,97 @@
             <!-- Corps de page -->
             <div class="row corpsdepage" style="overflow: auto; position: relative; top: 110px; ">
                 <!-- Menu vertical -->
-                <div class="col-md-2 nopadding" style="border-right: 1px solid #0e76bc; position: fixed; top: 115px">
-                    <div class="box sidemenu">
-                        <ul class="section menu">
-                            <li>
-                                <a>Administration</a>
-                                <ul>
-                                    <li>
-                                        <a href="form_principale.php?page=administration&source=employes">Employés</a>
+                <?php if ($droit === "normal") { ?>
+                    <div class="col-md-2"
+                         style="position: fixed; top: 116px; padding-left: 0; padding-right: 5px">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="text-align: center; font-size: 12px">
+                                <?php echo 'Bonjour ' . $nom . ' !'; ?>
+                            </div>
+                            <div class="panel-body">
+                                <ul class="widget">
+                                    <li><a href="form_principale.php?page=accueil"><span
+                                                class="icons8-home"> Accueil</span></a>
                                     </li>
-                                    <li>
-                                        <a href="form_principale.php?page=administration&source=fournisseurs">Fournisseurs</a>
+                                    <li><a href="form_principale.php?page=utilisateurs/infos_utilisateur"><span
+                                                class="icons8-gender-neutral-user"> Mon Compte</span></a></li>
+                                    <li><a href="form_principale.php?page=utilisateurs/modif_mdp"><span
+                                                class="icons8-key"> Changer de Mot de Passe</span></a>
                                     </li>
-                                    <li>
-                                        <a href="form_principale.php?page=administration&source=utilisateurs">Utilisateurs</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a>Gestion des Articles</a>
-                                <ul>
-                                    <li>
-                                        <a href="form_principale.php?page=articles/form_articles">Ajouter un Article</a>
-                                    </li>
-                                    <li>
-                                        <a href="form_principale.php?page=form_actions&source=articles&action=modifier">Modifier
-                                            un Article</a>
-                                    </li>
-                                    <li>
-                                        <a href="form_principale.php?page=form_actions&source=articles&action=supprimer">Supprimer
-                                            un Article</a>
-                                    </li>
-                                    <li>
-                                        <a href="form_principale.php?page=articles/liste_articles">Lister les
-                                            Articles</a>
-                                    </li>
-                                    <li>
-                                        <a href="form_principale.php?page=form_actions&source=articles&action=rechercher">Rechercher
-                                            un Article</a>
+                                    <li><a href="processing.php"><span class="icons8-shutdown"> Déconnexion</span></a>
                                     </li>
                                 </ul>
-                            </li>
-                            <li>
-                                <a>Mouvements de Stock</a>
-                                <ul>
-                                    <li>
-                                        <a href="form_principale.php?page=articles/mouvements_stock&action=entree">
-                                            Entrées d'Articles
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="form_principale.php?page=articles/mouvements_stock&action=sortie">
-                                            Sorties d'Articles
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="form_principale.php?page=articles/recap">
-                                            Récap. Entrées/Sorties
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                <?php } elseif ($droit === "administrateur" || $droit === "moyens generaux") { ?>
+                    <div class="col-md-2 nopadding"
+                         style="border-right: 1px solid #0e76bc; position: fixed; top: 115px">
+                        <div class="box sidemenu">
+                            <ul class="section menu">
+                                <li>
+                                    <a>Administration</a>
+                                    <ul>
+                                        <li>
+                                            <a href="form_principale.php?page=administration&source=employes">Employés</a>
+                                        </li>
+                                        <li>
+                                            <a href="form_principale.php?page=administration&source=fournisseurs">Fournisseurs</a>
+                                        </li>
+                                        <li>
+                                            <a href="form_principale.php?page=administration&source=utilisateurs">Utilisateurs</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a>Gestion des Articles</a>
+                                    <ul>
+                                        <li>
+                                            <a href="form_principale.php?page=articles/form_articles">Ajouter un
+                                                Article</a>
+                                        </li>
+                                        <li>
+                                            <a href="form_principale.php?page=form_actions&source=articles&action=modifier">Modifier
+                                                un Article</a>
+                                        </li>
+                                        <li>
+                                            <a href="form_principale.php?page=form_actions&source=articles&action=supprimer">Supprimer
+                                                un Article</a>
+                                        </li>
+                                        <li>
+                                            <a href="form_principale.php?page=articles/liste_articles">Lister les
+                                                Articles</a>
+                                        </li>
+                                        <li>
+                                            <a href="form_principale.php?page=form_actions&source=articles&action=rechercher">Rechercher
+                                                un Article</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a>Mouvements de Stock</a>
+                                    <ul>
+                                        <li>
+                                            <a href="form_principale.php?page=articles/mouvements_stock&action=entree">
+                                                Entrées d'Articles
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="form_principale.php?page=articles/mouvements_stock&action=sortie">
+                                                Sorties d'Articles
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="form_principale.php?page=articles/recap">
+                                                Récap. Entrées/Sorties
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                <?php } ?>
                 <!-- Fin Menu vertical -->
                 <div class="col-md-8 nopadding col-xs-offset-2">
                     <div style="margin-bottom: 10px"></div>
@@ -265,6 +367,7 @@
 
                 </div>
                 <!-- Widget -->
+            <?php if ($droit === "administrateur" || $droit === "moyens generaux"): ?>
                 <div class="col-md-2 col-md-offset-10"
                      style="position: fixed; top: 116px; padding-left: 0; padding-right: 5px">
                     <div class="panel panel-default">
@@ -284,6 +387,7 @@
                         </div>
                     </div>
                 </div>
+            <?php endif; ?>
                 <!-- Fin widget -->
             </div>
         </div>

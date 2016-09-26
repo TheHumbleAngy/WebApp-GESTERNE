@@ -7,7 +7,6 @@
      */
 
     require_once "../fpdf/fpdf.php";
-    require_once "../bd/connection.php";
     header('Content-Type: text/html; charset=iso-8859-1');
 
     class PDF_MC_Table extends FPDF
@@ -141,7 +140,6 @@
                 }
             }*/
 
-
             //Issue a page break first if needed
             $this->CheckPageBreak($h);
             //Draw the cells of the row
@@ -173,6 +171,9 @@
         $pdf->Row(array("A", "B", "C", "D", "E"));*/
 
     //DETAILS DE LA DEMANDE
+    $config = parse_ini_file('../../config.ini');
+    $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+    
     $sql = "SELECT code_emp, titre_emp, nom_emp, prenoms_emp, fonction_emp, departement_emp, email_emp, tel_emp FROM employes ORDER BY nom_emp";
     if ($valeur = $connexion->query($sql)) {
         $ligne = $valeur->fetch_all(MYSQLI_ASSOC);

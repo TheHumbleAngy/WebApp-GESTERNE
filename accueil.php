@@ -285,13 +285,22 @@
                                                     foreach ($ligne as $list) {
                                                         $dat = $list[0];
                                                     }
-                                                }
-                                                $date_entr = date('j/m/Y', strtotime($dat));
-                                            ?>
-                                            <strong>
-                                                <h5 title="La dernière entrée en date">Entrées
-                                                    au <?php echo $date_entr; ?>:</h5>
-                                            </strong>
+                                                    if ($dat <> "") {
+                                                        $date_entr = date('j/m/Y', strtotime($dat));
+                                                        echo '
+                                                        <strong>
+                                                            <h5 title="La dernière entrée en date">Entrées
+                                                                au ' . $date_entr . ':</h5>
+                                                        </strong>
+                                                        ';
+                                                    }
+                                                    else
+                                                        echo '
+                                                    <strong>
+                                                        <h5 title="La dernière entrée en date">Aucune entrée n\'a été enregistrée.</h5>
+                                                    </strong>
+                                                    ';
+                                                }?>
 
                                             <div class="panel panel-default">
                                                 <div class="panel-body">
@@ -329,13 +338,23 @@
                                                     foreach ($ligne as $list) {
                                                         $dat = $list[0];
                                                     }
+                                                    if ($dat <> "") {
+                                                        $date_sort = date('j/m/Y', strtotime($dat));
+                                                        echo '
+                                                        <strong>
+                                                            <h5 title="La dernière sortie en date">Sorties
+                                                                au ' . $date_sort . ':</h5>
+                                                        </strong>
+                                                        ';
+                                                    }
+                                                    else
+                                                        echo '
+                                                    <strong>
+                                                        <h5 title="La dernière sortie en date">Aucune sortie n\'a été enregistrée.</h5>
+                                                    </strong>
+                                                    ';
                                                 }
-                                                $date_sort = date('j/m/Y', strtotime($dat));
                                             ?>
-                                            <strong>
-                                                <h5 title="La dernière sortie en date">Sorties
-                                                    au <?php echo $date_sort; ?>:</h5>
-                                            </strong>
 
                                             <div class="panel panel-default">
                                                 <div class="panel-body">

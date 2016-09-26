@@ -41,7 +41,7 @@
                         <span aria-hidden='true'>&times;</span>
                     </a>
                 </div>
-                <div class="panel-body" style="overflow: auto">
+                <div class="panel-body">
                 <table border="0" class="table table-hover table-bordered ">
                 <thead>
                 <tr>
@@ -232,7 +232,7 @@
                                data-dismiss='alert' aria-label='Close' style='position: inherit'>
                                 <span aria-hidden='true'>&times;</span>
                             </a>
-                        <strong>Desole!</strong><br/> La recherche n'a retourne aucun resultat.
+                        <strong>Desole!</strong><br/> La recherche n'a retourné aucun resultat.
                     </div>
                 </div>
                 ";

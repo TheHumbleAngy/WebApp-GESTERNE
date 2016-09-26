@@ -6,7 +6,8 @@
      * Time: 10:41 AM
      */
 
-    
+    $config = parse_ini_file('../../config.ini');
+    $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
     $req = "SELECT num_fact FROM factures ORDER BY num_fact DESC LIMIT 1";
     $resultat = $connexion->query($req);

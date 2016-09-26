@@ -47,7 +47,8 @@
         }
 
         function enregistrement() {
-            $connexion = new mysqli('localhost', 'angy', 'ncare', 'gestion');
+            $config = parse_ini_file('../../config.ini');
+            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
             if ($connexion->connect_error)
                 die($connexion->connect_error);
@@ -94,7 +95,8 @@
 
         function modification($code)
         {
-            $connexion = new mysqli('localhost', 'angy', 'ncare', 'gestion');
+            $config = parse_ini_file('../../config.ini');
+            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
             if ($connexion->connect_error)
                 die($connexion->connect_error);
@@ -116,7 +118,8 @@
         }
 
         function suppression($code) {
-            $connexion = new mysqli('localhost', 'angy', 'ncare', 'gestion');
+            $config = parse_ini_file('../../config.ini');
+            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
             if ($connexion->connect_error)
                 die($connexion->connect_error);

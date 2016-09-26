@@ -74,8 +74,8 @@
 
 <script>
     $(document).ready(function () {
-        $('#date_d').datepicker({dateFormat: 'yy-mm-dd'});
-        $('#date_f').datepicker({dateFormat: 'yy-mm-dd'});
+        $('#date_d').datepicker({dateFormat: 'dd-mm-yy'});
+        $('#date_f').datepicker({dateFormat: 'dd-mm-yy'});
     });
 
     function afficherInfos() {
@@ -94,7 +94,6 @@
 
         if ((date_debut != "") && (date_fin != "")){
             if (date_fin > date_debut) {
-//                alert(date_debut + " " + date_fin);
                 $.ajax({
                     type: 'POST',
                     url: 'articles/ajax_recap.php',

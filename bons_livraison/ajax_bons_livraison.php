@@ -6,7 +6,8 @@
      * Time: 11:10 AM
      */
 
-    $connexion = db_connect();
+    $config = parse_ini_file('../../config.ini');
+    $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
     //On appelle ici tous les bons de commande qui ne figurent pas encore sur un bon de livraison
     $sql = "SELECT bons_commande.num_bc FROM bons_commande

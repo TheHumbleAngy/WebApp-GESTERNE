@@ -105,7 +105,6 @@
             }
         } else {
             header('Location: form_principale.php?page=utilisateurs/modif_mdp&error=1');
-//        print_r(header());
             echo "Failure1";
         }
     }

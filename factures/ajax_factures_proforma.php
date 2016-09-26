@@ -6,7 +6,8 @@
  * Time: 11:58 AM
  */
 
-
+    $config = parse_ini_file('../../config.ini');
+    $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
 if (isset($_POST["proforma"])) {
     $pro = htmlspecialchars($_POST['proforma'], ENT_QUOTES);
@@ -26,10 +27,9 @@ if (isset($_POST["proforma"])) {
     if ($result = $connexion->query($sql)) {
         if ($result->num_rows > 0) {
             $lignes = $result->fetch_all(MYSQLI_ASSOC);
-//        print_r($lignes);
             echo '
 <div style="text-align: center; margin-bottom: 2%">
-    <button class="btn btn-info" type="submit" name="valider" style="width: 150px">
+    <button class="btn btn-info" type="submit" name="valider" onclick="validationForme()" style="width: 150px">
         Valider
     </button>
 </div>
@@ -53,7 +53,7 @@ if (isset($_POST["proforma"])) {
                     <th class="entete" style="text-align: center; width: 5%">Quantité</th>
                     <th class="entete" style="text-align: center; width: 15%">Prix Unitaire</th>
                     <th class="entete" style="text-align: center; width: 5%">Remise</th>
-                    <th class="entete" style="text-align: center; width: 20%">Prix TTC</th>
+                    <th class="entete" style="text-align: center; width: 20%">Prix T.T.C</th>
                 </tr>
             </thead>';
 
@@ -77,7 +77,7 @@ if (isset($_POST["proforma"])) {
                 else
                     $ttc = $qte * $pu;
 
-                $total += $ttc;
+                $total += (int)$ttc;
                 echo '<td style="text-align: right">';
                 echo number_format($ttc, 0, ',', ' ');
                 echo '</td>';

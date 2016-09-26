@@ -8,10 +8,10 @@
     /** @lang MySQL */
     if (isset($_POST["demande"])) {
         $dmd = htmlspecialchars($_POST['demande'], ENT_QUOTES);
-        $connexion = db_connect();
+        $config = parse_ini_file('../../config.ini');
+        $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
         $sql = "SELECT * FROM details_demande WHERE code_dbs = '" . $dmd . "' AND statut_dd = 'non satisfait'";
-        /*$sql = "SELECT * FROM details_demande WHERE code_dbs = '" . $dmd . "' AND nature_dd = 'bien'";*/
 
         if (($result = $connexion->query($sql)) && ($result->num_rows > 0)) {
             $lignes = $result->fetch_all(MYSQLI_ASSOC);
@@ -46,7 +46,7 @@
                 echo '<tr>';
                 echo '<td style="text-align: center">' . stripslashes($list['libelle_dd']) . '<input type="hidden" name="libelle_dd[]" value="' . stripslashes($list['libelle_dd']) . '"></td>';
                 echo '<td style="text-align: center">' . $qte_dmd . '<input type="hidden" name="qte_dd[]" value="' . stripslashes($list['qte_dd']) . '"></td>';
-                $sql = "SELECT qte_serv FROM details_demande WHERE code_dbs = '" . $dmd . "' AND libelle_dd = '" . $libelle_dmd . "'";
+                $sql = "SELECT qte_serv FROM details_demande WHERE code_dbs = '" . $dmd . "' AND libelle_dd = '" . addslashes($libelle_dmd) . "'";
                 if ($result = $connexion->query($sql)) {
                     $lines = $result->fetch_assoc();
                     $qte_serv = (int)$lines['qte_serv'];
@@ -55,7 +55,7 @@
 
                 if ($nature_dmd === 'bien') {
                     //On ressort la quantité disponible pour chaque article de la demande
-                    $sql = "SELECT stock_art FROM articles WHERE designation_art = '" . $libelle_dmd . "'";
+                    $sql = "SELECT stock_art FROM articles WHERE designation_art = '" . addslashes($libelle_dmd) . "'";
                     if ($result = $connexion->query($sql)) {
                         $lines = $result->fetch_assoc();
                         $qte_dispo = 0;

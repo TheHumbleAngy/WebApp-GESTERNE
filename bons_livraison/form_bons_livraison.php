@@ -19,7 +19,7 @@
             </a>
         </div>
         <div class="panel-body">
-            <form action="form_principale.php?page=bons_livraison/saisie_bons_livraison" method="POST">
+            <form action="form_principale.php?page=bons_livraison/form_bons_livraison" method="POST">
                 <div class="row">
                     <div class="col-md-10">
                         <table class="formulaire" style="width= 100%" border="0">
@@ -82,9 +82,10 @@
                                 <td class="champlabel" title="Numéro du bon de commande">Bon de Commande :</td>
                                 <td>
                                     <label>
-                                        <select name="num_bc" class="form-control" id="bon_commande">
+                                        <input type="text" class="form-control" id="num_bon">
+                                        <!--<select name="num_bc" class="form-control" id="bon_commande">
                                             <option selected disabled>Numéro</option>
-                                        </select>
+                                        </select>-->
                                     </label>
                                 </td>
                                 <td class="champlabel">Réceptionniste :</td>
@@ -93,7 +94,8 @@
                                         <select name="code_emp" required class="form-control">
                                             <option disabled selected>Employé</option>
                                             <?php
-                                                $sql = "SELECT code_emp, nom_emp, prenoms_emp FROM employes WHERE departement_emp IN ('ADMINISTRATION', 'MOYENS GENERAUX') AND nom_emp <> 'ABBEY' ORDER BY nom_emp ASC";
+                                                //$sql = "SELECT code_emp, nom_emp, prenoms_emp FROM employes WHERE departement_emp IN ('ADMINISTRATION', 'MOYENS GENERAUX') AND nom_emp <> 'ABBEY' ORDER BY nom_emp ASC";
+                                                $sql = "SELECT code_emp, nom_emp, prenoms_emp FROM employes WHERE nom_emp <> 'ABBEY' ORDER BY nom_emp ASC";
                                                 $res = mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
                                                 while ($data = mysqli_fetch_array($res)) {
                                                     echo '<option value="' . $data['code_emp'] . '" >' . $data['prenoms_emp'] . ' ' . $data['nom_emp'] . '</option>';
@@ -127,12 +129,25 @@
 </div>
 
 <script>
-    $('#datereception_bl').datepicker({dateFormat: 'yy-mm-dd'});
-    $('#dateetablissement_bl').datepicker({dateFormat: 'yy-mm-dd'});
-    /* Ce script permet de remplir le combobox de la liste des bons de commande en fonction du fournisseur sélectionné */
+    var bon_commande = ["a", "b"];
     $(document).ready(function () {
+        $('#dateetablissement_bl').datepicker({dateFormat: 'dd-mm-yy'});
+        $('#datereception_bl').datepicker({dateFormat: 'dd-mm-yy'});
+
+        var date_e = "";
+        var date_r = "";
+
+        $('#dateetablissement_bl').on('change', function () {
+            date_e = this.value;
+        })
+
+        $('#datereception_bl').on('change', function () {
+            date_r = this.value;
+        })
+
+        /* Ce script permet de remplir le combobox de la liste des bons de commande en fonction du fournisseur sélectionné */
         $("#four").change(function () {
-            var four = $("#four").val(); //console.log(four);
+            var four = $("#four").val();
             $.ajax({
                 type: "POST",
                 data: {
@@ -143,21 +158,21 @@
                     //On éclate notre string résultat en un tableau 1D où chaque céllule du tableau est fonction du ";"
                     var option = resultat.split(';');
                     var select = $('#bon_commande');
-
-                    //console.log(option.length);
                     select.empty();
                     select.append("<option selected disabled>Numéro</option>");
                     for (var i = 0; i < option.length - 1; i++) {
                         select.append("<option value='" + option[i] + "'>" + option[i] + "</option>");
-                        //console.log(option[i]);
                     }
+                    $('#num_bon').autocomplete({
+                        source: option
+                    });
                 }
             });
         });
 
         /* Ce script permet d'afficher la liste des articles du bon de commande sélectionné */
-        $("#bon_commande").change(function () {
-            var bon = $("#bon_commande").val();
+        $("#num_bon").on('change', function () {
+            var bon = $("#num_bon").val();
             console.log(bon);
             $.ajax({
                 type: "POST",
@@ -177,13 +192,12 @@
     if (sizeof($_POST) > 0) {
 
         $code_bl = htmlspecialchars($_POST['code_bl'], ENT_QUOTES);
-        $dateetablissement_bl = htmlspecialchars($_POST['dateetablissement_bl'], ENT_QUOTES);
-        $datereception_bl = htmlspecialchars($_POST['datereception_bl'], ENT_QUOTES);
+        $dateetablissement_bl = rev_date($_POST['dateetablissement_bl']);
+        $datereception_bl = rev_date($_POST['datereception_bl']);
         $code_four = htmlspecialchars($_POST['code_four'], ENT_QUOTES);
         $num_bc = htmlspecialchars($_POST['num_bc'], ENT_QUOTES);
         $code_emp = htmlspecialchars($_POST['code_emp'], ENT_QUOTES);
-        //    $statut_bl = htmlspecialchars($_POST['statut_bl'], ENT_QUOTES);
-        $commentaires_bl = htmlspecialchars($_POST['commentaires_bl'], ENT_QUOTES);
+        $commentaires_bl = addslashes($_POST['commentaires_bl']);
 
         $req = "INSERT INTO bons_livraison (code_bl,
                                         num_bc,
@@ -200,84 +214,98 @@
                                         '$code_emp',
                                         '$commentaires_bl')";
 
-        //    print_r($req);
-        $result = mysqli_query($connexion, $req) or die(mysqli_error($connexion));
+        if ($result = mysqli_query($connexion, $req)) {
+            $n = $_POST['n'];
+            $tot = 0;
+            for ($i = 0; $i < $n; $i++) {
+                $req = "SELECT code_dbl FROM details_bon_livraison ORDER BY code_dbl DESC LIMIT 1";
+                $resultat = $connexion->query($req);
 
-        $n = $_POST['n'];
-        $tot = 0;
-        for ($i = 0; $i < $n; $i++) {
-            $req = "SELECT code_dbl FROM details_bon_livraison ORDER BY code_dbl DESC LIMIT 1";
-            $resultat = $connexion->query($req);
+                if ($resultat->num_rows > 0) {
+                    $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
 
-            if ($resultat->num_rows > 0) {
-                $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
+                    $code_dbl = "";
+                    foreach ($ligne as $data) {
+                        $code_dbl = stripslashes($data['code_dbl']);
+                    }
 
-                //reccuperation du code
-                $code_dbl = "";
-                foreach ($ligne as $data) {
-                    $code_dbl = stripslashes($data['code_dbl']);
+                    $code_dbl = substr($code_dbl, -4);
+
+                    $code_dbl += 1;
+
+                    $b = "DBL";
+                    $dat = date("Y");
+                    $dat = substr($dat, -2);
+                    $format = '%04d';
+                    $resultat = $dat . "" . $b . "" . sprintf($format, $code_dbl);
+
+
                 }
+                else {
+                    //s'il n'existe pas d'enregistrements dans la base de données
+                    $code_dbl = 1;
+                    $b = "DBL";
+                    $dat = date("Y");
+                    $dat = substr($dat, -2);
+                    $format = '%04d';
+                    $resultat = $dat . "" . $b . "" . sprintf($format, $code_dbl);
+                }
+                //on affecte au code le resultat
+                $code_dbl = $resultat;
 
-                //extraction des 4 derniers chiffres
-                $code_dbl = substr($code_dbl, -4);
+                $libelle_dbl = addslashes($_POST['libelle_dbl'][$i]);
+                $qte_cmd = $_POST['qte_cmd'][$i];
+                $qte_livree = $_POST['qte_livree'][$i];
 
-                //incrementation du nombre
-                $code_dbl += 1;
+                $qte_restante = $qte_cmd - $qte_livree;
 
-                $b = "DBL";
-                $dat = date("Y");
-                $dat = substr($dat, -2);
-                $format = '%04d';
-                $resultat = $dat . "" . $b . "" . sprintf($format, $code_dbl);
+                //On fait la somme des quantites restantes du bon de livraison en cours
+                $tot = (int)$tot + (int)$qte_restante;
 
-                //echo $resultat;
-            }
-            else {
-                //s'il n'existe pas d'enregistrements dans la base de données
-                $code_dbl = 1;
-                $b = "DBL";
-                $dat = date("Y");
-                $dat = substr($dat, -2);
-                $format = '%04d';
-                $resultat = $dat . "" . $b . "" . sprintf($format, $code_dbl);
-            }
-            //on affecte au code le resultat
-            $code_dbl = $resultat;
-
-            $libelle_dbl = ($_POST['libelle_dbl'][$i]);
-            $qte_cmd = ($_POST['qte_cmd'][$i]);
-            $qte_livree = ($_POST['qte_livree'][$i]);
-
-            $libelle_dbl = htmlspecialchars($libelle_dbl, ENT_QUOTES);
-            $qte_cmd = htmlspecialchars($qte_cmd, ENT_QUOTES);
-            $qte_livree = htmlspecialchars($qte_livree, ENT_QUOTES);
-
-            $qte_restante = $qte_cmd - $qte_livree;
-
-            //On fait la somme des quantites restantes du bon de livraison en cours
-            $tot = (int)$tot + (int)$qte_restante;
-
-            $REQ = "INSERT INTO details_bon_livraison (code_dbl, code_bl, libelle_dbl, qte_livree, qte_restante)
+                $REQ = "INSERT INTO details_bon_livraison (code_dbl, code_bl, libelle_dbl, qte_livree, qte_restante)
 	            VALUES ('$code_dbl', '$code_bl', '$libelle_dbl', '$qte_livree', '$qte_restante')";
 
-            //        print_r($REQ);
-            echo '<br/>';
-            //exécution de la requête REQ:
-            if ($requete = mysqli_query($connexion, $REQ) or die(mysql_error($connexion))) {
-                $_SESSION['temp'] = htmlspecialchars($_POST['code_emp'], ENT_QUOTES);
-                //header('Location: form_principale.php?page=articles/details_demandes/saisie_details_demandes_biens_ou_services')
+                if ($requete = mysqli_query($connexion, $REQ))
+                    $_SESSION['temp'] = htmlspecialchars($_POST['code_emp'], ENT_QUOTES);
+                else
+                    echo "
+                <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
+                    <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
+                        <span aria-hidden='true'>&times;</span>
+                    </button>
+                    <strong>Une erreur s'est produite lors de l'enregistrement des détails du bon de livraison. Veuillez contacter l'administrateur.</strong>
+                </div>
+                ";
             }
-        }
 
-        //On verifie si le total comptabilise des quantites restantes est superieur a 0. Cela voudra donc dire que le bon de livraison
-        //satisfait partiellement le bon de commande
-        if ($tot > 0)
-            $sql = "UPDATE bons_commande SET statut = 'livre partiellement' WHERE num_bc = '" . $num_bc . "'";
-        //Sinon, c'est a dire le total est a 0, on marque le bon de commande comme livre; le bon de livraison satisfait otalement la commande
-        else
-            $sql = "UPDATE bons_commande SET statut = 'livre' WHERE num_bc = '" . $num_bc . "'";
+            //On verifie si le total comptabilise des quantites restantes est superieur a 0. Cela voudra donc dire que le bon de livraison
+            //satisfait partiellement le bon de commande
+            if ($tot > 0)
+                $sql = "UPDATE bons_commande SET statut = 'livre partiellement' WHERE num_bc = '" . $num_bc . "'";
+            //Sinon, c'est a dire le total est a 0, on marque le bon de commande comme livre; le bon de livraison satisfait otalement la commande
+            else
+                $sql = "UPDATE bons_commande SET statut = 'livre' WHERE num_bc = '" . $num_bc . "'";
 
-        $result = mysqli_query($connexion, $sql) or die(mysqli_error($connexion));
+            if ($result = mysqli_query($connexion, $sql))
+                header('Location: form_principale.php?page=bons_livraison/form_bons_livraison');
+            else
+                echo "
+                <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
+                    <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
+                        <span aria-hidden='true'>&times;</span>
+                    </button>
+                    <strong>Une erreur s'est produite lors de la mise à jour du bon de commande. Veuillez contacter l'administrateur.</strong>
+                </div>
+                ";
+        } else
+            echo "
+                <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
+                    <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
+                        <span aria-hidden='true'>&times;</span>
+                    </button>
+                    <strong>Une erreur s'est produite lors de l'enregistrement du bon de livraion. Veuillez contacter l'administrateur.</strong>
+                </div>
+                ";
         mysqli_close($connexion);
     }
 ?>

@@ -173,7 +173,6 @@
 
             var infos = "titre_emp=" + titre_emp + "&nom_emp=" + nom_emp + "&prenoms_emp=" + prenoms_emp + "&fonction_emp=" + fonction_emp + "&departement_emp=" + departement_emp + "&email_emp=" + email + "&tel_emp=" + tel;
             var operation = "ajout";
-//            console.log(infos);
 
             $.ajax({
                 type: 'POST',

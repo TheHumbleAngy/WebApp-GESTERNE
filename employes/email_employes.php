@@ -9,7 +9,6 @@
      */
     header("Content-Type: application/json; charset=UTF-8");
     
-
     $json_email = array();
 
     $sql = "SELECT email_emp FROM employes ORDER BY email_emp ASC ";
@@ -19,7 +18,6 @@
         foreach ($ligne as $list) {
             $json_email[] = $list;
         }
-
-//    print json_encode($json_email);
+        
         echo json_encode($json_email);
     }

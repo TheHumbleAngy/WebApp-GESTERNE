@@ -25,7 +25,7 @@
     function suppressionInfos(code) {
         $.ajax({
             type: 'POST',
-            url: 'demandes/updatedata.php?operation=suppr',
+            url: 'bons_commande/deletedata.php',
             data: {
                 id: code
             },

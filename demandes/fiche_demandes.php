@@ -7,7 +7,7 @@
      */
 
     require_once "../fpdf/fpdf.php";
-    require_once "../bd/connection.php";
+    require_once "../fonctions.php";
 
     class PDF extends FPDF
     {
@@ -32,7 +32,8 @@
     }
 
     $id = $_GET['id'];
-
+    $connexion = db_connect();
+    
     $sql = "SELECT * FROM demandes WHERE code_dbs = '" . $id . "'";
     if ($valeur = $connexion->query($sql)) {
         $ligne = $valeur->fetch_all(MYSQLI_ASSOC);

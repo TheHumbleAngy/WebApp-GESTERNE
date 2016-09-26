@@ -18,8 +18,8 @@
         function recuperation($code_emp) {
             $this->code_dbs = htmlspecialchars($_POST['code_dbs'], ENT_QUOTES);
             $this->code_emp = $code_emp;
-            $this->objets_dbs = htmlspecialchars($_POST['objets_dbs'], ENT_QUOTES);
-            $this->date_dbs = date("Y/m/d");
+            $this->objets_dbs = addslashes($_POST['objets_dbs']);
+            $this->date_dbs = date("Y-m-d");
             
             return TRUE;
         }
@@ -38,14 +38,15 @@
         }
         
         function enregistrement() {
-            $connexion = new mysqli('localhost', 'angy', 'ncare', 'gestion');
+            $config = parse_ini_file('../config.ini');
+            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             
             if ($connexion->connect_error)
                 die($connexion->connect_error);
             
             $sql = "INSERT INTO demandes (code_dbs, code_emp, date_dbs, objets_dbs)
 	            VALUES ('$this->code_dbs', '$this->code_emp', '$this->date_dbs', '$this->objets_dbs')"; //print_r($sql);
-            
+
             if ($result = mysqli_query($connexion, $sql))
                 return TRUE;
             else
@@ -53,8 +54,9 @@
         }
 
         function suppression($code) {
-            $connexion = new mysqli('localhost', 'angy', 'ncare', 'gestion');
-            
+            $config = parse_ini_file('../../config.ini');
+            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+
             if ($connexion->connect_error)
                 die($connexion->connect_error);
             
@@ -99,8 +101,9 @@
             echo '<br>';
         }
         
-        function enregistrement() {
-            $connexion = new mysqli('localhost', 'angy', 'ncare', 'gestion');
+        function enregistrement_details() {
+            $config = parse_ini_file('../config.ini');
+            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             
             if ($connexion->connect_error)
                 die($connexion->connect_error);
@@ -111,19 +114,15 @@
             if ($res->num_rows > 0) {
                 $ligne = $res->fetch_all(MYSQLI_ASSOC);
                 
-                //reccuperation du code
                 $code_dd = "";
                 foreach ($ligne as $data) {
                     $code_dd = stripslashes($data['code_dd']);
                 }
                 
-                //extraction des 4 derniers chiffres
                 $code_dd = substr($code_dd, -4);
                 
-                //incrementation du nombre
                 $code_dd += 1;
             } else {
-                //s'il n'existe pas d'enregistrements dans la base de données
                 $code_dd = 1;
             }
             
@@ -132,18 +131,76 @@
             $dat = substr($dat, -2);
             $format = '%04d';
             $resultat = $dat . "" . $b . "" . sprintf($format, $code_dd);
-            //on affecte au code le resultat
+            
             $this->code_dd = $resultat;
 
-            $sql = 'INSERT INTO details_demande (code_dd, nature_dd, code_dbs, libelle_dd, qte_dd, observations_dd)
-                        VALUES ("' . $this->code_dd . '", "' . $this->nature_dd . '", "' . $this->code_dbs . '", "' . $this->libelle_dd . '", ' . $this->qte_dd . ', "' . $this->observations_dd . '")';
-            //print_r($sql);
+            $sql = "INSERT INTO details_demande (code_dd, nature_dd, code_dbs, libelle_dd, qte_dd, observations_dd)
+                        VALUES ('$this->code_dd', '$this->nature_dd', '$this->code_dbs', '$this->libelle_dd', '$this->qte_dd', '$this->observations_dd')";
             
-            //exécution de la requète REQ:
-
             if ($result = $connexion->query($sql)) {
                 return TRUE;
             } else
+                return FALSE;
+        }
+    }
+
+    class demandes_absence extends class_demandes {
+        protected $motif_dab;
+        protected $lieu_dab;
+        protected $duree_dab;
+
+        function recuperation($code){
+            $this->code_emp = $code;
+            $this->date_dbs = date("Y-m-d");
+            $this->motif_dab = addslashes($_POST['motif']);
+            $this->lieu_dab = addslashes($_POST['lieu']);
+            $this->duree_dab = addslashes($_POST['duree']);
+
+            return true;
+        }
+
+        function afficher() {
+            echo $this->code_emp; echo '<br>';
+            echo $this->date_dbs; echo '<br>';
+            echo $this->motif_dab; echo '<br>';
+            echo $this->lieu_dab; echo '<br>';
+            echo $this->duree_dab; echo '<br>';
+        }
+
+        function enregistrement($emp) {
+            $config = parse_ini_file('../../config.ini');
+            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+
+            if ($connexion->connect_error)
+                die($connexion->connect_error);
+
+            $sql = "SELECT code_dab FROM demandes_absence ORDER BY code_dab DESC LIMIT 1";
+            $resultat = $connexion->query($sql);
+
+            if ($resultat->num_rows > 0) {
+                $lignes = $resultat->fetch_all(MYSQLI_ASSOC);
+                $code = "";
+                foreach ($lignes as $ligne)
+                    $code = stripslashes($ligne['code_dab']);
+
+                $code = substr($code, -4);
+                $code += 1;
+            } else
+                $code = 1;
+
+            $b = "DAB";
+            $dat = date("Y");
+            $dat = substr($dat, -2);
+            $format = '%04d';
+            $info = $dat . "" . $b . "" . sprintf($format, $code);
+            $this->code_dbs = $info;
+            
+            $sql = "INSERT INTO demandes_absence (code_dab, code_emp, date_dab, motif_dab, lieu_dab, duree_dab) 
+                VALUES ('$this->code_dbs', '$emp', '$this->date_dbs', '$this->motif_dab', '$this->lieu_dab', '$this->duree_dab')";
+
+            if ($resultat = mysqli_query($connexion, $sql))
+                return TRUE;
+            else
                 return FALSE;
         }
     }

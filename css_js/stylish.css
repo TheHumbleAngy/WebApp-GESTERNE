@@ -634,3 +634,7 @@ input[type="number"].form-control {
     margin-right: auto;
     cursor: pointer;
 }
+
+.hasDatepicker {
+    cursor: pointer;
+}

@@ -7,7 +7,6 @@
      */
 
     require_once "../fpdf/fpdf.php";
-    require_once "../bd/connection.php";
     header('Content-Type: text/html; charset=utf-8');
 
     class PDF_MC_Table extends FPDF
@@ -172,13 +171,13 @@
     $pdf->SetWidths(array(25, 60, 72, 70, 50));
 
     //DETAILS DE LA DEMANDE
+    $config = parse_ini_file('../../config.ini');
+    $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+
     $sql = "SELECT code_four, nom_four, telephonepro_four, fax_four, email_four, adresse_four, activite_four FROM fournisseurs ORDER BY nom_four";
     if ($valeur = $connexion->query($sql)) {
         $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
         $i = 1;
-        foreach ($ligne as $list) {
-            $pdf->Row(array($list['code_four'], $list['nom_four'], "Tel: " . $list['telephonepro_four'] . "\nFax: " . $list['fax_four'] . "\nE-mail: " . $list['email_four'], $list['adresse_four'], $list['activite_four']) , 50);
-        }
         foreach ($ligne as $list) {
             $pdf->Row(array($list['code_four'], $list['nom_four'], "Tel: " . $list['telephonepro_four'] . "\nFax: " . $list['fax_four'] . "\nE-mail: " . $list['email_four'], $list['adresse_four'], $list['activite_four']) , 50);
         }

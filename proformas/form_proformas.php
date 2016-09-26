@@ -69,7 +69,7 @@
                                             <td>
                                                 <label>
                                                     <input type="text" name="dateetablissement_fp"
-                                                           value="<?php echo $data['dateetablissement_fp']; ?>" readonly
+                                                           value="<?php echo rev_date($data['dateetablissement_fp']); ?>" readonly
                                                            class="form-control"/>
                                                 </label>
                                             </td>
@@ -87,7 +87,7 @@
                                             <td>
                                                 <label>
                                                     <input type="text" name="datereception_fp"
-                                                           value="<?php echo $data['datereception_fp']; ?>"
+                                                           value="<?php echo rev_date($data['datereception_fp']); ?>"
                                                            class="form-control" readonly/>
                                                 </label>
                                             </td>
@@ -118,7 +118,7 @@
                                                         </th>
                                                         <th class="entete" style="text-align: center">Remise</th>
                                                         <th class="entete" style="text-align: center; width: 20%">Prix
-                                                            TTC
+                                                            T.T.C
                                                         </th>
                                                     </tr>
                                                     </thead>
@@ -215,14 +215,16 @@
                                     <td class="champlabel">*Fournisseur :</td>
                                     <td>
                                         <label>
+                                            <!--<input type="text" class="form-control" id="nom_four" required>
+                                            <input type="hidden" id="code_four">-->
                                             <select name="code_four" required class="form-control">
                                                 <option disabled selected></option>
                                                 <?php
-                                                $sql = "SELECT code_four, nom_four FROM fournisseurs ORDER BY nom_four ASC ";
-                                                $res = mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
-                                                while ($data = mysqli_fetch_array($res)) {
-                                                    echo '<option value="' . $data['code_four'] . '" >' . $data['nom_four'] . '</option>';
-                                                }
+                                                    $sql = "SELECT code_four, nom_four FROM fournisseurs ORDER BY nom_four ASC ";
+                                                    $res = mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
+                                                    while ($data = mysqli_fetch_array($res)) {
+                                                        echo '<option value="' . $data['code_four'] . '" >' . $data['nom_four'] . '</option>';
+                                                    }
                                                 ?>
                                             </select>
                                         </label>
@@ -278,18 +280,28 @@
                                     });
 
                                     var date_eta = "";
+                                    var date_rec = "";
 
                                     $('#dateetablissement_fp').on('change', function () {
                                         date_eta = this.value;
-                                    })
-
-                                    $('#datereception_fp').on('change', function () {
-                                        if (this.value < date_eta) {
-                                            alert("Veuillez choisir une date antérieure à la date d'établissement.");
-                                            this.value = "";
+                                        if (date_rec != "") {
+                                            if (this.value > date_rec) {
+                                                alert("Veuillez choisir une date postérieure à la date de réception.");
+                                                this.value = "";
+                                            }
                                         }
                                     })
 
+                                    $('#datereception_fp').on('change', function () {
+                                        date_rec = this.value;
+                                        if (date_eta != "") {
+                                            if (this.value < date_eta) {
+                                                alert("Veuillez choisir une date antérieure à la date d'établissement.");
+                                                this.value = "";
+                                            }
+                                        }
+                                    })
+                                    
                                     var articles = ["a", "b"],
                                         nbr_art = $('input[type=number]#nbr_articles');
 
@@ -344,7 +356,7 @@
 
     if (sizeof($_POST) > 0) {
 
-//On vérifie s'il y a un en registrement dans la base de données
+        //On vérifie s'il y a un en registrement dans la base de données
         $req = "SELECT ref_fp FROM proformas ORDER BY ref_fp DESC LIMIT 1";
         $resultat = $connexion->query($req);
 
@@ -368,8 +380,7 @@
             $dat = substr($dat, -2);
             $format = '%04d';
             $resultat = $dat . "" . $b . "" . sprintf($format, $ref_fp);
-
-            //echo $resultat;
+            
         } else {
             //s'il n'existe pas d'enregistrements dans la base de données
             $ref_fp = 1;
@@ -379,39 +390,15 @@
             $format = '%04d';
             $resultat = $dat . "" . $b . "" . sprintf($format, $ref_fp);
         }
-//on affecte au code le resultat
+        //on affecte au code le resultat
 
         $ref_fp = $resultat;
 
         $code_four = $_POST['code_four'];
-        $dateetablissement_fp = $_POST['dateetablissement_fp'];
-        $datereception_fp = $_POST['datereception_fp'];
         $notes_fp = addslashes($_POST['notes_fp']);
 
-        $dateetablissement_fp = strtr($dateetablissement_fp, "/", "-");
-        $datereception_fp = strtr($datereception_fp, "/", "-");
-
-        $arr = preg_split("/-/", $dateetablissement_fp);
-
-        $dateetablissement_fp = "";
-        for ($i = count($arr) - 1; $i >= 0; $i--) {
-            if ($i <> 0)
-                $dateetablissement_fp .= $arr[$i] . "-";
-            else
-                $dateetablissement_fp .= $arr[$i];
-        }
-//        print_r($dateetablissement_fp);
-
-        $arr = preg_split("/-/", $datereception_fp);
-
-        $datereception_fp = "";
-        for ($i = count($arr) - 1; $i >= 0; $i--) {
-            if ($i <> 0)
-                $datereception_fp .= $arr[$i] . "-";
-            else
-                $datereception_fp .= $arr[$i];
-        }
-//        print_r($datereception_fp);
+        $dateetablissement_fp = rev_date($_POST['dateetablissement_fp']);
+        $datereception_fp = rev_date($_POST['datereception_fp']);
 
         $requete = "INSERT INTO proformas(
                                 ref_fp,
@@ -425,7 +412,6 @@
                                 '$datereception_fp',
                                 '$notes_fp')";
 
-//        print_r($requete);
         if ($requete = mysqli_query($connexion, $requete)) {
 
             $n = $_POST['nbr'];
@@ -455,7 +441,7 @@
                     $format = '%04d';
                     $resultat = $dat . "" . $b . "" . sprintf($format, $id_dfp);
 
-                    //echo $resultat;
+                    
                 } else {
                     //s'il n'existe pas d'enregistrements dans la base de données
                     $id_dfp = 1;
@@ -482,15 +468,7 @@
 
                 $requete = mysqli_query($connexion, $REQ) or die(mysqli_error($connexion));
             }
-
-            /*echo "
-            <div class='alert alert-success alert-dismissible' role='alert' style='width: 98%; margin-right: auto; margin-left: auto'>
-                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
-                    <span aria-hidden='true'>&times;</span>
-                </button>
-                <strong>Succès!</strong><br/> La proforma a bien été saisie.
-            </div>
-            ";*/
+            header('Location: form_principale.php?page=proformas/form_proformas');
         }
         else {
             echo "

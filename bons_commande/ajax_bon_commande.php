@@ -6,7 +6,8 @@
      * Time: 7:22 PM
      */
 
-    $connexion = db_connect();
+    $config = parse_ini_file('../../config.ini');
+    $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 //echo "Hello";
 
     if (isset($_POST["proforma"])) {
@@ -20,21 +21,21 @@
             ON four.code_four = pro.code_four
             WHERE pro.ref_fp = '" . $pro . "'";
 
-        $sql3 = "SELECT libelle, qte_dfp, pu_dfp, remise_dfp
+        $sql2 = "SELECT libelle, qte_dfp, pu_dfp, remise_dfp
             FROM details_proforma INNER JOIN proformas
             ON details_proforma.ref_fp = proformas.ref_fp
             WHERE proformas.ref_fp = '" . $pro . "'";
 
         $fournisseur = "";
         if ($result = $connexion->query($sql1)) {
-            $lignes = $result->fetch_all(MYSQLI_ASSOC);
-            foreach ($lignes as $list) {
-                $nom_four = $list['nom_four'];
-                $code_four = $list['code_four'];
-            }
-        }
+            if ($result->num_rows === 1) {
+                $lignes = $result->fetch_all(MYSQLI_ASSOC);
+                foreach ($lignes as $list) {
+                    $nom_four = $list['nom_four'];
+                    $code_four = $list['code_four'];
+                }
 
-        echo '
+                echo '
         <div style="text-align: center; margin-bottom: 1%">
                 <button class="btn btn-info" type="submit" name="valider" style="width: 150px">
                     Valider
@@ -60,43 +61,43 @@
                         <th class="entete" style="text-align: center">Libellé</th>
                         <th class="entete" style="text-align: center">Quantité</th>
                         <th class="entete" style="text-align: center">Prix Unitaire</th>
-                        <th class="entete" style="text-align: center">Remise (%)</th>
-                        <th class="entete" style="text-align: center">Prix TTC</th>
+                        <th class="entete" style="text-align: center">Remise</th>
+                        <th class="entete" style="text-align: center">Prix T.T.C</th>
                     </tr>
                 </thead>
             ';
 
-        $i = 0;
-        if ($result = $connexion->query($sql3)) {
-            $lignes = $result->fetch_all(MYSQLI_ASSOC);
-            $total = 0;
-            foreach ($lignes as $list) {
-                $i++;
-                echo '<tr>';
-                echo '<td style="text-align: center">' . stripslashes($list['libelle']) . '<input type="hidden" name="libelle_dbc[]" value="' . stripslashes($list['libelle']) . '"></td>';
-                echo '<td style="text-align: center">' . stripslashes($list['qte_dfp']) . '<input type="hidden" name="qte_dbc[]" value="' . stripslashes($list['qte_dfp']) . '"></td>';
-                echo '<td style="text-align: center">' . number_format(stripslashes($list['pu_dfp']), 0, ',', ' ') . '<input type="hidden" name="pu_dbc[]" value="' . stripslashes($list['pu_dfp']) . '"></td>';
-                echo '<td style="text-align: center">' . stripslashes($list['remise_dfp']) . '%' . '<input type="hidden" name="remise_dbc[]" value="' . stripslashes($list['remise_dfp']) . '"></td>';
+                $i = 0;
+                if ($result = $connexion->query($sql2)) {
+                    $lignes = $result->fetch_all(MYSQLI_ASSOC);
+                    $total = 0;
+                    foreach ($lignes as $list) {
+                        $i++;
+                        echo '<tr>';
+                        echo '<td style="text-align: center">' . stripslashes($list['libelle']) . '<input type="hidden" name="libelle_dbc[]" value="' . stripslashes($list['libelle']) . '"></td>';
+                        echo '<td style="text-align: center">' . stripslashes($list['qte_dfp']) . '<input type="hidden" name="qte_dbc[]" value="' . stripslashes($list['qte_dfp']) . '"></td>';
+                        echo '<td style="text-align: center">' . number_format(stripslashes($list['pu_dfp']), 0, ',', ' ') . '<input type="hidden" name="pu_dbc[]" value="' . stripslashes($list['pu_dfp']) . '"></td>';
+                        echo '<td style="text-align: center">' . stripslashes($list['remise_dfp']) . '%' . '<input type="hidden" name="remise_dbc[]" value="' . stripslashes($list['remise_dfp']) . '"></td>';
 
-                $qte = stripslashes($list['qte_dfp']);
-                $pu = stripslashes($list['pu_dfp']);
-                $rem = stripslashes($list['remise_dfp']);
+                        $qte = stripslashes($list['qte_dfp']);
+                        $pu = stripslashes($list['pu_dfp']);
+                        $rem = stripslashes($list['remise_dfp']);
 
-                if ($rem > 0) {
-                    $rem = $rem / 100;
-                    $ttc = $qte * $pu * (1 - $rem);
-                } else
-                    $ttc = $qte * $pu;
+                        if ($rem > 0) {
+                            $rem = $rem / 100;
+                            $ttc = $qte * $pu * (1 - $rem);
+                        } else
+                            $ttc = $qte * $pu;
 
-                $total = (int)$total + (int)$ttc;
-                echo '<td style="text-align: right">';
-                echo number_format($ttc, 0, ',', ' ');
-                echo '</td>';
-                echo '</tr>';
-            }
-        }
+                        $total = (int)$total + (int)$ttc;
+                        echo '<td style="text-align: right">';
+                        echo number_format($ttc, 0, ',', ' ');
+                        echo '</td>';
+                        echo '</tr>';
+                    }
+                }
 
-            echo '<thead>
+                echo '<thead>
                     <tr style="font-weight: bolder">
                         <th class="entete" style="text-align: center" colspan="4">TOTAL</th>
                         <th class="entete" style="text-align: right">' . number_format($total, 0, ',', ' ') . '</th>
@@ -106,5 +107,8 @@
                 </table>
             </div>
         </div>';
-        echo '<input type="hidden" name="nbr" value="' . $i . '">';
+                echo '<input type="hidden" name="nbr" value="' . $i . '">';
+
+            }
+        }
     }

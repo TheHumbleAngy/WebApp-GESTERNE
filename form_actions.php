@@ -7,7 +7,6 @@
      */
     $source = $_GET['source'];
     $action = $_GET['action'];
-//    echo $action;
 ?>
 
 <?php if ($source == 'employes') {
@@ -292,7 +291,7 @@
                                     <label>
                                         <select name="opt" required class="form-control">
                                             <option disabled selected></option>
-                                            <option value="matricule">Numero</option>
+                                            <option value="matricule">Numéro</option>
                                             <option value="nom">Raison Sociale</option>
                                             <option value="adresse">Adresse</option>
                                             <option value="activite">Activite</option>
@@ -422,7 +421,7 @@
                                     <label>
                                         <select name="opt" required class="form-control">
                                             <option disabled selected></option>
-                                            <option value="numero">Numero</option>
+                                            <option value="numero">Numéro</option>
                                             <option value="emp">Employé</option>
                                             <option value="date">Date</option>
                                             <option value="obj">Objet</option>
@@ -643,7 +642,7 @@
     <?php }
 } elseif ($source == 'proformas') {
     if ($action == 'rechercher') { ?>
-        <!--suppress ALL -->
+
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -670,7 +669,7 @@
                             </tr>
                         </table>
                     </div>
-                    <form action="form_principale.php?page=proformas/rech_proformas"
+                    <form action="form_principale.php?page=proformas/getdata"
                           method="post">
                         <table class="formulaire" border="0" style="margin-left: auto; margin-right: auto">
                             <tr>
@@ -681,7 +680,7 @@
                                     <label>
                                         <select name="opt" required class="form-control">
                                             <option disabled selected></option>
-                                            <option value="numero">Numero</option>
+                                            <option value="numero">Numéro</option>
                                             <option value="date_eta">Date d'Etablissement</option>
                                             <option value="date_rcp">Date de Reception</option>
                                             <option value="notes">Notes</option>
@@ -740,7 +739,7 @@
                             </tr>
                         </table>
                     </div>
-                    <form action="form_principale.php?page=bons_commande/rech_bons_commande"
+                    <form action="form_principale.php?page=bons_commande/getdata"
                           method="post">
                         <table class="formulaire" border="0" style="margin-left: auto; margin-right: auto">
                             <tr>
@@ -751,7 +750,7 @@
                                     <label>
                                         <select name="opt" required class="form-control">
                                             <option disabled selected></option>
-                                            <option value="numero">Numero</option>
+                                            <option value="numero">Numéro</option>
                                             <option value="employe">Employé</option>
                                             <option value="fournisseur">Fournisseur</option>
                                             <option value="date">Date</option>
@@ -781,13 +780,13 @@
         </div>
 
     <?php }
-} elseif ($source == 'utilisateurs') {
+} elseif ($source == 'factures') {
     if ($action == 'rechercher') { ?>
 
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Recherche
+                    Recherche <img src="img/icons_1775b9/right.png" width="20"> Factures
                     <a href='form_principale.php?page=administration&source=utilisateurs' type='button'
                        class='close' data-dismiss='alert' aria-label='Close'
                        style='position: inherit'>
@@ -799,10 +798,10 @@
                         <table border="0">
                             <tr>
                                 <td>
-                                    <p style="font-size: small">Critère de recherche a l'aide
+                                    <p style="font-size: small">Veuillez sélectionner le critère de recherche à l'aide
                                         de la liste déroulante. Entrez ensuite le texte à rechercher ou tapez quelques
-                                        caractères qui, selon vous, existent dans l'element a rechercher. Enfin, cliquez
-                                        sur le boutton en face pour proceder.</p>
+                                        caractères qui, selon vous, existent dans l'élément a rechercher. Enfin, cliquez
+                                        sur le boutton en face pour continuer.</p>
                                 </td>
                                 <td style="padding-left: 10px; vertical-align: top">
                                     <img src="img/icons_1775b9/about.png"  height="40" width="40">
@@ -810,11 +809,27 @@
                             </tr>
                         </table>
                     </div>
-                    <form action="" method="post">
+                    <form action="form_principale.php?page=factures/getdata" method="post">
                         <table class="formulaire" border="0" style="margin-left: auto; margin-right: auto">
                             <tr>
                                 <td class="champlabel">
-                                    Veuillez selectionner l'employé :
+                                    Critère :
+                                </td>
+                                <td>
+                                    <label>
+                                        <select name="opt" required class="form-control">
+                                            <option disabled selected></option>
+                                            <option value="numero">Numéro</option>
+                                            <option value="ref">Référence</option>
+                                            <option value="four">Fournisseur</option>
+                                            <option value="date_eta">Date d'Etablissement</option>
+                                            <option value="date_rcp">Date de Reception</option>
+                                            <option value="rem">Remarques</option>
+                                        </select>
+                                    </label>
+                                </td>
+                                <td class="champlabel">
+                                    Texte à rechercher :
                                 </td>
                                 <td>
                                     <label>
@@ -822,15 +837,14 @@
                                                required>
                                     </label>
                                 </td>
+                                <td>
+                                    <button class="btn btn-default" type="submit" name="valider"
+                                            style="margin-left: 5px">
+                                        <span class="ui-icon ui-icon-circle-triangle-e"></span>
+                                    </button>
+                                </td>
                             </tr>
-                            <tr></tr>
-                            <tr></tr>
                         </table>
-                        <div style="text-align: center">
-                            <button class="btn btn-info" type="submit" name="valider" style="width: 150px">
-                                Rechercher
-                            </button>
-                        </div>
                     </form>
                 </div>
             </div>

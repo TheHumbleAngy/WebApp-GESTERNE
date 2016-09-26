@@ -5,8 +5,7 @@
      * Date: 17-Jul-15
      * Time: 1:10 PM
      */
-    error_reporting(0);
-//    $connexion = db_connect();
+    //error_reporting(0);
     if (isset($_GET['action']) && $_GET['action'] == "consultation") : ?>
 
         <?php
@@ -81,7 +80,7 @@
                                             <th class="entete" style="text-align: center">Quantité</th>
                                             <th class="entete" style="text-align: center">Prix Unitaire</th>
                                             <th class="entete" style="text-align: center">Remise</th>
-                                            <th class="entete" style="text-align: center">Prix TTC</th>
+                                            <th class="entete" style="text-align: center">Prix T.T.C</th>
                                             </thead>
                                             <?php
                                                 $sql3 = "SELECT * FROM details_bon_commande WHERE num_bc = '" . stripslashes($line['num_bc']) . "'";
@@ -184,13 +183,11 @@
                                     </tr>
                                     <tr>
                                         <td class="champlabel proforma" style="padding-left: 10px" colspan="3">
-                                            Veuillez sélectionner la proforma :
+                                            Veuillez entrer la proforma :
                                         </td>
                                         <td class="proforma" style="padding-left: 5px">
                                             <label>
-                                                <select name="num_pro" class="form-control proformas" required>
-                                                    <option disabled>N° Proforma</option>
-                                                </select>
+                                                <input type="text" class="form-control" id="num_pro">
                                             </label>
                                         </td>
                                     </tr>
@@ -210,6 +207,7 @@
         </div>
 
         <script>
+            var proformas = ["a", "b"];
             function validationForme() {
                 var code_four = document.forms["myForm"]["code_four"].value;
                 if (code_four == null || code_four == "" || code_four == "Raison Sociale") {
@@ -239,31 +237,28 @@
                             }
                         });
                     }
-                });
-
-                /* Ce script permet de remplir le combobox de différentes proformas*/
-                $.ajax({
-                    type: "POST",
-                    url: "bons_commande/ajax_proformas.php",
-                    success: function (resultat) {
-                        //On éclate notre string résultat en un tableau 1D où chaque céllule du tableau est fonction du ";"
-                        var option = resultat.split(';');
-                        var select = $('.proformas');
-//                    console.log(option.length);
-                        for (i = 0; i < option.length - 1; i++) {
-                            select.append("<option value='" + option[i] + "'>" + option[i] + "</option>");
-//                        console.log(option[i]);
+                    $.ajax({
+                        url: "bons_commande/num_proformas.php",
+                        dataType: "json",
+                        type: "GET",
+                        success: function (data) {
+                            for (var i = 0; i < data.length; i += 1) {
+                                proformas[i] = data[i].ref_fp;
+                            }
+                            /*console.dir(data);
+                            console.log(proformas);*/
+                            $('#num_pro').autocomplete({
+                                source: proformas
+                            });
                         }
-                        //On initialise le combobox à "N° Proforma"
-                        $('.proformas option:contains("N° Proforma")').attr('selected', 'selected');
-                    }
+                    })
                 });
 
-                /* Ce script permet d'afficher le fournisseur et les différents articles figurant de la proforma sélectionnée */
-                $("select.proformas").change(function () {
+                /* Ce script permet d'afficher le fournisseur et les différents articles figurants de la proforma sélectionnée */
+                $("#num_pro").on('change', function () {
                     $('.zone').show();
-                    var prof = $(".proformas option:selected").val();
-                    //console.log(prof);
+                    var prof = $("#num_pro").val();
+                    console.log(prof);
                     $.ajax({
                         type: "POST",
                         url: "bons_commande/ajax_bon_commande.php",
@@ -271,7 +266,6 @@
                             proforma: prof
                         },
                         success: function (resultat) {
-                            //console.log(resultat);
                             $('.zone').html(resultat);
                         }
                     });
@@ -280,7 +274,6 @@
                 setTimeout(function () {
                     $(".alert-success").remove();
                 }, 3000);
-
 
             })
         </script>

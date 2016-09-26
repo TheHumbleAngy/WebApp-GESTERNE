@@ -6,20 +6,20 @@
  * Time: 15:36
  */
 
-    $connexion = db_connect();
+    $config = parse_ini_file('../../config.ini');
+    $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
 if (isset($_POST['id'])) {
 
     $id = $_POST['id'];
 
-    $sql = "DELETE FROM details_bon_commande WHERE num_bc = '" . $id . "'"; //print_r($sql);
+    $sql = "DELETE FROM details_bon_commande WHERE num_bc = '" . $id . "'";
 
     if ($result = mysqli_query($connexion, $sql)) {
 
-        $sql = "DELETE FROM bons_commande WHERE num_bc = '" . $id . "'"; //print_r($sql);
+        $sql = "DELETE FROM bons_commande WHERE num_bc = '" . $id . "'";
 
         if ($result = mysqli_query($connexion, $sql)) {
-            //header("refresh:3;url=form_principale.php?page=form_actions&source=bons_commande&action=rechercher");
             echo "
             <div class='alert alert-success alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
                 <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>

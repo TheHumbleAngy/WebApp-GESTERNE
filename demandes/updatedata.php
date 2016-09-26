@@ -36,4 +36,42 @@
             </div>
             ";
         }
+    } elseif (isset($_GET['operation']) && $_GET['operation'] == "ajout") {
+        include_once 'class_demandes.php';
+        session_start();
+
+        $demande = new demandes_absence();
+
+        if ($demande->recuperation($_SESSION['user_id'])) {
+            if ($demande->enregistrement($_SESSION['user_id'])) {
+                /*echo "
+                <div class='alert alert-success alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
+                    <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
+                        <span aria-hidden='true'>&times;</span>
+                    </button>
+                    Votre demande a été prise en compte. Veuillez cliquez 
+                    <strong><a href='../demandes/fiche_absence.php' target='_blank'>ici</a></strong> 
+                    pour l'imprimer.
+                </div>
+                ";*/
+                $_SESSION['id'] = $demande->code_dbs;
+            }
+            else
+                echo "
+                    <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
+                        <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
+                            <span aria-hidden='true'>&times;</span>
+                        </button>
+                        <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement de la demande. Veuillez contacter l'administrateur.
+                    </div>
+                    ";
+        } else
+            echo "
+                <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
+                    <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
+                        <span aria-hidden='true'>&times;</span>
+                    </button>
+                    <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de récupération des informations de la demande. Veuillez contacter l'administrateur.
+                </div>
+                ";
     }

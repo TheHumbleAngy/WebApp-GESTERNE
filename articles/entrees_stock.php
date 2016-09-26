@@ -7,7 +7,8 @@
      *
      * Ce script permet de générer les champs de saisie des entrées en stock
      */
-    $connexion = db_connect();
+    $config = parse_ini_file('../../config.ini');
+    $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
     if (isset($_POST["nbr"])) {
         $nbr = htmlspecialchars($_POST['nbr'], ENT_QUOTES);
@@ -25,9 +26,9 @@
         <table border="0" class="table table-hover table-condensed" id="details">
         <thead>
             <tr>
-                <th class="entete" style="text-align: center; width: 60%"">Désignation</th>
+                <th class="entete" style="text-align: center; width: 60%">Désignation</th>
                 <th class="entete" style="text-align: center">Quantité</th>
-                <th class="entete" style="text-align: center; width: 40%"">Commentaires</th>
+                <th class="entete" style="text-align: center; width: 40%">Commentaires</th>
             </tr>
         </thead>
             ';

@@ -6,7 +6,8 @@
      * Time: 10:48 AM
      */
 
-    $connexion = db_connect();
+    $config = parse_ini_file('../../config.ini');
+    $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
     //On vérifie s'il y a un en registrement dans la base de données
     $req = "SELECT code_bl FROM bons_livraison ORDER BY code_bl DESC LIMIT 1";
     $resultat = $connexion->query($req);
@@ -31,8 +32,7 @@
         $dat = substr($dat, -2);
         $format = '%04d';
         $resultat = $dat . "" . $b . "" . sprintf($format, $code_bl);
-
-        //echo $resultat;
+        
     } else {
         //s'il n'existe pas d'enregistrements dans la base de donn�es
         $code_bl = 1;

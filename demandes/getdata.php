@@ -30,13 +30,13 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <img src="img/icons_1775b9/search.png" width="20" height="20">
-                                Demandes - Résultats de recherche pour "<?php echo ucfirst($option); ?>" contenant "<?php echo $element; ?>"
+                                Liste des Demandes - Résultats de recherche pour "<?php echo ucfirst($option); ?>" contenant "<?php echo $element; ?>"
                                 <a href='form_principale.php?page=form_actions&source=demandes&action=rechercher' type='button' class='close'
                                    data-dismiss='alert' aria-label='Close' style='position: inherit'>
                                     <span aria-hidden='true'>&times;</span>
                                 </a>
                             </div>
-                            <div class="panel-body" style="overflow: auto">
+                            <div class="panel-body">
                                 <table class="table table-hover table-bordered ">
                                     <thead>
                                     <tr>
@@ -72,7 +72,7 @@
                                                            title="<?php echo $str; ?>"
                                                            role="button"><?php echo stripslashes($list['code_dbs']); ?></a>
                                                     </td>
-                                                    <td><?php echo stripslashes($list['date_dbs'])?></td>
+                                                    <td><?php echo rev_date($list['date_dbs'])?></td>
                                                     <td>
                                                         <?php
                                                             $req = "SELECT e.nom_emp, e.prenoms_emp
@@ -141,7 +141,7 @@
                                        data-dismiss='alert' aria-label='Close' style='position: inherit'>
                                         <span aria-hidden='true'>&times;</span>
                                     </a>
-                                <strong>Desole!</strong><br/> La recherche n'a retourne aucun resultat.
+                                <strong>Desole!</strong><br/> La recherche n'a retourné aucun resultat.
                             </div>
                         </div>
                         ";
@@ -150,6 +150,7 @@
         $config = parse_ini_file('../../config.ini');
         $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
         session_start();
+        require_once '../fonctions.php';
         ?>
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -202,7 +203,7 @@
                                                title="<?php echo $str; ?>"
                                                role="button"><?php echo stripslashes($list['code_dbs']); ?></a>
                                         </td>
-                                        <td style="text-align: center"><?php echo stripslashes($list['date_dbs']); ?></td>
+                                        <td style="text-align: center"><?php echo rev_date($list['date_dbs']); ?></td>
                                         <td style="text-align: center"><?php echo stripslashes($list['prenoms_emp']) . " " . stripslashes($list['nom_emp']); ?></td>
                                         <td><?php echo stripslashes($list['objets_dbs']); ?></td>
                                         <td style="text-align: center">

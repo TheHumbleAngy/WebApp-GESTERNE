@@ -48,7 +48,7 @@
                                 <span aria-hidden='true'>&times;</span>
                             </a>
                         </div>
-                        <div class="panel-body" style="overflow: auto">
+                        <div class="panel-body">
                             <table border="0" class="table table-hover table-bordered ">
                                 <thead>
                                 <tr>

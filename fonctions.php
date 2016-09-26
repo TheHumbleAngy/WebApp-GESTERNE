@@ -47,11 +47,12 @@
                             $req = "UPDATE employes SET etat_connecte = 1 WHERE email_emp = '" . $email . "'";
 
                             $resultat = $connexion->query($req);
+                            
+                            //$_SESSION['login_time'] = time();
+                            //ini_set("session.cookie_lifetime", "60");
 
-                            if (!$resultat) {
-                                //die($connexion->error);
+                            if (!$resultat)
                                 return FALSE;
-                            }
                             else {
                                 $_SESSION['etat_connecte'] = 1;
 
@@ -203,4 +204,19 @@
             echo $_GET['id'];
             exit ('Erreur lors de la reccuperation du code');
         }
+    }
+
+    function rev_date($date) {
+        $new_date = strtr($date, "/", "-");
+
+        $arr = preg_split("/-/", $new_date);
+        
+        $new_date = "";
+        for ($i = count($arr) - 1; $i >= 0; $i--) {
+            if ($i <> 0)
+                $new_date .= $arr[$i] . "-";
+            else
+                $new_date .= $arr[$i];
+        }
+        return $new_date;
     }

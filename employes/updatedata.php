@@ -6,10 +6,7 @@
      * Time: 16:05
      */
 
-    if (isset($_GET['operation']) && $_GET['operation'] == "ajout") {
-        //TODO: Enregistrement d'un nouvel employé
-
-        
+    if (isset($_GET['operation']) && $_GET['operation'] == "ajout") {        
         include_once 'class_employes.php';
 
         $employe = new employes();
@@ -48,8 +45,6 @@
 
     }
     elseif (isset($_GET['id']) && isset($_GET['operation']) && $_GET['operation'] == "maj") {
-        //TODO: MAJ des infos depuis la form liste_employes
-
         $id = $_GET['id'];
         
         include_once 'class_employes.php';
@@ -124,7 +119,7 @@
         //TODO: MAJ et suppression des infos depuis les forms modif_employes et suppr_employes
 
         $code = $_POST['code_emp'];
-        require_once 'bd/connection.php';
+        
         include_once 'class_employes.php';
 
         $employe = new employes();

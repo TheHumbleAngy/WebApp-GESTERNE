@@ -28,7 +28,7 @@
             </a>
         </div>
         <div class="panel-body">
-            <form action="form_principale.php?page=factures/form_factures" method="POST">
+            <form action="form_principale.php?page=factures/form_factures" method="POST" name="myForm" onsubmit="return validationForme();">
                 <div class="row">
                     <div class="col-md-10">
                         <table class="formulaire" style="width= 100%" border="0">
@@ -83,17 +83,7 @@
                                 <td class="champlabel">Proforma :</td>
                                 <td>
                                     <label>
-                                        <!--                                <input type="text" name="etatavecfacpro_facture" class="form-control"/>-->
-                                        <select class="form-control proforma" name="etatavecfacpro_facture">
-                                            <option disabled selected></option>
-                                            <?php
-                                                $sql = "SELECT ref_fp FROM proformas ORDER BY ref_fp DESC ";
-                                                $res = mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
-                                                while ($data = mysqli_fetch_array($res)) {
-                                                    echo '<option value="' . $data['ref_fp'] . '">' . $data['ref_fp'] . '</option>';
-                                                }
-                                            ?>
-                                        </select>
+                                        <input type="text" class="form-control" id="num_pro">
                                     </label>
                                 </td>
                             </tr>
@@ -112,13 +102,22 @@
 </div>
 
 <script>
+    var proformas = ["a", "b"];
+    function validationForme() {
+        var date_e = document.forms["myForm"]["dateetablissement_fact"].value;
+        var date_r = document.forms["myForm"]["datereception_fact"].value;
+        if (date_e == null || date_e == "" || date_r == null || date_r == "") {
+            alert("Veuillez renseignez les différentes dates s'il vous plaît.");
+            return false;
+        }
+    }
+
     $(document).ready(function () {
-        $('#date_e').datepicker({dateFormat: 'yy-mm-dd'});
-        $('#date_r').datepicker({dateFormat: 'yy-mm-dd'});
+        $('#date_e').datepicker({dateFormat: 'dd-mm-yy'});
+        $('#date_r').datepicker({dateFormat: 'dd-mm-yy'});
 
         $("select.proforma").change(function () {
             var pro = $(".proforma option:selected").val();
-            //console.log(prof);
             $.ajax({
                 type: "POST",
                 url: "factures/ajax_factures_proforma.php",
@@ -130,26 +129,48 @@
                 }
             });
         });
+
+        $.ajax({
+            url: "bons_commande/num_proformas.php",
+            dataType: "json",
+            type: "GET",
+            success: function (data) {
+                for (var i = 0; i < data.length; i += 1) {
+                    proformas[i] = data[i].ref_fp;
+                }
+                $('#num_pro').autocomplete({
+                    source: proformas
+                });
+            }
+        });
     })
+
+    $('#num_pro').on('change', function () {
+        var prof = $("#num_pro").val();
+        console.log(prof);
+        $.ajax({
+            type: "POST",
+            url: "factures/ajax_factures_proforma.php",
+            data: {
+                proforma: prof
+            },
+            success: function (resultat) {
+                $('.response').html(resultat);
+            }
+        });
+    });
 </script>
 
 <?php
 
     if (sizeof($_POST) > 0) {
 
-        //Saisie de la facture dans la table "factures"
         $num_fact = htmlspecialchars($_POST['num_fact'], ENT_QUOTES);
         $ref_fact = htmlspecialchars($_POST['ref_fact'], ENT_QUOTES);
         $code_four = htmlspecialchars($_POST['code_four'], ENT_QUOTES);
-//    $num_bc = htmlspecialchars($_POST['num_bc'], ENT_QUOTES);
-        $dateetablissement_fact = htmlspecialchars($_POST['dateetablissement_fact'], ENT_QUOTES);
-        $datereception_fact = htmlspecialchars($_POST['datereception_fact'], ENT_QUOTES);
-//    $etatavecfacpro_facture = htmlspecialchars($_POST['etatavecfacpro_facture'], ENT_QUOTES);
-        $remarques_facture = $_POST['remarques_facture'];
-        $remarques_facture = mysqli_real_escape_string($connexion, $remarques_facture);
-        $remarques_facture = htmlspecialchars($remarques_facture, ENT_QUOTES);
-
-//on insert dans la table
+        $dateetablissement_fact = rev_date($_POST['dateetablissement_fact']);
+        $datereception_fact = rev_date($_POST['datereception_fact']);
+        $remarques_facture = addslashes($_POST['remarques_facture']);
 
         $req = "INSERT INTO factures (num_fact,
                             code_four,
@@ -163,9 +184,7 @@
                             '$dateetablissement_fact',
                             '$datereception_fact',
                             '$remarques_facture')";
-        //exécution de la requête
-//        print_r($req);
-//        $result = mysqli_query($connexion, $req);
+        
         if ($result = mysqli_query($connexion, $req)) {
 
             //Saisie de chaque article de la facture dans la table "details_facture"
@@ -197,7 +216,6 @@
                     $format = '%04d';
                     $resultat = $dat . "" . $b . "" . sprintf($format, $code_df);
 
-                    //echo $resultat;
                 } else {
                     //s'il n'existe pas d'enregistrements dans la base de données
                     $code_df = 1;
@@ -215,10 +233,10 @@
                 $pu_df = ($_POST['pu'][$i]);
                 $rem = ($_POST['rem'][$i]);
 
-                $libelle_df = htmlspecialchars($libelle_df, ENT_QUOTES);
+                $libelle_df = addslashes($libelle_df);
                 $qte_df = htmlspecialchars($qte_df, ENT_QUOTES);
                 $pu_df = htmlspecialchars($pu_df, ENT_QUOTES);
-                $rem = htmlspecialchars($rem, ENT_QUOTES);
+                $rem = addslashes($rem);
 
                 $REQ = "INSERT INTO details_facture (code_df, num_fact, libelle_df, qte_df, pu_df, remise_df)
 	            VALUES ('$code_df', '$num_fact', '$libelle_df', '$qte_df', '$pu_df', '$rem')";

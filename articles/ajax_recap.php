@@ -5,8 +5,9 @@
      * Date: 03/08/2016
      * Time: 18:11
      */
-
-    $connexion = db_connect();
+    require_once '../fonctions.php';
+    $config = parse_ini_file('../../config.ini');
+    $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
     
     if (isset($_POST['debut']) && isset($_POST['fin'])) {
         $debut = $_POST['debut'];
@@ -19,13 +20,15 @@
     </div>
 </div>
 ';
-
+        $debut = rev_date($_POST['debut']);
+        $fin = rev_date($_POST['fin']);
+        
         //Traitement des entrées
         $req = "SELECT * FROM entrees_stock WHERE date_entr BETWEEN '$debut' AND '$fin' ORDER BY date_entr DESC ";
         if ($resultat = $connexion->query($req)) {
 
             echo '
-<div style="height: 400px; overflow: auto">
+<div style="height: 380px; overflow: auto">
             ';
 
             if (mysqli_num_rows($resultat) > 0) {

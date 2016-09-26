@@ -20,7 +20,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             Formulaire Demande
-                            <a href='form_principale.php?page=accueil' type='button'
+                            <a href='form_principale.php?page=demandes/liste_demandes' type='button'
                                class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                                 <span aria-hidden='true'>&times;</span>
                             </a>
@@ -108,7 +108,7 @@
                                                                 ?>
                                                                 <tr>
                                                                     <td style="text-align: center; vertical-align: middle"><?php echo $list['libelle_dd']; ?></td>
-                                                                    <td style="text-align: center; vertical-align: middle"><?php echo $list['nature_dd']; ?></td>
+                                                                    <td style="text-align: center; vertical-align: middle"><?php echo ucfirst($list['nature_dd']); ?></td>
                                                                     <td style="text-align: center; vertical-align: middle"><?php echo $list['qte_dd']; ?></td>
                                                                     <td style="vertical-align: middle"><?php echo $list['observations_dd']; ?></td>
                                                                 </tr>
@@ -137,6 +137,9 @@
                 $.ajax({
                     type: "POST",
                     url: "demandes/ajax_num_demande.php",
+                    data: {
+                        option: "bien_service"
+                    },
                     success: function (resultat) {
                         $('#code_dbs').val(resultat);
                     }
@@ -259,7 +262,7 @@
 
         <?php
         if (isset($_POST['code_dbs'])) {
-            include 'class_demandes.php';
+            include_once 'class_demandes.php';
 
             $demande = new demandes();
 
@@ -271,9 +274,9 @@
 
                     for ($i = 0; $i < $nbr; $i++) {
                         if ($details_demande->recuperation_details($demande->code_dbs, $i)) {
-                            if ($details_demande->enregistrement())
+                            if ($details_demande->enregistrement_details())
                                 header('Location: form_principale.php?page=demandes/form_demandes&action=ajout');
-                            else
+                            else {
                                 echo "
                                 <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
                                     <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
@@ -282,6 +285,8 @@
                                     <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement des détails de la demande. Veuillez contacter l'administrateur.
                                 </div>
                                 ";
+                                break;
+                            }
                         } else {
                             echo "
                             <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
