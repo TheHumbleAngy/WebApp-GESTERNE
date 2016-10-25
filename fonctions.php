@@ -48,7 +48,7 @@
 
                             $resultat = $connexion->query($req);
                             
-                            //$_SESSION['login_time'] = time();
+                            $_SESSION['login_time'] = time();
                             //ini_set("session.cookie_lifetime", "60");
 
                             if (!$resultat)

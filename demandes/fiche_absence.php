@@ -248,7 +248,7 @@
     $pdf->Line(20, 114, 210 - 25, 114);
     $pdf->SetFont('Arial', '', 10);
     $pdf->SetWidths(array(15, 60, 50));
-    $pdf->Row(array("", "DUREE", strtoupper($duree)));
+    $pdf->Row(array("", "DUREE", strtoupper($duree) . " Heure(s)"));
     $pdf->Ln(12);
     
     $pdf->Line(20, 123, 210-25, 123);

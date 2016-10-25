@@ -10,10 +10,10 @@
     setlocale(LC_TIME, 'fr_FR.utf8', 'fra');
 
     $_SESSION['last_activity'] = time();
-    /*if ($_SESSION['login_time'] < time() + 60) {
+    /*if ((int)$_SESSION['last_activity'] - (int)$_SESSION['login_time'] > 5 * 60) {
         header('Location: processing.php');
     }*/
-    //echo $_SESSION['login_time'];
+
 
     $page = "accueil";
     if (isset($_GET['page']))
@@ -82,7 +82,7 @@
                                 </div>
                             </div>
                             <div class="col-md-3 col-md-offset-6" style="color: #0e76bc; text-align: right; top: -5px">
-                                <p style="padding-top: 40px; margin: 0"><?php echo utf8_encode(ucwords(strftime("%A %d %B %Y"))); ?></p>
+                                <p style="padding-top: 40px; margin: 0"><?php echo utf8_encode(ucwords(strftime("%A %d %B %Y")));?></p>
                             </div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                                             <a href="form_principale.php?page=demandes/form_conges&action=ajout">Congés</a>
                                         </li>
                                         <li>
-                                            <a href="">Permission</a>
+                                            <a href="form_principale.php?page=demandes/form_permissions">Permission</a>
                                         </li>
 
 

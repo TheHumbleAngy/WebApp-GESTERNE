@@ -57,8 +57,8 @@
                         <td class="champlabel">Durée :</td>
                         <td>
                             <label>
-                                <input type="text" id="duree" class="form-control" size="10" required>
-                            </label>
+                                <input type="number" id="duree" class="form-control" min="1" max="5" required>
+                            </label> Heure(s)
                         </td>
                     </tr>
                 </table>
