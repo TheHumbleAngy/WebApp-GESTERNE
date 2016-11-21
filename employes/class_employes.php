@@ -1,5 +1,5 @@
 <?php
-
+    error_reporting(E_ERROR);
     /**
      * Created by PhpStorm.
      * User: Ange KOUAKOU
@@ -19,6 +19,7 @@
         protected $tel_emp;
         protected $etat_connecte;
         protected $connexion;
+        protected $iniFile;
 
         abstract protected function enregistrement();
         abstract protected function recuperation();
@@ -37,6 +38,7 @@
             $this->departement_emp = htmlspecialchars($_POST['departement_emp'], ENT_QUOTES);
             $this->email_emp = htmlspecialchars($_POST['email_emp'], ENT_QUOTES);
             $this->tel_emp = htmlspecialchars($_POST['tel_emp'], ENT_QUOTES);
+            $this->iniFile = "config.ini";
 
             return TRUE;
         }
@@ -51,14 +53,19 @@
             echo $this->email_emp; echo '<br>';
             echo $this->tel_emp; echo '<br>';
         }
-
+    
+        function configpath(&$ini) {
+            return $ini = '../' . $ini;
+        }
+        
         function motdepasse($mdp) {
             $this->mdp = $mdp;
         }
 
         function enregistrement()
         {
-            $config = parse_ini_file('../../config.ini');
+            while (!$config = parse_ini_file($this->iniFile))
+                $this->configpath($this->iniFile);
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
             if ($connexion->connect_error)
@@ -100,7 +107,6 @@
                     VALUES ('$this->code_emp', '$this->titre_emp', '$this->nom_emp', '$this->prenoms_emp', '$this->fonction_emp', '$this->departement_emp', '$this->email_emp', '$this->mdp', '$this->tel_emp')";
 
             //exécution de la requête SQL:
-//            $result = mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
             if ($result = mysqli_query($connexion, $sql)) {
                 return TRUE;
             } else
@@ -109,7 +115,8 @@
 
         function modification($code)
         {
-            $config = parse_ini_file('../../config.ini');
+            while (!$config = parse_ini_file($this->iniFile))
+                $this->configpath($this->iniFile);
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
             if ($connexion->connect_error)
@@ -132,17 +139,25 @@
         }
 
         function suppression($code) {
-            $config = parse_ini_file('../../config.ini');
+            while (!$config = parse_ini_file($this->iniFile)) 
+                $this->configpath($this->iniFile);
+            
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
             if ($connexion->connect_error)
                 die($connexion->connect_error);
 
-            $sql = "DELETE FROM employes WHERE code_emp = '" . $code . "'"; //print_r($sql);
-
-            if ($result = mysqli_query($connexion, $sql))
-                return TRUE;
-            else
+            if (session_id() == "")
+                session_start();
+            if ($code == $_SESSION['user_id'])
                 return FALSE;
+            else {
+                $sql = "DELETE FROM employes WHERE code_emp = '" . $code . "'";
+
+                if ($result = mysqli_query($connexion, $sql))
+                    return TRUE;
+                else
+                    return FALSE;
+            }
         }
     }

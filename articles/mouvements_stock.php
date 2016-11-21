@@ -159,16 +159,26 @@
                         <form method="post">
                             <table class="formulaire" border="0">
                                 <tr>
-                                    <td class="champlabel" style="vertical-align: bottom; padding-bottom: 5px">Demande :</td>
-                                    <td style="vertical-align: bottom">
+                                    <td>
+                                        A partir d'une demande ?
+                                    </td>
+                                    <td style="padding-left: 5px">
+                                        <label>
+                                            <select name="question" class="form-control" required id="question">
+                                                <option disabled selected></option>
+                                                <option value="oui">OUI</option>
+                                                <option value="non">NON</option>
+                                            </select>
+                                        </label>
+                                    </td>
+
+                                    <td class="champlabel demande">Demande :</td>
+                                    <td class="demande" >
                                         <label>
                                             <select name="num_dmd" class="form-control demandes" required>
                                                 <option disabled selected>N° Demande</option>
                                                 <?php
                                                     $sql = "SELECT code_dbs FROM demandes WHERE statut = 'non satisfaite' ORDER BY date_dbs DESC ";
-                                                    /*$sql = "SELECT DISTINCT d.code_dbs FROM demandes AS d
-                                                            INNER JOIN details_demande AS dd ON d.code_dbs = dd.code_dbs
-                                                            WHERE d.statut <> 'satisfaite' AND dd.nature_dd = 'bien'";*/
                                                     $res = mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
                                                     while ($list = mysqli_fetch_array($res)) {
                                                         ?>
@@ -179,9 +189,20 @@
                                             </select>
                                         </label>
                                     </td>
-                                    
+                                </tr>
+                                <tr class="nombre">
+                                    <td class="champlabel">Nombre d'articles :
+                                    </td>
+                                    <td>
+                                        <label>
+                                            <input type="number" min="1" class="form-control" id="nbr_articles"
+                                                   name="nbr"
+                                                   required/>
+                                        </label>
+                                    </td>
                                 </tr>
                             </table>
+
                             <div class="feedback"></div>
                         </form>
                     </div>
@@ -190,6 +211,24 @@
         </div>
 
         <script>
+            $(document).ready(function () {
+                $('.demande').hide();
+                $('.nombre').hide();
+
+                $('#question').change(function () {
+                    var reponse = $('#question').val();
+                    if (reponse == 'oui') {
+                        $('.demande').show();
+                        $('.nombre').hide();
+                    }
+                    else if (reponse == 'non') {
+                        $('.demande').hide();
+                        $('.nombre').show();
+                        $('.feedback').hide();
+                    }
+                });
+            });
+
             /* Ce script permet d'afficher les différents articles figurant sur la demande sélectionnée */
             $("select.demandes").change(function () {
                 var dmd = $(".demandes option:selected").val();

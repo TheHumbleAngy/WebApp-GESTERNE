@@ -618,7 +618,7 @@ input[type="number"].form-control {
 
 @media (min-width: 768px) {
     .modal-dialog.update {
-        width: 700px;
+        width: 750px;
         margin: 30px auto;
     }
 

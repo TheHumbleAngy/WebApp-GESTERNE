@@ -49,7 +49,7 @@
 
         function enregistrement() {
             //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
-            $config = parse_ini_file('../../config.ini');
+            if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             
             if ($connexion->connect_error)
@@ -98,7 +98,7 @@
 
         function modification($code) {
             //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
-            $config = parse_ini_file('../../config.ini');
+            if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             
             if ($connexion->connect_error)
@@ -121,7 +121,7 @@
 
         function suppression($code) {
             //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
-            $config = parse_ini_file('../../config.ini');
+            if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             
             if ($connexion->connect_error)
@@ -146,7 +146,7 @@
 
         function enregistrement() {
             //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
-            $config = parse_ini_file('../../config.ini');
+            if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             
             if ($connexion->connect_error)
@@ -276,7 +276,7 @@
 
         function enregistrement() {
             //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
-            $config = parse_ini_file('../../config.ini');
+            if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             
             if ($connexion->connect_error)
@@ -332,7 +332,7 @@
 
             //recuperation du code de l'article à partir du libelle
             //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
-            $config = parse_ini_file('../../config.ini');
+            if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             
             $art = htmlspecialchars($_POST['libelle_dd'][$i], ENT_NOQUOTES);
@@ -370,7 +370,7 @@
 
         function enregistrement() {
             //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
-            $config = parse_ini_file('../../config.ini');
+            if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
             if ($connexion->connect_error)

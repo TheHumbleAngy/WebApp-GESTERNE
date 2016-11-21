@@ -8,7 +8,7 @@
      * Ce script génère la liste des propositions de libellés dans les champs de saisie de fournisseurs sous forme JSON
      */
     header("Content-Type: application/json; charset=UTF-8");
-    $config = parse_ini_file('../../config.ini');
+    if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
     $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
     $json_fournisseurs = array();

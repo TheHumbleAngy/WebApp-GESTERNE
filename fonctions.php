@@ -30,10 +30,11 @@
                 $code_emp = $ligne['code_emp'];
 
                 $req = "SELECT * FROM droits WHERE code_emp = '" . $code_emp . "'";
+//                print_r($req);
                 if ($result = $connexion->query($req)) {
-                    if ($result->num_rows === 1) {
-                        session_start();
-                        $_SESSION['etat_connecte'] = $ligne['etat_connecte'];
+                    if ($result->num_rows == 1) {
+//                        session_start();
+                        echo $_SESSION['etat_connecte'] = $ligne['etat_connecte'];
 
                         if ($ligne['etat_connecte'] == 0) {
                             $_SESSION['user_id'] = $ligne['code_emp'];

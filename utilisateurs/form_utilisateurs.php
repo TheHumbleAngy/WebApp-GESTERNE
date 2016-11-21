@@ -5,7 +5,7 @@
      * Date: 13/11/2015
      * Time: 11:07
      */
-    $config = parse_ini_file('../../config.ini');
+    if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
     $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
     $action = $_POST['action'];

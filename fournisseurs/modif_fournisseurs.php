@@ -57,7 +57,7 @@
                                     <td class="champlabel">E-mail :</td>
                                     <td>
                                         <label>
-                                            <input type="email" name="email_four" size="30" required
+                                            <input type="email" name="email_four" size="30"
                                                    class="form-control" value="<?php echo $data['email_four']; ?>"/>
                                         </label>
                                     </td>
@@ -82,7 +82,7 @@
                                     <td></td>
                                     <td class="champlabel">Fax :</td>
                                     <td><label>
-                                            <input type="tel" name="fax_four" size="15" required class="form-control"
+                                            <input type="tel" name="fax_four" size="15" class="form-control"
                                                    value="<?php echo $data['fax_four']; ?>"/>
                                         </label>
                                     </td>
@@ -99,7 +99,7 @@
                                     <td class="champlabel">Notes :</td>
                                     <td>
                                         <label>
-                                        <textarea name="notes_four" rows="4" cols="25" style="resize: none" required
+                                        <textarea name="notes_four" rows="4" cols="25" style="resize: none"
                                                   class="form-control"><?php echo $data['notes_four']; ?></textarea>
                                         </label>
                                     </td>

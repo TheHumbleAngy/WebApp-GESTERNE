@@ -1,5 +1,5 @@
 <?php
-    
+    error_reporting(E_ERROR);
     /**
      * Created by PhpStorm.
      * User: Ange KOUAKOU
@@ -17,8 +17,12 @@
         protected $notes_four;
         protected $activite_four;
         protected $connexion;
+        protected $iniFile;
 
         abstract protected function enregistrement();
+        abstract protected function recuperation();
+        abstract protected function modification($code);
+        abstract protected function suppression($code);
     }
 
     class fournisseurs extends class_fournisseurs
@@ -31,6 +35,7 @@
             $this->adresse_four = addslashes($_POST['adresse_four']);
             $this->notes_four = addslashes($_POST['notes_four']);
             $this->activite_four = addslashes($_POST['activite_four']);
+            $this->iniFile = "config.ini";
 
             return TRUE;
         }
@@ -46,8 +51,13 @@
             echo $this->activite_four; echo '<br>';
         }
 
+        function configpath(&$ini) {
+            return $ini = '../' . $ini;
+        }
+
         function enregistrement() {
-            $config = parse_ini_file('../../config.ini');
+            while (!$config = parse_ini_file($this->iniFile))
+                $this->configpath($this->iniFile);
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
             if ($connexion->connect_error)
@@ -95,7 +105,8 @@
 
         function modification($code)
         {
-            $config = parse_ini_file('../../config.ini');
+            while (!$config = parse_ini_file($this->iniFile))
+                $this->configpath($this->iniFile);
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
             if ($connexion->connect_error)
@@ -118,7 +129,8 @@
         }
 
         function suppression($code) {
-            $config = parse_ini_file('../../config.ini');
+            while (!$config = parse_ini_file($this->iniFile))
+                $this->configpath($this->iniFile);
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
             if ($connexion->connect_error)

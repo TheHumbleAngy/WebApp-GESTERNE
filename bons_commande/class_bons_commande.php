@@ -32,7 +32,7 @@
         }
 
         function enregistrement() {
-            $config = parse_ini_file('../../config.ini');
+            if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
             if ($connexion->connect_error)
@@ -49,7 +49,7 @@
         }
 
         function suppression($code) {
-            $config = parse_ini_file('../../config.ini');
+            if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
             if ($connexion->connect_error)
@@ -82,7 +82,7 @@
         }
         
         function enregistrement() {
-            $config = parse_ini_file('../../config.ini');
+            if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
             if ($connexion->connect_error)

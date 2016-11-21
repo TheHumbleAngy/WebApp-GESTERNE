@@ -103,12 +103,12 @@
             ";
         } else {
             echo "
-            <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
+            <div class='alert alert-warning alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
                 <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                     <span aria-hidden='true'>&times;</span>
                 </button>
-                <strong>Erreur!</strong><br/><br/>
-                L'employé " . $id . " est lié à certains formulaires et ne peut donc pas être supprimé de la base.<br/>
+                <strong>Attention!</strong><br/>
+                L'employé <strong>" . $id . "</strong> ne peut être supprimé. Soit, il s'agit de l'utilisateur en cours, soit il est lié à certains formulaires.<br/>
                 Veuillez donc contacter un administrateur.
             </div>
             ";
@@ -162,9 +162,9 @@
                                    data-dismiss='alert' aria-label='Close' style='position: inherit'>
                                     <span aria-hidden='true'>&times;</span>
                             </a>
-                            <strong>Erreur!</strong><br/><br/>
-                            L'employé " . $code . " est lié à certains formulaires et ne peut donc pas être supprimé de la base.<br/>
-                            Veuillez donc contacter un administrateur.
+                            <strong>Attention!</strong><br/>
+                            L'employé <strong>" . $code . "</strong> ne peut être supprimé. Soit, il s'agit de l'utilisateur en cours, soit il est lié à certains formulaires.<br/>
+                Veuillez donc contacter un administrateur.
                         </div>
                     </div>
                     ";

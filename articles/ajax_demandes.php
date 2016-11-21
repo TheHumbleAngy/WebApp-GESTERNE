@@ -8,7 +8,7 @@
     /** @lang MySQL */
     if (isset($_POST["demande"])) {
         $dmd = htmlspecialchars($_POST['demande'], ENT_QUOTES);
-        $config = parse_ini_file('../../config.ini');
+        if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
         $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
         $sql = "SELECT * FROM details_demande WHERE code_dbs = '" . $dmd . "' AND statut_dd = 'non satisfait'";

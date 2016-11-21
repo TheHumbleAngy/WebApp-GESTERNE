@@ -6,7 +6,7 @@
      * Time: 10:48 AM
      */
 
-    $config = parse_ini_file('../../config.ini');
+    if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
     $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
     //On vérifie s'il y a un en registrement dans la base de données
     $req = "SELECT code_bl FROM bons_livraison ORDER BY code_bl DESC LIMIT 1";

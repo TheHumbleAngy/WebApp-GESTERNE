@@ -5,6 +5,11 @@
      * Date: 26/08/2015
      * Time: 15:10
      */
+    error_reporting(E_ERROR);
+    function configpath(&$ini) {
+        return $ini = '../' . $ini;
+    }
+
     if (sizeof($_POST) > 0) {
         if (isset($_POST['opt'])) {
             $option = $_POST['opt'];
@@ -85,7 +90,7 @@
                                             <div class="modal fade"
                                                  id="modalModifier<?php echo stripslashes($data['code_emp']); ?>"
                                                  tabindex="-1" role="dialog" aria-hidden="true">
-                                                <div class="modal-dialog">
+                                                <div class="modal-dialog update">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <button type="button" class="close" data-dismiss="modal"
@@ -93,84 +98,101 @@
                                                                     aria-hidden="true">&times;</span></button>
                                                             <h4 class="modal-title"
                                                                 id="modalModifier<?php echo stripslashes($data['code_emp']); ?>">
-                                                                Modifications</h4>
+                                                                Modifications [<?php echo stripslashes($data['code_emp']); ?>]</h4>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form>
-                                                                <table>
-                                                                    <tr>
-                                                                        <td>Titre:</td>
-                                                                        <td>
-                                                                            <label>
-                                                                                <input type="text" class="form-control"
-                                                                                       readonly
-                                                                                       id="titre_emp<?php echo $data['code_emp']; ?>"
-                                                                                       value="<?php echo $data['titre_emp']; ?>">
-                                                                            </label>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Nom:</td>
-                                                                        <td>
-                                                                            <label>
-                                                                                <input type="text" class="form-control"
-                                                                                       id="nom_emp<?php echo $data['code_emp']; ?>"
-                                                                                       value="<?php echo $data['nom_emp']; ?>">
-                                                                            </label>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Prénoms:</td>
-                                                                        <td>
-                                                                            <label>
-                                                                                <input type="text" class="form-control"
-                                                                                       id="prenoms_emp<?php echo $data['code_emp']; ?>"
-                                                                                       value="<?php echo $data['prenoms_emp']; ?>">
-                                                                            </label>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Fonction:</td>
-                                                                        <td>
-                                                                            <label>
-                                                                                <input type="text" class="form-control"
-                                                                                       id="fonction_emp<?php echo $data['code_emp']; ?>"
-                                                                                       value="<?php echo $data['fonction_emp']; ?>">
-                                                                            </label>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Département:</td>
-                                                                        <td>
-                                                                            <label>
-                                                                                <input type="text" class="form-control"
-                                                                                       id="departement_emp<?php echo $data['code_emp']; ?>"
-                                                                                       value="<?php echo $data['departement_emp']; ?>">
-                                                                            </label>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>E-mail:</td>
-                                                                        <td>
-                                                                            <label>
-                                                                                <input type="email" class="form-control"
-                                                                                       id="email_emp<?php echo $data['code_emp']; ?>"
-                                                                                       value="<?php echo $data['email_emp']; ?>">
-                                                                            </label>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Contact:</td>
-                                                                        <td>
-                                                                            <label>
-                                                                                <input type="tel" class="form-control"
-                                                                                       id="tel_emp<?php echo $data['code_emp']; ?>"
-                                                                                       value="<?php echo $data['tel_emp']; ?>">
-                                                                            </label>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </form>
+                                                            <table class="formulaire"
+                                                                   style="width: 90%; border-collapse: separate; border-spacing: 8px; margin-left: auto; margin-right: auto"
+                                                                   border="0">
+                                                                <tr>
+                                                                    <td class="champlabel">Titre :</td>
+                                                                    <td>
+                                                                        <label>
+                                                                            <select name="titre_emp" id="titre_emp<?php echo $data['code_emp']; ?>" class="form-control" required>
+                                                                                <option disabled></option>
+                                                                                <?php
+                                                                                    $req = "SELECT DISTINCT titre_emp FROM employes ORDER BY titre_emp ASC ";
+                                                                                    $result = mysqli_query($connexion, $req);
+                                                                                    while ($data_grp = mysqli_fetch_array($result)) {
+                                                                                        if ($data['titre_emp'] == $data_grp['titre_emp']) {
+                                                                                            echo '<option value="' . $data_grp['titre_emp'] . '" selected >' . $data_grp['titre_emp'] . '</option>';
+                                                                                        } else {
+                                                                                            echo '<option value="' . $data_grp['titre_emp'] . '" >' . $data_grp['titre_emp'] . '</option>';
+                                                                                        }
+                                                                                    }
+                                                                                ?>
+                                                                            </select>
+                                                                        </label>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="champlabel">*Nom :</td>
+                                                                    <td>
+                                                                        <label>
+                                                                            <input type="text" class="form-control"
+                                                                                   id="nom_emp<?php echo $data['code_emp']; ?>"
+                                                                                   value="<?php echo $data['nom_emp']; ?>">
+                                                                        </label>
+                                                                    </td>
+                                                                    <td class="champlabel">Prénoms :</td>
+                                                                    <td>
+                                                                        <label>
+                                                                            <input type="text" class="form-control" size="30"
+                                                                                   id="prenoms_emp<?php echo $data['code_emp']; ?>"
+                                                                                   value="<?php echo $data['prenoms_emp']; ?>">
+                                                                        </label>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="champlabel">Fonction :</td>
+                                                                    <td>
+                                                                        <label>
+                                                                            <input type="text" class="form-control" size="25"
+                                                                                   id="fonction_emp<?php echo $data['code_emp']; ?>"
+                                                                                   value="<?php echo $data['fonction_emp']; ?>">
+                                                                        </label>
+                                                                    </td>
+                                                                    <td class="champlabel">Département :</td>
+                                                                    <td>
+                                                                        <label>
+                                                                            <select name="departement_emp" id="departement_emp<?php echo $data['code_emp']; ?>" required class="form-control">
+                                                                                <option disabled></option>
+                                                                                <?php
+                                                                                    $req = "SELECT DISTINCT departement_emp FROM employes ORDER BY departement_emp ASC ";
+                                                                                    $result = mysqli_query($connexion, $req);
+                                                                                    while ($data_grp = mysqli_fetch_array($result)) {
+                                                                                        if ($data['departement_emp'] == $data_grp['departement_emp']) {
+                                                                                            echo '<option value="' . $data_grp['departement_emp'] . '" selected >' . $data_grp['departement_emp'] . '</option>';
+                                                                                        } else {
+                                                                                            echo '<option value="' . $data_grp['departement_emp'] . '" >' . $data_grp['departement_emp'] . '</option>';
+                                                                                        }
+                                                                                    }
+                                                                                ?>
+                                                                            </select>
+                                                                        </label>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="champlabel">E-mail :</td>
+                                                                    <td>
+                                                                        <label>
+                                                                            <input type="email" class="form-control" size="25"
+                                                                                   id="email_emp<?php echo $data['code_emp']; ?>"
+                                                                                   value="<?php echo $data['email_emp']; ?>">
+                                                                        </label>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="champlabel">Contact :</td>
+                                                                    <td>
+                                                                        <label>
+                                                                            <input type="tel" class="form-control"
+                                                                                   id="tel_emp<?php echo $data['code_emp']; ?>"
+                                                                                   value="<?php echo $data['tel_emp']; ?>">
+                                                                        </label>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button class="btn btn-default" data-dismiss="modal">Fermer
@@ -237,8 +259,11 @@
         ";
             }
         }
-    } else {
-        $config = parse_ini_file('../../config.ini');
+    }
+    else {
+        $iniFile = 'config.ini';
+        while (!$config = parse_ini_file($iniFile))
+            configpath($iniFile);
         $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
         session_start();
         ?>

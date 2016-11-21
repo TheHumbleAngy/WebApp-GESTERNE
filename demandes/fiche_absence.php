@@ -191,7 +191,7 @@
     $pdf->SetWidths(array(25, 70, 40, 60, 82));
 
     //DETAILS DE LA DEMANDE
-    $config = parse_ini_file('../../config.ini');
+    if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
     $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
     $sql = "SELECT nom_emp, prenoms_emp, fonction_emp, motif_dab, lieu_dab, duree_dab 

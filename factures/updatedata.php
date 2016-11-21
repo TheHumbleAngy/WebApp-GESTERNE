@@ -10,7 +10,7 @@
     
     $id = $_POST['id'];
 
-    $config = parse_ini_file('../../config.ini');
+    if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
     $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
     $sql = "DELETE FROM factures WHERE num_fact = '" . $id . "'";

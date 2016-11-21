@@ -1,6 +1,6 @@
 <?php
     require_once 'fonctions.php';
-    error_reporting(0);
+//    error_reporting(0);
     session_start();
     
     if (isset($_SESSION['user_id'])) {
@@ -27,7 +27,7 @@
 <body class="arriere_plan">
     <div class="login">
         <div class="centrer_image">
-            <img src="img/logo2.jpg" width="80"/>
+            <img src="img/logo2.jpg" width="80" style="box-shadow: 0 5px 20px #888;"/>
         </div>
         <div class="titre">
             <h2 style="color: #0e76bc">
@@ -55,7 +55,8 @@
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="position: inherit">
                                     <span aria-hidden="true">&times;</span>
                                     </button>
-                                    <strong>Oups!</strong><br/> Vous êtes déjà connecté à partir d\'un autre navigateur! Veuillez vous en déconnecter avant de continuer.
+                                    <strong>Oups!</strong><br/> Il semble que vous êtes déjà connecté à partir d\'un autre navigateur! 
+                                    Veuillez vous en déconnecter avant de continuer, sinon, contactez un administrateur.
                                   </div>';
                         }
                     }

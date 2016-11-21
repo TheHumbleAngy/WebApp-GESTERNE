@@ -113,7 +113,7 @@
     elseif (isset($_POST['code_four']) || isset($_POST['action'])) {
         //TODO: MAJ et suppression des infos depuis les forms modif_fournisseurs et suppr_fournisseurs
         $code = $_POST['code_four'];
-        require_once 'bd/connection.php';
+        
         include_once 'class_fournisseurs.php';
 
         $fournisseur = new fournisseurs();
