@@ -5,6 +5,9 @@
      * Date: 3/13/14
      * Time: 11:46 AM
      */
+    function configpath(&$ini) {
+        return $ini = '../' . $ini;
+    }
     
     function db_connect() {
         static $connexion;

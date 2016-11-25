@@ -1,5 +1,5 @@
 <?php
-
+    error_reporting(E_ERROR);
     /**
      * Created by PhpStorm.
      * User: Ange KOUAKOU
@@ -15,6 +15,8 @@
         public $stock_art;
         public $niveau_reappro_art;
         public $niveau_cible_art;
+
+        protected $iniFile;
     }
 
     abstract class mouvements extends class_articles {
@@ -138,15 +140,20 @@
 
     class entrees_articles extends mouvements {
         function recuperation() {
-//            $this->type_mvt = htmlspecialchars($_POST['type_mvt'], ENT_QUOTES);
             $this->date_mvt = date('Y-m-j');
+            $this->iniFile = 'config.ini';
 
             return TRUE;
         }
 
+        function configpath(&$ini) {
+            return $ini = '../' . $ini;
+        }
+
         function enregistrement() {
             //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
-            if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
+            while (!$config = parse_ini_file($this->iniFile))
+                $this->configpath($this->iniFile);
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             
             if ($connexion->connect_error)
@@ -225,7 +232,7 @@
                     //on affecte au code le resultat
                     $num_dentr = $resultat;
 
-                    //Recuperation du code l'article en cours, celui pour lequel l'entree d'article est encours de saisie
+                    //Recuperation du code de l'article en cours, celui pour lequel l'entree d'article est en cours de saisie
                     $libelle = addslashes($_POST['libelle'][$i]);
 
                     $sql = sprintf("SELECT code_art, stock_art FROM articles WHERE designation_art = '%s'", $libelle); //print_r($sql); echo $i . '<br>';
@@ -270,19 +277,25 @@
             $this->date_mvt = date('Y-m-j');
             $this->code_emp = $employe;
             $this->code_dbs = htmlspecialchars($_POST['num_dmd'], ENT_QUOTES);
+            $this->iniFile = 'config.ini';
 
             return TRUE;
         }
 
+        function configpath(&$ini) {
+            return $ini = '../' . $ini;
+        }
+
         function enregistrement() {
             //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
-            if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
+            while (!$config = parse_ini_file($this->iniFile))
+                $this->configpath($this->iniFile);
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
-            
+            //            print_r($config);
             if ($connexion->connect_error)
                 die($connexion->connect_error);
 
-            $req = "SELECT num_sort FROM sorties_stock ORDER BY num_sort DESC LIMIT 1"; //print_r($req);
+            $req = "SELECT num_sort FROM sorties_stock ORDER BY num_sort DESC LIMIT 1";
             $res = $connexion->query($req);
 
             if ($res->num_rows > 0) {
@@ -299,7 +312,8 @@
 
                 //incrementation du nombre
                 $num_sort += 1;
-            } else {
+            }
+            else {
                 //s'il n'existe pas d'enregistrements dans la base de données
                 $num_sort = 1;
             }
@@ -313,13 +327,87 @@
             //on affecte au code le resultat
             $this->code = $resultat;
 
-            $sql = "INSERT INTO sorties_stock (num_sort, code_dbs, date_sort, code_emp)
-                    VALUES ('$this->code', '$this->code_dbs', '$this->date_mvt', '$this->code_emp')"; //print_r($sql); echo '<br><br>';
+            $sql = "INSERT INTO sorties_stock (num_sort, code_emp, date_sort)
+                    VALUES ('$this->code', '$this->code_emp', '$this->date_mvt')";
+            //            print_r($sql); echo '<br><br>';
 
-            if ($result = mysqli_query($connexion, $sql))
+            /*if ($result = mysqli_query($connexion, $sql))
                 return TRUE;
             else
-                return FALSE;
+                return FALSE;*/
+
+            //l'enregistrement des details du mouvement
+            if ($result = mysqli_query($connexion, $sql)) {
+                $nbr = $_POST['nbr'];
+                for ($i = 0; $i < $nbr; $i++) {
+                    $req = "SELECT num_dsort FROM details_sortie ORDER BY num_dsort DESC LIMIT 1"; //print_r($req); echo $i . '<br>';
+                    $res = $connexion->query($req);
+
+                    if ($res->num_rows > 0) {
+                        $ligne = $res->fetch_all(MYSQLI_ASSOC);
+
+                        //reccuperation du code
+                        $code_de = "";
+                        foreach ($ligne as $data) {
+                            $code_de = stripslashes($data['num_dsort']);
+                        }
+
+                        //extraction des 4 derniers chiffres
+                        $code_de = substr($code_de, -4);
+
+                        //incrementation du nombre
+                        $code_de += 1;
+                    }
+                    else {
+                        //s'il n'existe pas d'enregistrements dans la base de données
+                        $code_de = 1;
+                    }
+
+                    $b = "DS";
+                    $dat = date("Y");
+                    $dat = substr($dat, -2);
+                    $format = '%04d';
+                    $resultat = $dat . "" . $b . "" . sprintf($format, $code_de);
+
+                    //on affecte au code le resultat
+                    $num_dsort = $resultat;
+
+                    //Recuperation du code de l'article en cours, celui pour lequel l'entree d'article est en cours de saisie
+                    $libelle = addslashes($_POST['libelle'][$i]);
+
+                    $sql = sprintf("SELECT code_art, stock_art FROM articles WHERE designation_art = '%s'", $libelle); //print_r($sql); echo "  " . $i . '<br>';
+                    $res = $connexion->query($sql);
+                    $code_art = "";
+                    $stock_art = "";
+                    if ($res->num_rows > 0) {
+                        $ligne = $res->fetch_all(MYSQLI_ASSOC);
+                        foreach ($ligne as $row) {
+                            $code_art = $row['code_art'];
+                            $stock_art = $row['stock_art'];
+                        }
+                    }
+
+                    //Recuperation de la quantite
+                    $qte = $_POST['qte'][$i];
+                    $rem = htmlspecialchars($_POST['cmt'][$i], ENT_QUOTES);
+                    $stock_art -= $qte;
+
+                    //Enregistrement du detail d'entree
+                    $sql = "INSERT INTO details_sortie (num_dsort, num_sort, code_art, qte_dsort, rem_dsort)
+                                VALUES ('$num_dsort', '$this->code', '$code_art', '$qte', '$rem')";
+                    /*print_r($sql);
+                    echo "<br>";*/
+
+                    /*$result = mysqli_query($connexion, $sql);
+                    print_r($result);*/
+                    if ($result = mysqli_query($connexion, $sql)) {
+                        //Mise à jour de la quantité de l'article en cours
+                        $sql = "UPDATE articles SET stock_art = $stock_art WHERE code_art = '" . $code_art . "'";
+                        mysqli_query($connexion, $sql);
+                    }
+                    //                    echo $sql = "UPDATE articles SET stock_art = $stock_art WHERE code_art = '" . $code_art . "'"; echo "<br><br>";
+                }
+            }
         }
     }
 
@@ -329,10 +417,12 @@
             $this->code = $num_sort;
             $this->qte_detail = (int)htmlspecialchars($_POST['qte_serv'][$i], ENT_QUOTES);
             $this->rem = htmlspecialchars($_POST['obsv'][$i], ENT_QUOTES);
+            $this->iniFile = 'config.ini';
 
             //recuperation du code de l'article à partir du libelle
             //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
-            if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
+            while (!$config = parse_ini_file($this->iniFile))
+                $this->configpath($this->iniFile);
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             
             $art = htmlspecialchars($_POST['libelle_dd'][$i], ENT_NOQUOTES);
@@ -368,9 +458,14 @@
             echo '<br>';
         }
 
+        function configpath(&$ini) {
+            return $ini = '../' . $ini;
+        }
+
         function enregistrement() {
             //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
-            if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
+            while (!$config = parse_ini_file($this->iniFile))
+                $this->configpath($this->iniFile);
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
             if ($connexion->connect_error)

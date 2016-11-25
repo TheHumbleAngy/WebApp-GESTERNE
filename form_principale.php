@@ -137,10 +137,13 @@
                                             <a href="">Bon Provisoire</a>
                                         </li>
                                         <li>
+                                            <a href="">Bon de Sortie</a>
+                                        </li>
+                                        <li>
                                             <a href="">Réception de Matériel</a>
                                         </li>
                                         <li>
-                                            <a href="">Bon de Sortie</a>
+                                            <a href="">Décharge</a>
                                         </li>
                                     </ul>
                                 </li>

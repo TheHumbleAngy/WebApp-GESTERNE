@@ -72,8 +72,8 @@
                                     <table border="0" class="table table-hover table-bordered ">
                                         <thead>
                                         <tr>
-                                            <th class="entete" style="text-align: center">Article</th>
-                                            <th class="entete" style="text-align: center">Quantité Entrée</th>
+                                            <th class="entete" style="text-align: center">Article(s) Reçu(s)</th>
+                                            <th class="entete" style="text-align: center">Quantité(s) Reçue(s)</th>
                                         </tr>
                                         </thead>
                     ';
@@ -169,8 +169,8 @@
                                     <table border="0" class="table table-hover table-bordered ">
                                         <thead>
                                         <tr>
-                                            <th class="entete" style="text-align: center">Article</th>
-                                            <th class="entete" style="text-align: center">Quantité Sorite</th>
+                                            <th class="entete" style="text-align: center">Article(s) Sorti(s)</th>
+                                            <th class="entete" style="text-align: center">Quantité(s) Sorite(s)</th>
                                         </tr>
                                         </thead>
                     ';

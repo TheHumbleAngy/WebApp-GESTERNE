@@ -89,7 +89,7 @@
                 var n = $("#nbr_articles").val();
                 $.ajax({
                     type: "POST",
-                    url: "articles/entrees_stock.php",
+                    url: "articles/entrees_sorties_stock.php",
                     data: {
                         nbr: n
                     },
@@ -193,7 +193,7 @@
                                 <tr class="nombre">
                                     <td class="champlabel">Nombre d'articles :
                                     </td>
-                                    <td>
+                                    <td style="padding-left: 5px">
                                         <label>
                                             <input type="number" min="1" class="form-control" id="nbr_articles"
                                                    name="nbr"
@@ -202,7 +202,6 @@
                                     </td>
                                 </tr>
                             </table>
-
                             <div class="feedback"></div>
                         </form>
                     </div>
@@ -220,6 +219,7 @@
                     if (reponse == 'oui') {
                         $('.demande').show();
                         $('.nombre').hide();
+                        $('.feedback').hide();
                     }
                     else if (reponse == 'non') {
                         $('.demande').hide();
@@ -243,6 +243,27 @@
                     }
                 });
             });
+
+            /* Ce script permet d'afficher les différents articles à saisir */
+            var articles = ["a", "b"],
+                nbr_art = $('input[type=number]#nbr_articles');
+            
+            nbr_art.bind('keyup mouseup', function () {
+                var n = $("#nbr_articles").val();
+                $.ajax({
+                    type: "POST",
+                    url: "articles/entrees_sorties_stock.php",
+                    data: {
+                        nbr: n
+                    },
+                    success: function (resultat) {
+                        if (n > 0) {
+                            $('.feedback').show();
+                            $('.feedback').html(resultat);
+                        }
+                    }
+                });
+            });
         </script>
 
         <?php
@@ -252,50 +273,51 @@
             $sortie = new sorties_articles();
             
             if ($sortie->recuperation($_SESSION['user_id'])) {
-                if ($sortie->enregistrement()) {
-                    $detail = new details_sortie();
-    
-                    $nbr = $_POST['nbr']; //depuis le fichier ajax_demandes.php
-    
-                    for ($i = 0; $i < $nbr; $i++) {
-                        if ($detail->recuperation($sortie->code_dbs, $sortie->code, $i)) {
-                            //$detail->enregistrement();
-                            //$detail->afficher_detail();
-                            if ($detail->enregistrement())
-                                header('Location: form_principale.php?page=articles/mouvements_stock&action=sortie');
-                            else {
-                                echo "
-                                <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
-                                    <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
-                                        <span aria-hidden='true'>&times;</span>
-                                    </button>
-                                    <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement des détails de la sortie. Veuillez contacter l'administrateur.
-                                </div>
-                                ";
-                                break;
-                            }
-                        } else {
-                            echo "
-                            <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
-                                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
-                                    <span aria-hidden='true'>&times;</span>
-                                </button>
-                                <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de récupération des informations. Veuillez contacter l'administrateur.
-                            </div>
-                            ";
-                            break;
-                        }
-                    }
-                } else {
-                    echo "
-                    <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
-                        <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
-                            <span aria-hidden='true'>&times;</span>
-                        </button>
-                        <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement de la sortie. Veuillez contacter l'administrateur.
-                    </div>
-                    ";
-                }
+                $sortie->enregistrement();
+//                if ($sortie->enregistrement()) {
+//                    $detail = new details_sortie();
+//
+//                    $nbr = $_POST['nbr']; //depuis le fichier ajax_demandes.php
+//
+//                    for ($i = 0; $i < $nbr; $i++) {
+//                        if ($detail->recuperation($sortie->code_dbs, $sortie->code, $i)) {
+//                            //$detail->enregistrement();
+//                            $detail->afficher_detail();
+//                            /*if ($detail->enregistrement())
+//                                header('Location: form_principale.php?page=articles/mouvements_stock&action=sortie');
+//                            else {
+//                                echo "
+//                                <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
+//                                    <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
+//                                        <span aria-hidden='true'>&times;</span>
+//                                    </button>
+//                                    <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement des détails de la sortie. Veuillez contacter l'administrateur.
+//                                </div>
+//                                ";
+//                                break;
+//                            }*/
+//                        } else {
+//                            echo "
+//                            <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
+//                                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
+//                                    <span aria-hidden='true'>&times;</span>
+//                                </button>
+//                                <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de récupération des informations. Veuillez contacter l'administrateur.
+//                            </div>
+//                            ";
+//                            break;
+//                        }
+//                    }
+//                } else {
+//                    echo "
+//                    <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
+//                        <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
+//                            <span aria-hidden='true'>&times;</span>
+//                        </button>
+//                        <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement de la sortie. Veuillez contacter l'administrateur.
+//                    </div>
+//                    ";
+//                }
 
             } else
                 echo "

@@ -96,7 +96,7 @@
 
 <script>
     $(document).ready(function () {
-        $('#myForm').reset();
+        $('#myForm').reset;
     });
 </script>
 

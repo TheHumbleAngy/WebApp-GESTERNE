@@ -7,7 +7,14 @@
      *
      * Ce script permet de générer les champs de saisie des entrées en stock
      */
-    if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
+    error_reporting(E_ERROR);
+    include '../fonctions.php';
+
+    $iniFile = 'config.ini';
+
+    while (!$config = parse_ini_file($iniFile))
+        configpath($iniFile);
+
     $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
     if (isset($_POST["nbr"])) {
