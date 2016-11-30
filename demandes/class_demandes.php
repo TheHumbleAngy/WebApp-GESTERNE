@@ -12,6 +12,7 @@
         public $date_dbs;
         public $objets_dbs;
         public $statut;
+        protected $iniFile;
     }
     
     class demandes extends class_demandes {        
@@ -20,6 +21,7 @@
             $this->code_emp = $code_emp;
             $this->objets_dbs = addslashes($_POST['objets_dbs']);
             $this->date_dbs = date("Y-m-d");
+            $this->iniFile = "config.ini";
             
             return TRUE;
         }
@@ -36,11 +38,16 @@
             echo $this->statut;
             echo '<br>';
         }
+
+        function configpath(&$ini) {
+            return $ini = '../' . $ini;
+        }
         
         function enregistrement() {
-            $config = parse_ini_file('../config.ini');
+            while (!$config = parse_ini_file($this->iniFile))
+                $this->configpath($this->iniFile);
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
-            
+//            print_r($this->iniFile);
             if ($connexion->connect_error)
                 die($connexion->connect_error);
             
@@ -82,7 +89,8 @@
             $this->libelle_dd = addslashes($_POST['libelle'][$i]);
             $this->qte_dd = htmlspecialchars($_POST['qte'][$i], ENT_QUOTES);
             $this->observations_dd = addslashes($_POST['obv'][$i]);
-            
+            $this->iniFile = "config.ini";
+//            echo "<br>";
             return TRUE;
         }
         
@@ -102,15 +110,15 @@
         }
         
         function enregistrement_details() {
-            $config = parse_ini_file('../config.ini');
+            while (!$config = parse_ini_file($this->iniFile))
+                $this->configpath($this->iniFile);
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
-            
             if ($connexion->connect_error)
                 die($connexion->connect_error);
             
             $req = "SELECT code_dd FROM details_demande ORDER BY code_dd DESC LIMIT 1";
             $res = $connexion->query($req);
-            
+
             if ($res->num_rows > 0) {
                 $ligne = $res->fetch_all(MYSQLI_ASSOC);
                 
@@ -137,9 +145,9 @@
             $sql = "INSERT INTO details_demande (code_dd, nature_dd, code_dbs, libelle_dd, qte_dd, observations_dd)
                         VALUES ('$this->code_dd', '$this->nature_dd', '$this->code_dbs', '$this->libelle_dd', '$this->qte_dd', '$this->observations_dd')";
             
-            if ($result = $connexion->query($sql)) {
+            if ($result = mysqli_query($connexion, $sql))
                 return TRUE;
-            } else
+            else
                 return FALSE;
         }
     }
