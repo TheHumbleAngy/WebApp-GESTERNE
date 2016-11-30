@@ -190,3 +190,24 @@
             }
         }
     }
+    elseif (isset($_GET['operation']) && $_GET['operation'] == "ajout_sortie_demande") {
+        include 'class_articles.php';
+        session_start();
+        $sortie = new sorties_articles();
+        $sortie->recuperation($_SESSION['user_id'], $_POST['nbr']);
+//        if () { $sortie->enregistrement();
+//            /*if ($sortie->enregistrement()) {
+//                echo "Great!";
+//            } else {
+//                echo "Oops!";
+//            }*/
+//        } else
+//            echo "
+//            <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
+//                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
+//                    <span aria-hidden='true'>&times;</span>
+//                </button>
+//               <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de récupération de la demande. Veuillez contacter l'administrateur.
+//            </div>
+//            ";
+    }

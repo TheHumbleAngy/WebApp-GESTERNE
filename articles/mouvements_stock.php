@@ -109,7 +109,7 @@
 
             $entree = new entrees_articles();
 
-            if ($entree->recuperation()) {
+            if ($entree->recuperation($_SESSION['user_id'])) {
                 if (!($entree->enregistrement())) {
                     echo "Une erreur s'est produite lors de la tentative d'enregistrement des informations";
                 }
@@ -164,7 +164,7 @@
                                     </td>
                                     <td style="padding-left: 5px">
                                         <label>
-                                            <select name="question" class="form-control" required id="question">
+                                            <select name="question" class="form-control" id="question">
                                                 <option disabled selected></option>
                                                 <option value="oui">OUI</option>
                                                 <option value="non">NON</option>
@@ -175,7 +175,7 @@
                                     <td class="champlabel demande">Demande :</td>
                                     <td class="demande" >
                                         <label>
-                                            <select name="num_dmd" class="form-control demandes" required>
+                                            <select name="num_dmd" id="code_dbs" class="form-control demandes">
                                                 <option disabled selected>N° Demande</option>
                                                 <?php
                                                     $sql = "SELECT code_dbs FROM demandes WHERE statut = 'non satisfaite' ORDER BY date_dbs DESC ";
@@ -196,8 +196,7 @@
                                     <td style="padding-left: 5px">
                                         <label>
                                             <input type="number" min="1" class="form-control" id="nbr_articles"
-                                                   name="nbr"
-                                                   required/>
+                                                   name="nbr"/>
                                         </label>
                                     </td>
                                 </tr>
@@ -239,6 +238,7 @@
                         demande: dmd
                     },
                     success: function (resultat) {
+                        $('.feedback').show();
                         $('.feedback').html(resultat);
                     }
                 });
@@ -264,61 +264,40 @@
                     }
                 });
             });
+            
+            function ajout_sortie_demande() {
+                var code_dbs = $('#code_dbs').val();
+                var nbr = $('#nbr_dmd').val();
+
+                var infos = "code_dbs=" + code_dbs + "&nbr=" + nbr;
+                var operation = "ajout_sortie_demande";
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'articles/updatedata.php?operation=' + operation,
+                    data: infos,
+                    success: function (data) {
+                        $('.feedback').html(data);
+                        /*$('#myform').trigger('reset');
+                        setTimeout(function () {
+                            $(".alert-success").slideToggle("slow");
+                        }, 2500);
+                        libellesArticles();*/
+                    }
+                });
+            }
         </script>
 
         <?php
-        if ((sizeof($_POST) > 0) && ((int)$_POST['nbr'] > 0)) {
+        if ((sizeof($_POST) > 0)) {
             include 'class_articles.php';
 
-            $sortie = new sorties_articles();
+            $sortie = new sorties_articles(); //$sortie->recuperation($_SESSION['user_id']);
             
-            if ($sortie->recuperation($_SESSION['user_id'])) {
-                $sortie->enregistrement();
-//                if ($sortie->enregistrement()) {
-//                    $detail = new details_sortie();
-//
-//                    $nbr = $_POST['nbr']; //depuis le fichier ajax_demandes.php
-//
-//                    for ($i = 0; $i < $nbr; $i++) {
-//                        if ($detail->recuperation($sortie->code_dbs, $sortie->code, $i)) {
-//                            //$detail->enregistrement();
-//                            $detail->afficher_detail();
-//                            /*if ($detail->enregistrement())
-//                                header('Location: form_principale.php?page=articles/mouvements_stock&action=sortie');
-//                            else {
-//                                echo "
-//                                <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
-//                                    <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
-//                                        <span aria-hidden='true'>&times;</span>
-//                                    </button>
-//                                    <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement des détails de la sortie. Veuillez contacter l'administrateur.
-//                                </div>
-//                                ";
-//                                break;
-//                            }*/
-//                        } else {
-//                            echo "
-//                            <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
-//                                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
-//                                    <span aria-hidden='true'>&times;</span>
-//                                </button>
-//                                <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de récupération des informations. Veuillez contacter l'administrateur.
-//                            </div>
-//                            ";
-//                            break;
-//                        }
-//                    }
-//                } else {
-//                    echo "
-//                    <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
-//                        <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
-//                            <span aria-hidden='true'>&times;</span>
-//                        </button>
-//                        <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement de la sortie. Veuillez contacter l'administrateur.
-//                    </div>
-//                    ";
-//                }
-
+            if ($sortie->recuperation($_SESSION['user_id'])) { //$sortie->enregistrement();
+                if (!($sortie->enregistrement())) {
+                    echo "Une erreur s'est produite lors de la tentative d'enregistrement des informations";
+                }
             } else
                 echo "
                 <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>

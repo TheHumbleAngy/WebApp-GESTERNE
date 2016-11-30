@@ -24,6 +24,7 @@
         public $date_mvt;   //date du mouvement en stock
         public $code_emp;   //code de l'employé
         public $code_dbs;   //code de la demande
+//        protected $nbr;
     }
 
     abstract class details extends mouvements {
@@ -139,8 +140,9 @@
     }
 
     class entrees_articles extends mouvements {
-        function recuperation() {
+        function recuperation($employe) {
             $this->date_mvt = date('Y-m-j');
+            $this->code_emp = $employe;
             $this->iniFile = 'config.ini';
 
             return TRUE;
@@ -191,10 +193,10 @@
             $resultat = $dat . "" . $b . "" . sprintf($format, $num_entr);
 
             //on affecte au code le resultat
-            $num_entr = $resultat;
+            $this->code = $resultat;
 
-            $sql = "INSERT INTO entrees_stock (num_entr, date_entr, code_emp)
-                VALUES ('$num_entr', '$this->date_mvt', '$this->code_emp')";
+            $sql = "INSERT INTO entrees_stock (num_entr, code_emp, date_entr)
+                VALUES ('$this->code', '$this->code_emp', '$this->date_mvt')";
 
             if ($result = mysqli_query($connexion, $sql)) {
 
@@ -254,7 +256,7 @@
 
                     //Enregistrement du detail d'entree
                     $sql = "INSERT INTO details_entree (num_dentr, num_entr, qte_dentr, code_art, rem_entr)
-                    VALUES ('$num_dentr', '$num_entr', '$qte', '$code_art', '$rem')"; //print_r($sql);
+                    VALUES ('$num_dentr', '$this->code', '$qte', '$code_art', '$rem')"; //print_r($sql);
 
                     /*$result = mysqli_query($connexion, $sql);
                     print_r($result);*/
@@ -278,9 +280,15 @@
             $this->code_emp = $employe;
             $this->code_dbs = htmlspecialchars($_POST['num_dmd'], ENT_QUOTES);
             $this->iniFile = 'config.ini';
+//            $this->nbr = $nbr;
+
+            /*print_r($_POST);
+            if ($this->code_dbs != "")
+                print_r($this->code_dbs);
+            else echo "Test";*/
 
             return TRUE;
-        }
+        } 
 
         function configpath(&$ini) {
             return $ini = '../' . $ini;
@@ -325,20 +333,20 @@
             $resultat = $dat . "" . $b . "" . sprintf($format, $num_sort);
 
             //on affecte au code le resultat
-            $this->code = $resultat;
+            $this->code = $resultat; //echo "Code de la demande " . $this->code_dbs;
 
             $sql = "INSERT INTO sorties_stock (num_sort, code_emp, date_sort)
                     VALUES ('$this->code', '$this->code_emp', '$this->date_mvt')";
-            //            print_r($sql); echo '<br><br>';
-
-            /*if ($result = mysqli_query($connexion, $sql))
-                return TRUE;
-            else
-                return FALSE;*/
+//                        echo "<br>";
 
             //l'enregistrement des details du mouvement
             if ($result = mysqli_query($connexion, $sql)) {
-                $nbr = $_POST['nbr'];
+                //            print_r($_POST); echo "<br>";
+                if (isset($_POST['nbr_dmd']))
+                    $nbr = $_POST['nbr_dmd']; //echo "<br>";
+                elseif (isset($_POST['nbr']))
+                    $nbr = $_POST['nbr'];
+
                 for ($i = 0; $i < $nbr; $i++) {
                     $req = "SELECT num_dsort FROM details_sortie ORDER BY num_dsort DESC LIMIT 1"; //print_r($req); echo $i . '<br>';
                     $res = $connexion->query($req);
@@ -373,9 +381,9 @@
                     $num_dsort = $resultat;
 
                     //Recuperation du code de l'article en cours, celui pour lequel l'entree d'article est en cours de saisie
-                    $libelle = addslashes($_POST['libelle'][$i]);
+                    $libelle = addslashes($_POST['libelle_dd'][$i]);
 
-                    $sql = sprintf("SELECT code_art, stock_art FROM articles WHERE designation_art = '%s'", $libelle); //print_r($sql); echo "  " . $i . '<br>';
+                    $sql = sprintf("SELECT code_art, stock_art FROM articles WHERE designation_art = '%s'", $libelle); //print_r($sql); //echo "  " . $i . '<br>';
                     $res = $connexion->query($sql);
                     $code_art = "";
                     $stock_art = "";
@@ -388,26 +396,73 @@
                     }
 
                     //Recuperation de la quantite
-                    $qte = $_POST['qte'][$i];
-                    $rem = htmlspecialchars($_POST['cmt'][$i], ENT_QUOTES);
+                    $qte = $_POST['qte_serv'][$i];
+                    $rem = htmlspecialchars($_POST['obsv'][$i], ENT_QUOTES);
                     $stock_art -= $qte;
 
-                    //Enregistrement du detail d'entree
+                    //Enregistrement du detail
                     $sql = "INSERT INTO details_sortie (num_dsort, num_sort, code_art, qte_dsort, rem_dsort)
                                 VALUES ('$num_dsort', '$this->code', '$code_art', '$qte', '$rem')";
-                    /*print_r($sql);
-                    echo "<br>";*/
-
-                    /*$result = mysqli_query($connexion, $sql);
-                    print_r($result);*/
+                    //                    echo "<br>";
                     if ($result = mysqli_query($connexion, $sql)) {
+
                         //Mise à jour de la quantité de l'article en cours
                         $sql = "UPDATE articles SET stock_art = $stock_art WHERE code_art = '" . $code_art . "'";
+                        //                    echo "<br>";
+                        if ($result = mysqli_query($connexion, $sql)) {
+
+                            //On vérifie ici si la sortie d'articles est liée à une demande
+                            if ($this->code_dbs != "") {
+
+                                //Mise à jour de la quantité de chaque détail de la demande
+                                $sql = "UPDATE details_demande SET qte_serv = qte_serv + $qte WHERE libelle_dd = '$libelle'";
+                                //                    echo "<br>";
+                                if ($result = mysqli_query($connexion, $sql)) {
+
+                                    //Mise à jour du statut de chaque détail, satisfait/non satisfait
+                                    $sql = "SELECT * FROM details_demande WHERE libelle_dd = '$libelle'";
+                                    $res = $connexion->query($sql);
+
+                                    $lines = $res->fetch_all(MYSQLI_ASSOC);
+                                    foreach ($lines as $line) {
+                                        $qte_dd = $line['qte_dd']; //echo "<br>";
+                                        $qte_serv = $line['qte_serv']; //echo "<br>";
+                                    }
+
+                                    if ($qte_serv >= $qte_dd) {
+                                        $sql = "UPDATE details_demande SET statut_dd = 'satisfait' WHERE libelle_dd = '$libelle'"; //echo "<br>"; echo "<br>";
+                                        mysqli_query($connexion, $sql);
+                                    }
+
+                                    //Mise à jour de la table demandes_sorties_stock
+                                    $sql = "INSERT INTO demandes_sorties_stock (code_dbs, num_sort, date_dss) VALUES ('$this->code_dbs', '$this->code', '$this->date_mvt')";
+                                    mysqli_query($connexion, $sql);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //Vérification du statut de chaque détail pour MAJ du statut de la demande en elle même
+                $sql = "SELECT statut_dd FROM details_demande WHERE code_dbs = '$this->code_dbs'";
+                if ($result = mysqli_query($connexion, $sql)) {
+                    $lines = $result->fetch_all(MYSQLI_ASSOC);
+                    $test = TRUE;
+                    foreach ($lines as $line) {
+                        if ($line['statut_dd'] != "satisfait") {
+                            $test = FALSE;
+                            break;
+                        }
+                    }
+                    if ($test) {
+                        $sql = "UPDATE demandes SET statut = 'satisfaite'";
                         mysqli_query($connexion, $sql);
                     }
-                    //                    echo $sql = "UPDATE articles SET stock_art = $stock_art WHERE code_art = '" . $code_art . "'"; echo "<br><br>";
                 }
+                return TRUE;
             }
+            else
+                return FALSE;
         }
     }
 

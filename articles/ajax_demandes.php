@@ -7,8 +7,16 @@
      */
     /** @lang MySQL */
     if (isset($_POST["demande"])) {
+    
+        error_reporting(E_ERROR);
+        include '../fonctions.php';
+    
+        $iniFile = 'config.ini';
+    
+        while (!$config = parse_ini_file($iniFile))
+            configpath($iniFile);
+        
         $dmd = htmlspecialchars($_POST['demande'], ENT_QUOTES);
-        if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
         $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
         $sql = "SELECT * FROM details_demande WHERE code_dbs = '" . $dmd . "' AND statut_dd = 'non satisfait'";
@@ -61,7 +69,7 @@
                         $qte_dispo = 0;
                         $qte_dispo = (int)$lines['stock_art'];
                         echo '<td style="text-align: center">' . $qte_dispo . '</td>';
-                        echo '<td style="text-align: center"><label style="margin-left: auto; margin-right: auto" class="nomargin_tb"><input type="number" name="qte_serv[]" class="form-control" min="0" max="'. $qte_dispo .'" required></label></td>';
+                        echo '<td style="text-align: center"><label style="margin-left: auto; margin-right: auto" class="nomargin_tb"><input type="number" name="qte_serv[]" class="form-control" min="0" max="'. $qte_dispo .'" value="0"></label></td>';
                         echo '<td style="text-align: center"><input type="hidden" name="obsv[]" value=""></td>';
                     }
                 } else {
@@ -76,6 +84,6 @@
                 }
                 echo '</tr>';
             }
-            echo '<input type="hidden" name="nbr" value="' . $nbr . '">';
+            echo '<input type="hidden" name="nbr_dmd" id="nbr_dmd" value="' . $nbr . '">';
         }
     }
