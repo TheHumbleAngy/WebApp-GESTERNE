@@ -5,8 +5,12 @@
      * Date: 12-Jul-15
      * Time: 7:22 PM
      */
+    include '../fonctions.php';
+    $iniFile = 'config.ini';
 
-    if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
+    while (!$config = parse_ini_file($iniFile))
+        configpath($iniFile);
+    
     $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 //echo "Hello";
 

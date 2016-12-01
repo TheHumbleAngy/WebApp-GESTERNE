@@ -279,84 +279,15 @@
         </script>
 
         <?php
-        if (sizeof($_POST) > 0) {
+        if ((sizeof($_POST) > 0) && (isset($_POST['num_bc']))) {
+            include 'class_bons_commandes.php';
 
-            //Enregistrement du bon dans la table "bons_commande"
-            $num_bon = htmlspecialchars($_POST['num_bc'], ENT_QUOTES);
-            $code_four = isset($_POST['code_four']) ? htmlspecialchars($_POST['code_four'], ENT_QUOTES) : htmlspecialchars($_POST['cod_four'], ENT_QUOTES);
-            $date_bon = date("Y-m-d");
-            $code_emp = $_SESSION['user_id'];
-
-            $req = "INSERT INTO bons_commande (num_bc, code_emp, code_four, date_bc) VALUES ('$num_bon', '$code_emp', '$code_four', '$date_bon')";
-//        print_r($req); echo $_POST['nbr'];
-            echo '<br>'; //TODO: enrégistrer l'identifiant du fournisseur dans la table "bons_commande"
-            if ($result = mysqli_query($connexion, $req)) {
-
-                //Enregistrement de chaque article figurant sur le bon
-                $n = $_POST['nbr'];
-                $test = TRUE;
-                for ($i = 0; $i < $n; $i++) {
-
-                    $req = "SELECT id_dbc FROM details_bon_commande ORDER BY id_dbc DESC LIMIT 1";
-                    $resultat = $connexion->query($req);
-
-                    $id_dbc = 0;
-                    if ($resultat->num_rows > 0) {
-                        $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
-                        //reccuperation du code
-                        foreach ($ligne as $data) {
-                            $id_dbc = stripslashes($data['id_dbc']);
-                        }
-
-                        //extraction des 4 derniers chiffres
-                        $id_dbc = substr($id_dbc, -4);
-
-                        //incrementation du nombre
-                        $id_dbc += 1;
-                    } else {
-                        //s'il n'existe pas d'enregistrements dans la base de données
-                        $id_dbc = 1;
-                    }
-
-                    $b = "DBC";
-                    $dat = date("Y");
-                    $dat = substr($dat, -2);
-                    $format = '%04d';
-                    $resultat = $dat . "" . $b . "" . sprintf($format, $id_dbc);
-
-                    //on affecte au code le resultat
-                    $id_dbc = $resultat;
-
-                    $libelle_dbc = ($_POST['libelle_dbc'][$i]);
-                    $qte_dbc = ($_POST['qte_dbc'][$i]);
-                    $pu_dbc = ($_POST['pu_dbc'][$i]);
-                    $remise_dbc = ($_POST['remise_dbc'][$i]);
-
-                    $libelle_dbc = mysqli_real_escape_string($connexion, $libelle_dbc);
-
-                    $REQ = "INSERT INTO details_bon_commande (id_dbc, num_bc, libelle_dbc, pu_dbc, qte_dbc, remise_dbc)
-	                    VALUES ('$id_dbc', '$num_bon', '$libelle_dbc', '$pu_dbc', '$qte_dbc', '$remise_dbc')";
-
-//            print_r($REQ); echo '<br>';
-                    if (!mysqli_query($connexion, $REQ)) {
-                        $test = FALSE;
-                        break;
-                    }
-                }
-                if ($test) {
+            $bon_commande = new bons_commandes();
+            if ($bon_commande->recuperation($_POST['num_bc'])) {
+                if ($bon_commande->enregistrement()) {
                     header('Location: form_principale.php?page=bons_commande/form_bon_commande');
                 } else {
                     echo "
-                    <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
-                        <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
-                            <span aria-hidden='true'>&times;</span>
-                        </button>
-                        <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement des détails du bon de commande. Veuillez contacter l'administrateur.
-                    </div>
-                    ";
-                }
-            } else {
-                echo "
             <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
                 <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                     <span aria-hidden='true'>&times;</span>
@@ -364,8 +295,17 @@
                 <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement du bon de commande. Veuillez contacter l'administrateur.
             </div>
             ";
+                }
+            } else {
+                echo "
+            <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
+                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
+                    <span aria-hidden='true'>&times;</span>
+                </button>
+                <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la récupération des informations du bon de commande. Veuillez contacter l'administrateur.
+            </div>
+            ";
             }
-            mysqli_close($connexion);
         }
         ?>
 
