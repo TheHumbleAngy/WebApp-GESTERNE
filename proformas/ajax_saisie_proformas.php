@@ -50,7 +50,7 @@ if (isset($_POST["nbr"])) {
                 </td>
                 <td class="champlabel" style="text-align: center">
                     <label style="width: 100%" class="nomargin_tb">
-                        <input type="text" class="form-control" name="rem[]" id="rem" style="font-weight: lighter; text-align: right" placeholder="0">
+                        <input type="text" class="form-control" name="rem[]" id="rem" style="font-weight: lighter; text-align: right" value="0">
                     </label>
                 </td>
                 <script>

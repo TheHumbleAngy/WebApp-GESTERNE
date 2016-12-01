@@ -215,8 +215,6 @@
                                     <td class="champlabel">*Fournisseur :</td>
                                     <td>
                                         <label>
-                                            <!--<input type="text" class="form-control" id="nom_four" required>
-                                            <input type="hidden" id="code_four">-->
                                             <select name="code_four" required class="form-control">
                                                 <option disabled selected></option>
                                                 <?php
@@ -354,133 +352,161 @@
 
     <?php
 
-    if (sizeof($_POST) > 0) {
+    if ((sizeof($_POST) > 0) && (isset($_POST['ref_fp']))) {
+        include 'class_proformas.php';
 
-        //On vérifie s'il y a un en registrement dans la base de données
-        $req = "SELECT ref_fp FROM proformas ORDER BY ref_fp DESC LIMIT 1";
-        $resultat = $connexion->query($req);
-
-        if ($resultat->num_rows > 0) {
-            $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
-
-            //reccuperation du code
-            $ref_fp = "";
-            foreach ($ligne as $data) {
-                $ref_fp = stripslashes($data['ref_fp']);
+        $proforma = new proformas();
+        
+        if ($proforma->recuperation($_POST['ref_fp'])) {
+            if ($proforma->enregistrement()) {
+                header('Location: form_principale.php?page=proformas/form_proformas');
+            } else {
+                echo "
+            <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
+                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
+                    <span aria-hidden='true'>&times;</span>
+                </button>
+                <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement de la proforma. Veuillez contacter l'administrateur.
+            </div>
+            ";
             }
-
-            //extraction des 4 derniers chiffres
-            $ref_fp = substr($ref_fp, -4);
-
-            //incrementation du nombre
-            $ref_fp += 1;
-
-            $b = "FPRO";
-            $dat = date("Y");
-            $dat = substr($dat, -2);
-            $format = '%04d';
-            $resultat = $dat . "" . $b . "" . sprintf($format, $ref_fp);
-            
         } else {
-            //s'il n'existe pas d'enregistrements dans la base de données
-            $ref_fp = 1;
-            $b = "FPRO";
-            $dat = date("Y");
-            $dat = substr($dat, -2);
-            $format = '%04d';
-            $resultat = $dat . "" . $b . "" . sprintf($format, $ref_fp);
-        }
-        //on affecte au code le resultat
-
-        $ref_fp = $resultat;
-
-        $code_four = $_POST['code_four'];
-        $notes_fp = addslashes($_POST['notes_fp']);
-
-        $dateetablissement_fp = rev_date($_POST['dateetablissement_fp']);
-        $datereception_fp = rev_date($_POST['datereception_fp']);
-
-        $requete = "INSERT INTO proformas(
-                                ref_fp,
-                                code_four,
-                                dateetablissement_fp,
-                                datereception_fp,
-                                notes_fp)
-                        VALUES ('$ref_fp',
-                                '$code_four',
-                                '$dateetablissement_fp',
-                                '$datereception_fp',
-                                '$notes_fp')";
-
-        if ($requete = mysqli_query($connexion, $requete)) {
-
-            $n = $_POST['nbr'];
-            for ($i = 0; $i < $n; $i++) {
-
-                $req = "SELECT id_dfp FROM details_proforma ORDER BY id_dfp DESC LIMIT 1";
-                $resultat = $connexion->query($req);
-
-                if ($resultat->num_rows > 0) {
-                    $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
-
-                    //reccuperation du code
-                    $id_dfp = "";
-                    foreach ($ligne as $data) {
-                        $id_dfp = stripslashes($data['id_dfp']);
-                    }
-
-                    //extraction des 4 derniers chiffres
-                    $id_dfp = substr($id_dfp, -4);
-
-                    //incrementation du nombre
-                    $id_dfp += 1;
-
-                    $b = "DFPRO";
-                    $dat = date("Y");
-                    $dat = substr($dat, -2);
-                    $format = '%04d';
-                    $resultat = $dat . "" . $b . "" . sprintf($format, $id_dfp);
-
-                    
-                } else {
-                    //s'il n'existe pas d'enregistrements dans la base de données
-                    $id_dfp = 1;
-                    $b = "DFPRO";
-                    $dat = date("Y");
-                    $dat = substr($dat, -2);
-                    $format = '%04d';
-                    $resultat = $dat . "" . $b . "" . sprintf($format, $id_dfp);
-                }
-                //on affecte au code le resultat
-                $id_dfp = $resultat;
-
-                $libelle = ($_POST['libelle'][$i]);
-                $qte = ($_POST['qte'][$i]);
-                $pu = ($_POST['pu'][$i]);
-                $rem = ($_POST['rem'][$i]);
-
-                $libelle = mysqli_real_escape_string($connexion, $libelle);
-                $qte = htmlspecialchars($qte, ENT_QUOTES);
-                $pu = htmlspecialchars($pu, ENT_QUOTES);
-
-                $REQ = "INSERT INTO details_proforma (id_dfp, ref_fp, libelle, qte_dfp, pu_dfp, remise_dfp)
-	            VALUES ('$id_dfp', '$ref_fp', '$libelle', '$qte', '$pu', '$rem')";
-
-                $requete = mysqli_query($connexion, $REQ) or die(mysqli_error($connexion));
-            }
-            header('Location: form_principale.php?page=proformas/form_proformas');
-        }
-        else {
             echo "
             <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
                 <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                     <span aria-hidden='true'>&times;</span>
                 </button>
-                <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement de la demande. Veuillez contacter l'administrateur.
+                <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la récupération des informations de la proforma. Veuillez contacter l'administrateur.
             </div>
             ";
         }
-        mysqli_close($connexion);
+
+
+//        //On vérifie s'il y a un en registrement dans la base de données
+//        $req = "SELECT ref_fp FROM proformas ORDER BY ref_fp DESC LIMIT 1";
+//        $resultat = $connexion->query($req);
+//
+//        if ($resultat->num_rows > 0) {
+//            $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
+//
+//            //reccuperation du code
+//            $ref_fp = "";
+//            foreach ($ligne as $data) {
+//                $ref_fp = stripslashes($data['ref_fp']);
+//            }
+//
+//            //extraction des 4 derniers chiffres
+//            $ref_fp = substr($ref_fp, -4);
+//
+//            //incrementation du nombre
+//            $ref_fp += 1;
+//
+//            $b = "FPRO";
+//            $dat = date("Y");
+//            $dat = substr($dat, -2);
+//            $format = '%04d';
+//            $resultat = $dat . "" . $b . "" . sprintf($format, $ref_fp);
+//
+//        } else {
+//            //s'il n'existe pas d'enregistrements dans la base de données
+//            $ref_fp = 1;
+//            $b = "FPRO";
+//            $dat = date("Y");
+//            $dat = substr($dat, -2);
+//            $format = '%04d';
+//            $resultat = $dat . "" . $b . "" . sprintf($format, $ref_fp);
+//        }
+//        //on affecte au code le resultat
+//
+//        $ref_fp = $resultat;
+//
+//        $code_four = $_POST['code_four'];
+//        $notes_fp = addslashes($_POST['notes_fp']);
+//
+//        $dateetablissement_fp = rev_date($_POST['dateetablissement_fp']);
+//        $datereception_fp = rev_date($_POST['datereception_fp']);
+//
+//        $requete = "INSERT INTO proformas(
+//                                ref_fp,
+//                                code_four,
+//                                dateetablissement_fp,
+//                                datereception_fp,
+//                                notes_fp)
+//                        VALUES ('$ref_fp',
+//                                '$code_four',
+//                                '$dateetablissement_fp',
+//                                '$datereception_fp',
+//                                '$notes_fp')";
+//
+//        if ($requete = mysqli_query($connexion, $requete)) {
+//
+//            $n = $_POST['nbr'];
+//            for ($i = 0; $i < $n; $i++) {
+//
+//                $req = "SELECT id_dfp FROM details_proforma ORDER BY id_dfp DESC LIMIT 1";
+//                $resultat = $connexion->query($req);
+//
+//                if ($resultat->num_rows > 0) {
+//                    $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
+//
+//                    //reccuperation du code
+//                    $id_dfp = "";
+//                    foreach ($ligne as $data) {
+//                        $id_dfp = stripslashes($data['id_dfp']);
+//                    }
+//
+//                    //extraction des 4 derniers chiffres
+//                    $id_dfp = substr($id_dfp, -4);
+//
+//                    //incrementation du nombre
+//                    $id_dfp += 1;
+//
+//                    $b = "DFPRO";
+//                    $dat = date("Y");
+//                    $dat = substr($dat, -2);
+//                    $format = '%04d';
+//                    $resultat = $dat . "" . $b . "" . sprintf($format, $id_dfp);
+//
+//
+//                } else {
+//                    //s'il n'existe pas d'enregistrements dans la base de données
+//                    $id_dfp = 1;
+//                    $b = "DFPRO";
+//                    $dat = date("Y");
+//                    $dat = substr($dat, -2);
+//                    $format = '%04d';
+//                    $resultat = $dat . "" . $b . "" . sprintf($format, $id_dfp);
+//                }
+//                //on affecte au code le resultat
+//                $id_dfp = $resultat;
+//
+//                $libelle = ($_POST['libelle'][$i]);
+//                $qte = ($_POST['qte'][$i]);
+//                $pu = ($_POST['pu'][$i]);
+//                $rem = ($_POST['rem'][$i]);
+//
+//                $libelle = mysqli_real_escape_string($connexion, $libelle);
+//                $qte = htmlspecialchars($qte, ENT_QUOTES);
+//                $pu = htmlspecialchars($pu, ENT_QUOTES);
+//
+//                $REQ = "INSERT INTO details_proforma (id_dfp, ref_fp, libelle, qte_dfp, pu_dfp, remise_dfp)
+//	            VALUES ('$id_dfp', '$ref_fp', '$libelle', '$qte', '$pu', '$rem')";
+//
+//                $requete = mysqli_query($connexion, $REQ) or die(mysqli_error($connexion));
+//            }
+//            header('Location: form_principale.php?page=proformas/form_proformas');
+//        }
+//        else {
+//            echo "
+//            <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
+//                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
+//                    <span aria-hidden='true'>&times;</span>
+//                </button>
+//                <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement de la demande. Veuillez contacter l'administrateur.
+//            </div>
+//            ";
+//        }
+//        mysqli_close($connexion);
     }
     ?>
 
