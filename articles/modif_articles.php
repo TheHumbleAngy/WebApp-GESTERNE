@@ -119,7 +119,7 @@
                                         <td class="champlabel">*Description :</td>
                                         <td rowspan="1" colspan="3">
                                             <label>
-                                        <textarea name="description_art" cols="30" rows="3" required
+                                        <textarea name="description_art" cols="30" rows="3"
                                                   style="resize: none"
                                                   class="form-control"><?php echo $data['description_art']; ?></textarea>
                                             </label>

@@ -1,4 +1,5 @@
 <?php
+    error_reporting(E_ERROR);
     /**
      * Created by PhpStorm.
      * User: Ange Kouakou
@@ -12,8 +13,10 @@
     function db_connect() {
         static $connexion;
 
+        $iniFile = 'config.ini';
         if (!isset($connexion)) {
-            $config = parse_ini_file('../config.ini');
+            while (!$config = parse_ini_file($iniFile))
+                configpath($iniFile);
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
         }
 
