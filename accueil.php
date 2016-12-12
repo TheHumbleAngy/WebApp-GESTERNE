@@ -190,7 +190,7 @@
                                                                             foreach ($ligne as $list) {
                                                                                 ?>
                                                                                 <div
-                                                                                    ><?php echo stripslashes($list['code_dbs']); ?></div>
+                                                                                    ><?php echo stripslashes($list['num_dbs']); ?></div>
                                                                                 <?php
                                                                             }
                                                                         }
@@ -238,7 +238,7 @@
                                                                             $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                                                                             foreach ($ligne as $list) {
                                                                                 ?>
-                                                                                <div><?php echo stripslashes($list['code_dbs']); ?></div>
+                                                                                <div><?php echo stripslashes($list['num_dbs']); ?></div>
                                                                                 <?php
                                                                             }
                                                                         }

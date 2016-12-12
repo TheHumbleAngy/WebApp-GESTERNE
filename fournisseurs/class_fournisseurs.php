@@ -51,7 +51,7 @@
             echo $this->activite_four; echo '<br>';
         }
 
-        function configpath(&$ini) {
+        protected function configpath(&$ini) {
             return $ini = '../' . $ini;
         }
 

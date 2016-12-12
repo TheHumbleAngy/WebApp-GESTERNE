@@ -6,8 +6,8 @@
  * Time: 17:02
  */
     $connexion = db_connect();
-if (isset($_POST['code_bl'])) {
-    /*print_r($_POST['code_bl']);
+if (isset($_POST['num_bl'])) {
+    /*print_r($_POST['num_bl']);
     echo '<br>';
     print_r($_POST['dateetablissement_bl']);
     echo '<br>';
@@ -22,7 +22,7 @@ if (isset($_POST['code_bl'])) {
     print_r($_POST['statut_bl']);
     echo '<br>';*/
 
-    $code_bl = mysqli_real_escape_string($connexion, $_POST['code_bl']);
+    $num_bl = mysqli_real_escape_string($connexion, $_POST['num_bl']);
     $dateetablissement_bl = mysqli_real_escape_string($connexion, $_POST['dateetablissement_bl']);
     $datereception_bl = mysqli_real_escape_string($connexion, $_POST['datereception_bl']);
     $code_four = mysqli_real_escape_string($connexion, $_POST['code_four']);
@@ -31,7 +31,7 @@ if (isset($_POST['code_bl'])) {
     $statut_bl = mysqli_real_escape_string($connexion, $_POST['statut_bl']);
     $commentaires_bl = mysqli_real_escape_string($connexion, $_POST['commentaires_bl']);
 
-    /*$code_bl = mysqli_real_escape_string($connexion, $_POST['code_bl'], ENT_QUOTES);
+    /*$num_bl = mysqli_real_escape_string($connexion, $_POST['num_bl'], ENT_QUOTES);
     $dateetablissement_bl = mysqli_real_escape_string($connexion, $_POST['dateetablissement_bl'], ENT_QUOTES);
     $datereception_bl = mysqli_real_escape_string($connexion, $_POST['datereception_bl'], ENT_QUOTES);
     $code_four = mysqli_real_escape_string($connexion, $_POST['code_four'], ENT_QUOTES);
@@ -49,7 +49,7 @@ if (isset($_POST['code_bl'])) {
       code_emp='" . $code_emp . "',
       statut_bl='" . $statut_bl . "',
       commentaires_bl='" . $commentaires_bl . "'
-    WHERE code_bl='" . mysqli_real_escape_string($connexion, $code_bl) . "'";*/
+    WHERE num_bl='" . mysqli_real_escape_string($connexion, $num_bl) . "'";*/
 
     $sql = "UPDATE bons_livraison SET
             dateetablissement_bl='" . $_POST['dateetablissement_bl'] . "',
@@ -58,7 +58,7 @@ if (isset($_POST['code_bl'])) {
             code_emp='" . $_POST['code_emp'] . "',
             statut_bl='" . $_POST['statut_bl'] . "',
             commentaires_bl='" . $_POST['commentaires_bl'] . "'
-            WHERE code_bl='" . $_POST['code_bl'] . "'";
+            WHERE num_bl='" . $_POST['num_bl'] . "'";
 
     /*print_r($sql);*/
 

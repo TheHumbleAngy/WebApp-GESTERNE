@@ -54,7 +54,7 @@
             echo $this->tel_emp; echo '<br>';
         }
     
-        function configpath(&$ini) {
+        protected function configpath(&$ini) {
             return $ini = '../' . $ini;
         }
         

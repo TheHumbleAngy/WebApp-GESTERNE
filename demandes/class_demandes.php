@@ -7,7 +7,7 @@
      * Time: 15:55
      */
     abstract class class_demandes {
-        public $code_dbs;
+        public $num_dbs;
         public $code_emp;
         public $date_dbs;
         public $objets_dbs;
@@ -17,7 +17,7 @@
     
     class demandes extends class_demandes {        
         function recuperation($code_emp) {
-            $this->code_dbs = htmlspecialchars($_POST['code_dbs'], ENT_QUOTES);
+            $this->num_dbs = htmlspecialchars($_POST['num_dbs'], ENT_QUOTES);
             $this->code_emp = $code_emp;
             $this->objets_dbs = addslashes($_POST['objets_dbs']);
             $this->date_dbs = date("Y-m-d");
@@ -27,7 +27,7 @@
         }
         
         function afficher() {
-            echo $this->code_dbs;
+            echo $this->num_dbs;
             echo '<br>';
             echo $this->code_emp;
             echo '<br>';
@@ -39,7 +39,7 @@
             echo '<br>';
         }
 
-        function configpath(&$ini) {
+        protected function configpath(&$ini) {
             return $ini = '../' . $ini;
         }
         
@@ -51,8 +51,8 @@
             if ($connexion->connect_error)
                 die($connexion->connect_error);
             
-            $sql = "INSERT INTO demandes (code_dbs, code_emp, date_dbs, objets_dbs)
-	            VALUES ('$this->code_dbs', '$this->code_emp', '$this->date_dbs', '$this->objets_dbs')"; //print_r($sql);
+            $sql = "INSERT INTO demandes (num_dbs, code_emp, date_dbs, objets_dbs)
+	            VALUES ('$this->num_dbs', '$this->code_emp', '$this->date_dbs', '$this->objets_dbs')"; //print_r($sql);
 
             if ($result = mysqli_query($connexion, $sql))
                 return TRUE;
@@ -67,7 +67,7 @@
             if ($connexion->connect_error)
                 die($connexion->connect_error);
             
-            $sql = "DELETE FROM demandes WHERE code_dbs = '" . $code . "'";
+            $sql = "DELETE FROM demandes WHERE num_dbs = '" . $code . "'";
             
             if ($result = mysqli_query($connexion, $sql))
                 return TRUE;
@@ -77,14 +77,14 @@
     }
     
     class details_demandes extends demandes {
-        protected $code_dd;
+        protected $num_dd;
         protected $nature_dd;
         protected $libelle_dd;
         protected $qte_dd;
         protected $observations_dd;
         
-        function recuperation_details($code_dbs, $i) {
-            $this->code_dbs = $code_dbs;
+        function recuperation_details($num_dbs, $i) {
+            $this->num_dbs = $num_dbs;
             $this->nature_dd = htmlspecialchars($_POST['nature'][$i], ENT_QUOTES);
             $this->libelle_dd = addslashes($_POST['libelle'][$i]);
             $this->qte_dd = htmlspecialchars($_POST['qte'][$i], ENT_QUOTES);
@@ -95,9 +95,9 @@
         }
         
         function afficher_details() {
-            echo $this->code_dd;
+            echo $this->num_dd;
             echo '<br>';
-            echo $this->code_dbs;
+            echo $this->num_dbs;
             echo '<br>';
             echo $this->nature_dd;
             echo '<br>';
@@ -116,34 +116,34 @@
             if ($connexion->connect_error)
                 die($connexion->connect_error);
             
-            $req = "SELECT code_dd FROM details_demande ORDER BY code_dd DESC LIMIT 1";
+            $req = "SELECT num_dd FROM details_demande ORDER BY num_dd DESC LIMIT 1";
             $res = $connexion->query($req);
 
             if ($res->num_rows > 0) {
                 $ligne = $res->fetch_all(MYSQLI_ASSOC);
                 
-                $code_dd = "";
+                $num_dd = "";
                 foreach ($ligne as $data) {
-                    $code_dd = stripslashes($data['code_dd']);
+                    $num_dd = stripslashes($data['num_dd']);
                 }
                 
-                $code_dd = substr($code_dd, -4);
+                $num_dd = substr($num_dd, -4);
                 
-                $code_dd += 1;
+                $num_dd += 1;
             } else {
-                $code_dd = 1;
+                $num_dd = 1;
             }
             
             $b = "DD";
             $dat = date("Y");
             $dat = substr($dat, -2);
             $format = '%04d';
-            $resultat = $dat . "" . $b . "" . sprintf($format, $code_dd);
+            $resultat = $dat . "" . $b . "" . sprintf($format, $num_dd);
             
-            $this->code_dd = $resultat;
+            $this->num_dd = $resultat;
 
-            $sql = "INSERT INTO details_demande (code_dd, nature_dd, code_dbs, libelle_dd, qte_dd, observations_dd)
-                        VALUES ('$this->code_dd', '$this->nature_dd', '$this->code_dbs', '$this->libelle_dd', '$this->qte_dd', '$this->observations_dd')";
+            $sql = "INSERT INTO details_demande (num_dd, nature_dd, num_dbs, libelle_dd, qte_dd, observations_dd)
+                        VALUES ('$this->num_dd', '$this->nature_dd', '$this->num_dbs', '$this->libelle_dd', '$this->qte_dd', '$this->observations_dd')";
             
             if ($result = mysqli_query($connexion, $sql))
                 return TRUE;
@@ -201,10 +201,10 @@
             $dat = substr($dat, -2);
             $format = '%04d';
             $info = $dat . "" . $b . "" . sprintf($format, $code);
-            $this->code_dbs = $info;
+            $this->num_dbs = $info;
             
             $sql = "INSERT INTO demandes_absence (code_dab, code_emp, date_dab, motif_dab, lieu_dab, duree_dab) 
-                VALUES ('$this->code_dbs', '$emp', '$this->date_dbs', '$this->motif_dab', '$this->lieu_dab', '$this->duree_dab')";
+                VALUES ('$this->num_dbs', '$emp', '$this->date_dbs', '$this->motif_dab', '$this->lieu_dab', '$this->duree_dab')";
 
             if ($resultat = mysqli_query($connexion, $sql))
                 return TRUE;

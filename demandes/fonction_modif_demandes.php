@@ -11,8 +11,8 @@
     error_reporting(0);
 
 
-    if (isset($_POST['code_dbs'])) {
-        $code_dbs = mysqli_real_escape_string($connexion, $_POST['code_dbs']);
+    if (isset($_POST['num_dbs'])) {
+        $num_dbs = mysqli_real_escape_string($connexion, $_POST['num_dbs']);
         $date_dbs = mysqli_real_escape_string($connexion, $_POST['date_dbs']);
         /*$code_emp = mysqli_real_escape_string($connexion, $_POST['code_emp']);*/
         $nature_dbs = mysqli_real_escape_string($connexion, $_POST['nature_dbs']);
@@ -22,7 +22,7 @@
         date_dbs ='" . $date_dbs . "',
         nature_dbs ='" . $nature_dbs . "',
         objets_dbs ='" . $objets_dbs . "'
-        WHERE code_dbs ='" . mysqli_real_escape_string($connexion, $code_dbs) . "'";
+        WHERE num_dbs ='" . mysqli_real_escape_string($connexion, $num_dbs) . "'";
 
         if ($resul = $connexion->query($req)) {
             header("LOCATION: form_principale.php?page=articles/demandes/liste_demandes");

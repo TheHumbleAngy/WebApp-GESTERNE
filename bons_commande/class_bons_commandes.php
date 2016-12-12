@@ -48,42 +48,42 @@
             if ($result = mysqli_query($connexion, $sql)) {
                 $n = $_POST['nbr'];
                 for ($i = 0; $i < $n; $i++) {
-                    $req = "SELECT id_dbc FROM details_bon_commande ORDER BY id_dbc DESC LIMIT 1";
+                    $req = "SELECT num_dbc FROM details_bon_commande ORDER BY num_dbc DESC LIMIT 1";
                     $resultat = $connexion->query($req);
 
-                    $id_dbc = 0;
+                    $num_dbc = 0;
                     if ($resultat->num_rows > 0) {
                         $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                         //reccuperation du code
                         foreach ($ligne as $data) {
-                            $id_dbc = stripslashes($data['id_dbc']);
+                            $num_dbc = stripslashes($data['num_dbc']);
                         }
 
                         //extraction des 4 derniers chiffres
-                        $id_dbc = substr($id_dbc, -4);
+                        $num_dbc = substr($num_dbc, -4);
 
                         //incrementation du nombre
-                        $id_dbc += 1;
+                        $num_dbc += 1;
                     }
                     else {
                         //s'il n'existe pas d'enregistrements dans la base de données
-                        $id_dbc = 1;
+                        $num_dbc = 1;
                     }
 
                     $b = "DBC";
                     $dat = date("Y");
                     $dat = substr($dat, -2);
                     $format = '%04d';
-                    $resultat = $dat . "" . $b . "" . sprintf($format, $id_dbc);
+                    $resultat = $dat . "" . $b . "" . sprintf($format, $num_dbc);
 
-                    $id_dbc = $resultat;
+                    $num_dbc = $resultat;
                     $libelle_dbc = addslashes($_POST['libelle_dbc'][$i]);
                     $qte_dbc = htmlspecialchars($_POST['qte_dbc'][$i], ENT_QUOTES);
                     $pu_dbc = htmlspecialchars($_POST['pu_dbc'][$i], ENT_QUOTES);
                     $remise_dbc = htmlspecialchars($_POST['remise_dbc'][$i], ENT_QUOTES);
 
-                    $sql = "INSERT INTO details_bon_commande (id_dbc, num_bc, libelle_dbc, qte_dbc, pu_dbc, remise_dbc) 
-                            VALUES ('$id_dbc', '$this->num_bc', '$libelle_dbc', '$qte_dbc', '$pu_dbc', '$remise_dbc')";
+                    $sql = "INSERT INTO details_bon_commande (num_dbc, num_bc, libelle_dbc, qte_dbc, pu_dbc, remise_dbc) 
+                            VALUES ('$num_dbc', '$this->num_bc', '$libelle_dbc', '$qte_dbc', '$pu_dbc', '$remise_dbc')";
 
 //                    print_r($sql);
                     if (!($result = $connexion->query($sql))) {

@@ -11,7 +11,7 @@ if (isset($_POST['id'])) {
 
     $id = $_POST['id'];
 
-    $req = "DELETE FROM demandes WHERE code_dbs = '" . $id . "'";
+    $req = "DELETE FROM demandes WHERE num_dbs = '" . $id . "'";
 //    print_r($req);
     if ($resultat = $connexion->query($req)) {
         echo "

@@ -17,7 +17,7 @@
 
     $json_proformas = array();
 
-    $sql = "SELECT ref_fp FROM proformas ORDER BY ref_fp ASC ";
+    $sql = "SELECT num_fp FROM proformas ORDER BY num_fp ASC ";
 
     if ($resultat = $connexion->query($sql)) {
         $ligne = $resultat->fetch_all(MYSQLI_ASSOC);

@@ -127,7 +127,7 @@
 
             //Traitement des sorties
             $req1 = "SELECT * FROM sorties_stock WHERE date_sort BETWEEN '$debut' AND '$fin' ORDER BY date_sort DESC ";
-            if ($resultat1 = $connexion->query($req1)) { //print_r($req1);
+            if ($resultat1 = $connexion->query($req1)) {
                 if (mysqli_num_rows($resultat1) > 0) {
 
                     echo '
@@ -150,7 +150,7 @@
 
                         echo '
             <tr>
-                <td style="text-align: center">' . stripslashes($list['date_sort']) . '</td>
+                <td style="text-align: center">' . rev_date(stripslashes($list['date_sort'])) . '</td>
                 <td style="text-align: center">
                     <a class="btn btn-default" data-toggle="modal" data-target="#modalConsultation' . stripslashes($list['num_sort']) . '">' . stripslashes($list['num_sort']) . '</a>
                     <div class="modal fade" id="modalConsultation' . stripslashes($list['num_sort']) . '" tabindex="-1" role="dialog">
@@ -175,18 +175,27 @@
                                         </thead>
                     ';
 
-                        $sql = "SELECT * FROM details_sortie WHERE num_sort = '" . stripslashes($list['num_sort']) . "'";
+                        //$sql = "SELECT * FROM details_sortie WHERE num_sort = '" . stripslashes($list['num_sort']) . "'";
+                        $sql = "SELECT num_sort, num_dsort, qte_dsort, designation_art
+                                FROM details_sortie
+                                  INNER JOIN articles ON details_sortie.code_art = articles.code_art
+                                WHERE num_sort = '" . stripslashes($list['num_sort']) . "'
+                                  ";
                         if ($result = $connexion->query($sql)) {
                             $lignes = $result->fetch_all(MYSQLI_ASSOC);
                             foreach ($lignes as $liste) {
-                                $sql1 = "SELECT designation_art FROM articles WHERE code_art = '" . stripslashes($liste['code_art']) . "'";
+                                /*$sql1 = "SELECT designation_art FROM articles WHERE code_art = '" . stripslashes($liste['code_art']) . "'";
                                 $art = "";
                                 if ($result1 = $connexion->query($sql1)) {
                                     $lignes1 = $result1->fetch_all(MYSQLI_ASSOC);
                                     foreach ($lignes1 as $liste1) {
                                         $art = stripslashes($liste1['designation_art']);
                                     }
-                                }
+                                }*/
+                                $art = stripslashes($liste['designation_art']);
+                                /*$nom = stripslashes($liste['nom_emp']);
+                                $prenom = stripslashes($liste['prenoms_emp']);
+                                $employe = $prenom . " " . $nom;*/
                                 echo '
                         <tr>
                             <td>' . $art . '</td>

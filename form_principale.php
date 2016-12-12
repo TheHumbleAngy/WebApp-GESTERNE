@@ -25,11 +25,11 @@
 
     $connexion = db_connect();
 
-    $sql = "SELECT nom_emp, prenoms_emp FROM employes WHERE code_emp = '" . $_SESSION['user_id'] . "'";
+    $sql = "SELECT nom_emp, prenoms_emp, code_droit FROM employes WHERE code_emp = '" . $_SESSION['user_id'] . "'";
     if ($resultat = $connexion->query($sql)) {
         $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
-        $droit = "normal";
-        $req = "SELECT libelle_droit FROM droits WHERE code_emp = '" . $_SESSION['user_id'] . "'";
+        $droit = $ligne[0]['code_droit'];
+        $req = "SELECT libelle_droit FROM droits WHERE code_droit = '" . $droit . "'";
         if ($res = $connexion->query($req)) {
             $rows = $res->fetch_all(MYSQLI_ASSOC);
             $droit = $rows[0]['libelle_droit'];
@@ -48,11 +48,9 @@
                 <link type="text/css" href="css_js/menu_nav.css" rel="stylesheet"/>
                 <link type="text/css" href="css_js/stylish.css" rel="stylesheet">
                 <link type="text/css" href="css_js/jquery-ui-1.11.4.custom/jquery-ui.min.css" rel="stylesheet">
-                <link type="text/css" href="css_js/windows-10-icons-1.0.0/windows-10-icons-1.0.0/font/styles.min.css"
-                      rel="stylesheet">
+                <link type="text/css" href="css_js/windows-10-icons-1.0.0/windows-10-icons-1.0.0/font/styles.min.css" rel="stylesheet">
                 <link type="text/css" href="css_js/slick.css" rel="stylesheet">
                 <link type="text/css" href="css_js/slick-theme.css" rel="stylesheet">
-                <!--<link type="text/css" href="css_js/unslider.css" rel="stylesheet">-->
 
                 <script src="css_js/bootstrap-3.3.4-dist/js/jquery-1.11.3.js"></script>
                 <script src="css_js/bootstrap-3.3.4-dist/js/bootstrap.js"></script>
@@ -60,7 +58,6 @@
                 <script src="css_js/menu_vertical.js"></script>
                 <script src="css_js/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
                 <script src="css_js/slick.js"></script>
-                <!--<script src="css_js/unslider.js"></script>-->
 
                 <link rel="shortcut icon" href="img/icone_ncare.ico"/>
 

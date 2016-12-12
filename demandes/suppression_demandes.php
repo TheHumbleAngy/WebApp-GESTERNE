@@ -10,7 +10,7 @@
 
     if (isset($_GET['id'])) {
         $id = $_GET['id'];
-        $sql = ("DELETE FROM demande_bien_service WHERE code_dbs='" . $id . "'");
+        $sql = ("DELETE FROM demande_bien_service WHERE num_dbs='" . $id . "'");
         mysqli_query($connexion, $sql);
         header('location: form_principale.php?page=articles/demandes/liste_demandes');
     }

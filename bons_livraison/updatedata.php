@@ -13,7 +13,7 @@
     if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
     $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
-    $sql = "DELETE FROM bons_livraison WHERE code_bl = '" . $id . "'";
+    $sql = "DELETE FROM bons_livraison WHERE num_bl = '" . $id . "'";
 
     if ($result = mysqli_query($connexion, $sql)) {
         echo "

@@ -17,10 +17,10 @@ if (isset($_POST["proforma"])) {
 
         $sql = "SELECT libelle, qte_dfp, pu_dfp, remise_dfp, fournisseurs.code_four, fournisseurs.nom_four
                 FROM details_proforma INNER JOIN proformas
-                ON details_proforma.ref_fp = proformas.ref_fp
+                ON details_proforma.num_fp = proformas.num_fp
                 INNER JOIN fournisseurs
                 ON fournisseurs.code_four = proformas.code_four
-                WHERE proformas.ref_fp = '" . $pro . "'";
+                WHERE proformas.num_fp = '" . $pro . "'";
 
     $i = 0;
 

@@ -175,19 +175,23 @@
                                     <td class="champlabel demande">Demande :</td>
                                     <td class="demande" >
                                         <label>
-                                            <select name="num_dmd" id="code_dbs" class="form-control demandes">
-                                                <option disabled selected>N° Demande</option>
+                                            <select name="num_dmd" id="num_dbs" class="form-control demandes" multiple size="5">
                                                 <?php
-                                                    $sql = "SELECT code_dbs FROM demandes WHERE statut = 'non satisfaite' ORDER BY date_dbs DESC ";
+                                                    $sql = "SELECT num_dbs FROM demandes WHERE statut = 'non satisfaite' ORDER BY num_dbs DESC ";
                                                     $res = mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
                                                     while ($list = mysqli_fetch_array($res)) {
                                                         ?>
-                                                        <option value="<?php echo $list['code_dbs']; ?>"><?php echo $list['code_dbs']; ?></option>
+                                                        <option value="<?php echo $list['num_dbs']; ?>"><?php echo $list['num_dbs']; ?></option>
                                                         <?php
                                                     }
                                                 ?>
                                             </select>
                                         </label>
+                                    </td>
+                                    <td class="demande">
+                                        <button class="btn btn-default" type="button" name="valider" style="margin-left: 5px" onclick="ajax_demandes()">
+                                            <span class="ui-icon ui-icon-circle-triangle-e"></span>
+                                        </button>
                                     </td>
                                 </tr>
                                 <tr class="nombre">
@@ -229,8 +233,9 @@
             });
 
             /* Ce script permet d'afficher les différents articles figurant sur la demande sélectionnée */
-            $("select.demandes").change(function () {
-                var dmd = $(".demandes option:selected").val();
+            function ajax_demandes() {
+                var dmd = $('.demandes').val(); //retourne un array du genre $('.demandes').val()[i]
+//                console.log(dmd);
                 $.ajax({
                     type: "POST",
                     url: "articles/ajax_demandes.php",
@@ -242,7 +247,7 @@
                         $('.feedback').html(resultat);
                     }
                 });
-            });
+            }
 
             /* Ce script permet d'afficher les différents articles à saisir */
             var articles = ["a", "b"],
@@ -266,10 +271,10 @@
             });
             
             function ajout_sortie_demande() {
-                var code_dbs = $('#code_dbs').val();
+                var num_dbs = $('#num_dbs').val();
                 var nbr = $('#nbr_dmd').val();
 
-                var infos = "code_dbs=" + code_dbs + "&nbr=" + nbr;
+                var infos = "num_dbs=" + num_dbs + "&nbr=" + nbr;
                 var operation = "ajout_sortie_demande";
 
                 $.ajax({
@@ -278,11 +283,6 @@
                     data: infos,
                     success: function (data) {
                         $('.feedback').html(data);
-                        /*$('#myform').trigger('reset');
-                        setTimeout(function () {
-                            $(".alert-success").slideToggle("slow");
-                        }, 2500);
-                        libellesArticles();*/
                     }
                 });
             }
@@ -295,16 +295,24 @@
             $sortie = new sorties_articles(); //$sortie->recuperation($_SESSION['user_id']);
             
             if ($sortie->recuperation($_SESSION['user_id'])) { //$sortie->enregistrement();
-                if (!($sortie->enregistrement())) {
-                    echo "Une erreur s'est produite lors de la tentative d'enregistrement des informations";
-                }
+                if ($sortie->enregistrement()) {
+                    header('Location: form_principale.php?page=articles/mouvements_stock&action=sortie');
+                } else
+                    echo "
+                <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
+                    <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
+                        <span aria-hidden='true'>&times;</span>
+                    </button>
+                    <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement de la sortie. Veuillez contacter l'administrateur.
+                </div>
+                ";
             } else
                 echo "
                 <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
                     <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                         <span aria-hidden='true'>&times;</span>
                     </button>
-                    <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de récupération de la demande. Veuillez contacter l'administrateur.
+                    <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de récupération de la sortie. Veuillez contacter l'administrateur.
                 </div>
                 ";
         }

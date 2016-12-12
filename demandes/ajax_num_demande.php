@@ -9,28 +9,28 @@
     if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
     $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
-    $req = "SELECT code_dbs FROM demandes ORDER BY code_dbs DESC LIMIT 1";
+    $req = "SELECT num_dbs FROM demandes ORDER BY num_dbs DESC LIMIT 1";
     $resultat = $connexion->query($req);
 
     if ($resultat->num_rows > 0) {
         $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
 
-        $code_dbs = "";
+        $num_dbs = "";
         foreach ($ligne as $data)
-            $code_dbs = stripslashes($data['code_dbs']);
+            $num_dbs = stripslashes($data['num_dbs']);
 
-        $code_dbs = substr($code_dbs, -4);
+        $num_dbs = substr($num_dbs, -4);
 
-        $code_dbs += 1;
+        $num_dbs += 1;
     } else
-        $code_dbs = 1;
+        $num_dbs = 1;
 
     $b = "DBS";
     $dat = date("Y");
     $dat = substr($dat, -2);
     $format = '%04d';
-    $resultat = $dat . "" . $b . "" . sprintf($format, $code_dbs);
+    $resultat = $dat . "" . $b . "" . sprintf($format, $num_dbs);
 
     if ($_POST['option'] == "bien_service")
-        echo $code_dbs = $resultat;
+        echo $num_dbs = $resultat;
     else echo "Non";

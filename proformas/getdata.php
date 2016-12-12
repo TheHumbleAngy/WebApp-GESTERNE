@@ -11,7 +11,7 @@
             $element = $_POST['element'];
 
             switch ($option) {
-                case 'numero': $sql = "SELECT * FROM proformas WHERE ref_fp LIKE '%" . $element . "%'";
+                case 'numero': $sql = "SELECT * FROM proformas WHERE num_fp LIKE '%" . $element . "%'";
                     break;
                 case 'date_eta': $sql = "SELECT * FROM proformas WHERE dateetablissement_fp LIKE '%" . $element . "%'";
                     break;
@@ -53,7 +53,7 @@
                                             foreach ($ligne as $list) {
                                                 ?>
                                                 <tr>
-                                                    <td><a class="btn btn-default" href="form_principale.php?page=proformas/form_proformas&action=consultation&id=<?php echo stripslashes($list['ref_fp']); ?>" role="button"><?php echo stripslashes($list['ref_fp']); ?></a></td>
+                                                    <td><a class="btn btn-default" href="form_principale.php?page=proformas/form_proformas&action=consultation&id=<?php echo stripslashes($list['num_fp']); ?>" role="button"><?php echo stripslashes($list['num_fp']); ?></a></td>
                                                     <td>
                                                         <?php
                                                             $req = "SELECT nom_four FROM fournisseurs WHERE code_four = '" . stripslashes($list['code_four']) . "'";
@@ -71,11 +71,11 @@
                                                     <?php //if (($_SESSION['type_utilisateur'] == 'administrateur') || ($_SESSION['type_utilisateur'] == 'moyens_genereaux')):?>
                                                     <td style="text-align: center">
                                                         <a class="btn btn-default" data-toggle="modal"
-                                                           data-target="#modalSupprimer<?php echo stripslashes($list['ref_fp']); ?>">
+                                                           data-target="#modalSupprimer<?php echo stripslashes($list['num_fp']); ?>">
                                                             <img height="20" width="20" src="img/icons_1775b9/cancel.png" title="Supprimer"/>
                                                         </a>
                                                         <div class="modal fade"
-                                                             id="modalSupprimer<?php echo stripslashes($list['ref_fp']); ?>"
+                                                             id="modalSupprimer<?php echo stripslashes($list['num_fp']); ?>"
                                                              tabindex="-1"
                                                              role="dialog">
                                                             <div class="modal-dialog delete" role="document">
@@ -85,18 +85,18 @@
                                                                                 aria-label="Close"><span aria-hidden="true">&times;</span>
                                                                         </button>
                                                                         <h4 class="modal-title"
-                                                                            id="modalSupprimer<?php echo stripslashes($list['ref_fp']); ?>">
+                                                                            id="modalSupprimer<?php echo stripslashes($list['num_fp']); ?>">
                                                                             Confirmation</h4>
                                                                     </div>
                                                                     <div class="modal-body">
                                                                         Voulez-vous supprimer
-                                                                        la demande "<?php echo stripslashes($list['ref_fp']); ?>" de la
+                                                                        la demande "<?php echo stripslashes($list['num_fp']); ?>" de la
                                                                         base ?
                                                                     </div>
                                                                     <div class="modal-footer">
                                                                         <button class="btn btn-default" data-dismiss="modal">Non</button>
                                                                         <button class="btn btn-primary" data-dismiss="modal"
-                                                                                onclick="suppressionInfos('<?php echo stripslashes($list['ref_fp']); ?>')">
+                                                                                onclick="suppressionInfos('<?php echo stripslashes($list['num_fp']); ?>')">
                                                                             Oui
                                                                         </button>
                                                                     </div>
@@ -165,7 +165,7 @@
                                     <td style="text-align: center">
                                         <?php
                                             //Recuperation des articles figurants sur la proforma
-                                            $req = "SELECT libelle FROM details_proforma WHERE ref_fp = '" . stripslashes($list['ref_fp']) . "'";
+                                            $req = "SELECT libelle FROM details_proforma WHERE num_fp = '" . stripslashes($list['num_fp']) . "'";
                                             if ($resultat = $connexion->query($req)) {
                                                 $rows = $resultat->fetch_all(MYSQLI_ASSOC);
                                                 $str = "";
@@ -175,24 +175,24 @@
                                             }
                                         ?>
                                         <a class="btn btn-default"
-                                           href="form_principale.php?page=proformas/form_proformas&action=consultation&id=<?php echo stripslashes($list['ref_fp']); ?>"
+                                           href="form_principale.php?page=proformas/form_proformas&action=consultation&id=<?php echo stripslashes($list['num_fp']); ?>"
                                            title="<?php echo $str; ?>"
-                                           role="button"><?php echo stripslashes($list['ref_fp']); ?></a>
+                                           role="button"><?php echo stripslashes($list['num_fp']); ?></a>
                                     </td>
                                     <td><?php echo rev_date($list['dateetablissement_fp']); ?></td>
                                     <td><?php echo rev_date($list['datereception_fp']); ?></td>
                                     <td><?php echo stripslashes($list['notes_fp']); ?></td>
-                                    <input type="hidden" name="ref_fp"
-                                           value="<?php echo stripslashes($list['ref_fp']); ?>"/>
+                                    <input type="hidden" name="num_fp"
+                                           value="<?php echo stripslashes($list['num_fp']); ?>"/>
 
                                     <?php //if (($_SESSION['type_utilisateur'] == 'administrateur') || ($_SESSION['type_utilisateur'] == 'moyens_genereaux')): ?>
                                     <td style="text-align: center">
                                         <a class="btn btn-default" data-toggle="modal"
-                                           data-target="#modalSupprimer<?php echo stripslashes($list['ref_fp']); ?>">
+                                           data-target="#modalSupprimer<?php echo stripslashes($list['num_fp']); ?>">
                                             <img height="20" width="20" src="img/icons_1775b9/cancel.png" title="Supprimer"/>
                                         </a>
                                         <div class="modal fade"
-                                             id="modalSupprimer<?php echo stripslashes($list['ref_fp']); ?>"
+                                             id="modalSupprimer<?php echo stripslashes($list['num_fp']); ?>"
                                              tabindex="-1"
                                              role="dialog">
                                             <div class="modal-dialog delete" role="document">
@@ -202,18 +202,18 @@
                                                                 aria-label="Close"><span aria-hidden="true">&times;</span>
                                                         </button>
                                                         <h4 class="modal-title"
-                                                            id="modalSupprimer<?php echo stripslashes($list['ref_fp']); ?>">
+                                                            id="modalSupprimer<?php echo stripslashes($list['num_fp']); ?>">
                                                             Confirmation</h4>
                                                     </div>
                                                     <div class="modal-body">
                                                         Voulez-vous supprimer
-                                                        la demande "<?php echo stripslashes($list['ref_fp']); ?>" de la
+                                                        la demande "<?php echo stripslashes($list['num_fp']); ?>" de la
                                                         base ?
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button class="btn btn-default" data-dismiss="modal">Non</button>
                                                         <button class="btn btn-primary" data-dismiss="modal"
-                                                                onclick="suppressionInfos('<?php echo stripslashes($list['ref_fp']); ?>')">
+                                                                onclick="suppressionInfos('<?php echo stripslashes($list['num_fp']); ?>')">
                                                             Oui
                                                         </button>
                                                     </div>

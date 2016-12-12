@@ -6,19 +6,19 @@
  * Time: 09:09
  */
 
-$code_dbs = $_SESSION['code_temp'];
+$num_dbs = $_SESSION['code_temp'];
 
-/*$req = "SELECT * FROM demande_bien_service WHERE code_dbs = '". $code_dbs ."'";*/
-$req = "SELECT demande_bien_service.code_dbs, demande_bien_service.date_dbs, demande_bien_service.nature_dbs, demande_bien_service.objets_dbs, employe.nom_emp, employe.prenoms_emp
+/*$req = "SELECT * FROM demande_bien_service WHERE num_dbs = '". $num_dbs ."'";*/
+$req = "SELECT demande_bien_service.num_dbs, demande_bien_service.date_dbs, demande_bien_service.nature_dbs, demande_bien_service.objets_dbs, employe.nom_emp, employe.prenoms_emp
         FROM demande_bien_service, employe
         WHERE demande_bien_service.code_emp = employe.code_emp
-        AND demande_bien_service.code_dbs = '" . $code_dbs . "'";
+        AND demande_bien_service.num_dbs = '" . $num_dbs . "'";
 
 if ($valeur = $connexion->query($req)) {
 
     $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
     foreach ($ligne as $data) {
-        $code_dbs = stripslashes($data['code_dbs']);
+        $num_dbs = stripslashes($data['num_dbs']);
         $date_dbs = stripslashes($data['date_dbs']);
         $nature_dbs = stripslashes($data['nature_dbs']);
         $objets_dbs = stripslashes($data['objets_dbs']);
@@ -72,7 +72,7 @@ if ($valeur = $connexion->query($req)) {
                     </button>
                 </div>
 
-                <input type="hidden" id="code_dbs" name="code_dbs" value="<?php echo $code_dbs; ?>"/>
+                <input type="hidden" id="num_dbs" name="num_dbs" value="<?php echo $num_dbs; ?>"/>
             </form>
         </div>
     </div>

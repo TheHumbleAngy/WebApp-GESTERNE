@@ -34,7 +34,7 @@
     $id = $_GET['id'];
     $connexion = db_connect();
     
-    $sql = "SELECT * FROM demandes WHERE code_dbs = '" . $id . "'";
+    $sql = "SELECT * FROM demandes WHERE num_dbs = '" . $id . "'";
     if ($valeur = $connexion->query($sql)) {
         $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
         foreach ($ligne as $list) {
@@ -101,7 +101,7 @@
     $pdf->Ln(8);
 
     $pdf->SetFont('Arial', '', 10);
-    $sql = "SELECT * FROM details_demande WHERE code_dbs = '" . $id . "'";
+    $sql = "SELECT * FROM details_demande WHERE num_dbs = '" . $id . "'";
     if ($valeur = $connexion->query($sql)) {
         $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
         $i = 1;
@@ -125,7 +125,7 @@
     $pdf->Cell(90, 20, "", 1);
 //    $pdf->Cell(90, 20, $objets_dbs, 1);
     $pdf->SetFont('Arial', '', 10);
-    $pdf->Cell(40, 20, $date_dbs, 1, 0, 'C');
+    $pdf->Cell(40, 20, rev_date($date_dbs), 1, 0, 'C');
     $pdf->Cell(60, 20, "", 1);
     $pdf->Ln(20);
 
@@ -143,7 +143,7 @@
 
     $pdf->Cell(90, 20, "", 1);
     $pdf->SetFont('Arial', '', 10);
-    $pdf->Cell(40, 20, $date_dbs, 1, 0, 'C');
+    $pdf->Cell(40, 20, rev_date($date_dbs), 1, 0, 'C');
     $pdf->Cell(60, 20, "", 1);
     $pdf->Ln(20);
 
@@ -161,7 +161,7 @@
     
     $pdf->Cell(90, 20, "", 1);
     $pdf->SetFont('Arial', '', 10);
-    $pdf->Cell(40, 20, $date_dbs, 1, 0, 'C');
+    $pdf->Cell(40, 20, rev_date($date_dbs), 1, 0, 'C');
     $pdf->Cell(60, 20, "", 1);
 
     $pdf->Output();

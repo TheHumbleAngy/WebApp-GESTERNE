@@ -50,7 +50,7 @@
                                         <tr>
                                             <td style="text-align: center">
                                                 <?php
-                                                    $req = "SELECT libelle_dbl FROM details_bon_livraison WHERE code_bl = '" . stripslashes($list['code_bl']) . "'";
+                                                    $req = "SELECT libelle_dbl FROM details_bon_livraison WHERE num_bl = '" . stripslashes($list['num_bl']) . "'";
                                                     $str = "";
                                                     if ($resultat = $connexion->query($req)) {
                                                         $rows = $resultat->fetch_all(MYSQLI_ASSOC);
@@ -60,9 +60,9 @@
                                                     }
                                                 ?>
                                                 <a class="btn btn-default"
-                                                   href="form_principale.php?page=bons_livraison/form_bons_livraison&action=consultation&id=<?php echo stripslashes($list['code_bl']); ?>"
+                                                   href="form_principale.php?page=bons_livraison/form_bons_livraison&action=consultation&id=<?php echo stripslashes($list['num_bl']); ?>"
                                                    title="<?php echo $str; ?>"
-                                                   role="button"><?php echo stripslashes($list['code_bl']); ?></a>
+                                                   role="button"><?php echo stripslashes($list['num_bl']); ?></a>
                                             </td>
                                             <td style="text-align: center"><?php echo rev_date($list['dateetablissement_bl']); ?></td>
                                             <td style="text-align: center"><?php echo rev_date($list['datereception_bl']); ?></td>
@@ -91,7 +91,7 @@
                                             <td style="text-align: center">
                                                 <div style="text-align: center">
                                                     <a class="btn btn-default modifier" data-toggle="modal"
-                                                       data-target="#modalSupprimer<?php echo stripslashes($list['code_bl']); ?>">
+                                                       data-target="#modalSupprimer<?php echo stripslashes($list['num_bl']); ?>">
                                                         <img height="20" width="20" src="img/icons_1775b9/cancel.png"
                                                              title="Supprimer"/>
                                                     </a>
@@ -99,7 +99,7 @@
 
                                                 <!-- Modal suppression des infos -->
                                                 <div class="modal fade"
-                                                     id="modalSupprimer<?php echo stripslashes($list['code_bl']); ?>"
+                                                     id="modalSupprimer<?php echo stripslashes($list['num_bl']); ?>"
                                                      tabindex="-1"
                                                      role="dialog">
                                                     <div class="modal-dialog" role="document">
@@ -110,13 +110,13 @@
                                                                         aria-hidden="true">&times;</span>
                                                                 </button>
                                                                 <h4 class="modal-title"
-                                                                    id="modalSupprimer<?php echo stripslashes($list['code_bl']); ?>">
+                                                                    id="modalSupprimer<?php echo stripslashes($list['num_bl']); ?>">
                                                                     Confirmation</h4>
                                                             </div>
                                                             <div class="modal-body">
                                                                 Voulez-vous supprimer
                                                                 le bon de
-                                                                commande <?php echo stripslashes($list['code_bl']); ?>"
+                                                                commande <?php echo stripslashes($list['num_bl']); ?>"
                                                                 de la base ?
                                                             </div>
                                                             <div class="modal-footer">
@@ -124,7 +124,7 @@
                                                                     Non
                                                                 </button>
                                                                 <button class="btn btn-primary" data-dismiss="modal"
-                                                                        onclick="suppressionInfos('<?php echo stripslashes($list['code_bl']); ?>')">
+                                                                        onclick="suppressionInfos('<?php echo stripslashes($list['num_bl']); ?>')">
                                                                     Oui
                                                                 </button>
                                                             </div>

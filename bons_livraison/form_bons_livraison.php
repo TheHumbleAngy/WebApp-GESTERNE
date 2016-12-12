@@ -4,7 +4,7 @@
         type: "POST",
         url: "bons_livraison/ajax_num_bons_livraison.php",
         success: function (resultat) {
-            $('#code_bl').val(resultat);
+            $('#num_bl').val(resultat);
         }
     });
 </script>
@@ -27,7 +27,7 @@
                                 <td class="champlabel">Numéro :</td>
                                 <td>
                                     <label>
-                                        <input type="text" name="code_bl" id="code_bl" class="form-control"
+                                        <input type="text" name="num_bl" id="num_bl" class="form-control"
                                                readonly>
                                     </label>
                                 </td>
@@ -191,7 +191,7 @@
 
     if (sizeof($_POST) > 0) {
 
-        $code_bl = htmlspecialchars($_POST['code_bl'], ENT_QUOTES);
+        $num_bl = htmlspecialchars($_POST['num_bl'], ENT_QUOTES);
         $dateetablissement_bl = rev_date($_POST['dateetablissement_bl']);
         $datereception_bl = rev_date($_POST['datereception_bl']);
         $code_four = htmlspecialchars($_POST['code_four'], ENT_QUOTES);
@@ -199,14 +199,14 @@
         $code_emp = htmlspecialchars($_POST['code_emp'], ENT_QUOTES);
         $commentaires_bl = addslashes($_POST['commentaires_bl']);
 
-        $req = "INSERT INTO bons_livraison (code_bl,
+        $req = "INSERT INTO bons_livraison (num_bl,
                                         num_bc,
                                         dateetablissement_bl,
                                         datereception_bl,
                                         code_four,
                                         code_emp,
                                         commentaires_bl)
-                                 VALUES('$code_bl',
+                                 VALUES('$num_bl',
                                         '$num_bc',
                                         '$dateetablissement_bl',
                                         '$datereception_bl',
@@ -218,40 +218,40 @@
             $n = $_POST['n'];
             $tot = 0;
             for ($i = 0; $i < $n; $i++) {
-                $req = "SELECT code_dbl FROM details_bon_livraison ORDER BY code_dbl DESC LIMIT 1";
+                $req = "SELECT num_dbl FROM details_bon_livraison ORDER BY num_dbl DESC LIMIT 1";
                 $resultat = $connexion->query($req);
 
                 if ($resultat->num_rows > 0) {
                     $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
 
-                    $code_dbl = "";
+                    $num_dbl = "";
                     foreach ($ligne as $data) {
-                        $code_dbl = stripslashes($data['code_dbl']);
+                        $num_dbl = stripslashes($data['num_dbl']);
                     }
 
-                    $code_dbl = substr($code_dbl, -4);
+                    $num_dbl = substr($num_dbl, -4);
 
-                    $code_dbl += 1;
+                    $num_dbl += 1;
 
                     $b = "DBL";
                     $dat = date("Y");
                     $dat = substr($dat, -2);
                     $format = '%04d';
-                    $resultat = $dat . "" . $b . "" . sprintf($format, $code_dbl);
+                    $resultat = $dat . "" . $b . "" . sprintf($format, $num_dbl);
 
 
                 }
                 else {
                     //s'il n'existe pas d'enregistrements dans la base de données
-                    $code_dbl = 1;
+                    $num_dbl = 1;
                     $b = "DBL";
                     $dat = date("Y");
                     $dat = substr($dat, -2);
                     $format = '%04d';
-                    $resultat = $dat . "" . $b . "" . sprintf($format, $code_dbl);
+                    $resultat = $dat . "" . $b . "" . sprintf($format, $num_dbl);
                 }
                 //on affecte au code le resultat
-                $code_dbl = $resultat;
+                $num_dbl = $resultat;
 
                 $libelle_dbl = addslashes($_POST['libelle_dbl'][$i]);
                 $qte_cmd = $_POST['qte_cmd'][$i];
@@ -262,8 +262,8 @@
                 //On fait la somme des quantites restantes du bon de livraison en cours
                 $tot = (int)$tot + (int)$qte_restante;
 
-                $REQ = "INSERT INTO details_bon_livraison (code_dbl, code_bl, libelle_dbl, qte_livree, qte_restante)
-	            VALUES ('$code_dbl', '$code_bl', '$libelle_dbl', '$qte_livree', '$qte_restante')";
+                $REQ = "INSERT INTO details_bon_livraison (num_dbl, num_bl, libelle_dbl, qte_livree, qte_restante)
+	            VALUES ('$num_dbl', '$num_bl', '$libelle_dbl', '$qte_livree', '$qte_restante')";
 
                 if ($requete = mysqli_query($connexion, $REQ))
                     $_SESSION['temp'] = htmlspecialchars($_POST['code_emp'], ENT_QUOTES);

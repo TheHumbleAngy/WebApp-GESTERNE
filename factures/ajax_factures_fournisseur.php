@@ -9,11 +9,11 @@
 
 
 //On appelle ici tous les bons de commande qui ne figurent pas encore sur un bon de livraison
-$sql = "SELECT ref_fp FROM proformas
+$sql = "SELECT num_fp FROM proformas
         INNER JOIN fournisseurs
         ON fournisseurs.code_four = proformas.code_four
         WHERE fournisseurs.code_four = '" . $_POST['fournisseur'] . "'
-        ORDER BY ref_fp DESC";
+        ORDER BY num_fp DESC";
 
 $resultat = $connexion->query($sql);
 

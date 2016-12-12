@@ -12,7 +12,7 @@
 
         $id = $_GET['id'];
 
-        $sql = ("DELETE FROM bons_livraison WHERE code_bl='" . $id . "'");
+        $sql = ("DELETE FROM bons_livraison WHERE num_bl='" . $id . "'");
         mysqli_query($connexion, $sql);
 
         header('LOCATION: form_principale.php?page=bons_livraison/liste_bons_livraison');

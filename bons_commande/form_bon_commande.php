@@ -209,7 +209,7 @@
         <script>
             var proformas = ["a", "b"];
             function validationForme() {
-                var code_four = document.forms["myForm"]["code_four"].value;
+                var code_four = $('#four').val();
                 if (code_four == null || code_four == "" || code_four == "Raison Sociale") {
                     alert("Veuillez sélectionner un fournisseur.");
                     return false;
@@ -219,6 +219,15 @@
             $(document).ready(function () {
                 $('.proforma').hide();
                 $('.zone').hide();
+
+                //Script qui previent la validation de la touche entrée
+                $('#myform').on('keyup keypress', function (e) {
+                    var key = e.keyCode || e.which;
+                    if (key === 13) {
+                         e.preventDefault;
+                         return false;
+                     }
+                });
 
                 $('#question').change(function () {
                     var reponse = $('#question').val();
@@ -243,7 +252,7 @@
                         type: "GET",
                         success: function (data) {
                             for (var i = 0; i < data.length; i += 1) {
-                                proformas[i] = data[i].ref_fp;
+                                proformas[i] = data[i].num_fp;
                             }
                             /*console.dir(data);
                             console.log(proformas);*/
@@ -255,20 +264,22 @@
                 });
 
                 /* Ce script permet d'afficher le fournisseur et les différents articles figurants de la proforma sélectionnée */
-                $("#num_pro").on('change', function () {
-                    $('.zone').show();
-                    var prof = $("#num_pro").val();
-                    console.log(prof);
-                    $.ajax({
-                        type: "POST",
-                        url: "bons_commande/ajax_bon_commande.php",
-                        data: {
-                            proforma: prof
-                        },
-                        success: function (resultat) {
-                            $('.zone').html(resultat);
-                        }
-                    });
+                $("#num_pro").on('keypress', function (e) {
+                    if (e.which == 13) {
+                        $('.zone').show();
+                        var prof = $("#num_pro").val();
+//                        console.log(prof);
+                        $.ajax({
+                            type: "POST",
+                            url: "bons_commande/ajax_bon_commande.php",
+                            data: {
+                                proforma: prof
+                            },
+                            success: function (resultat) {
+                                $('.zone').html(resultat);
+                            }
+                        });
+                    }
                 });
 
                 setTimeout(function () {

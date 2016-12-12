@@ -5,270 +5,374 @@
      * Date: 12-Aug-15
      * Time: 10:14 AM
      */
-?>
-<!--suppress ALL -->
-<meta charset="utf-8">
-<script>
-    $.ajax({
-        type: "POST",
-        url: "factures/ajax_num_facture.php",
-        success: function (resultat) {
-            $('#num_fact').val(resultat);
-        }
-    });
-</script>
+    if (isset($_GET['action']) && $_GET['action'] == "consultation") : ?>
 
-<div class="col-md-10 col-md-offset-1">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            Facture
-            <a href='form_principale.php?page=accueil' type='button'
-               class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
-                <span aria-hidden='true'>&times;</span>
-            </a>
-        </div>
-        <div class="panel-body">
-            <form action="form_principale.php?page=factures/form_factures" method="POST" name="myForm" onsubmit="return validationForme();">
-                <div class="row">
-                    <div class="col-md-10">
-                        <table class="formulaire" style="width= 100%" border="0">
-                            <tr>
-                                <td class="champlabel" title="Référence facture">Référence :</td>
-                                <td>
-                                    <label>
-                                        <input type="text" name="num_fact" class="form-control" size="15"
-                                               readonly
-                                               id="num_fact"/>
-                                    </label>
-                                </td>
-                                <td class="champlabel" title="Numéro figurant sur la facture">N° Facture :
-                                </td>
-                                <td>
-                                    <label>
-                                        <input type="text" name="ref_fact" class="form-control" size="15"
-                                               onblur="this.value = this.value.toUpperCase();"
-                                               required/>
-                                    </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="champlabel">Date d'Etablissement :</td>
-                                <td>
-                                    <label>
-                                        <input type="text" name="dateetablissement_fact"
-                                               id="date_e" readonly
-                                               title="Veuillez cliquer ici pour sélectionner une date"
-                                               class="form-control"/>
-                                    </label>
-                                </td>
-                                <td class="champlabel">Date de reception :</td>
-                                <td>
-                                    <label>
-                                        <input type="text" name="datereception_fact"
-                                               class="form-control" id="date_r" readonly
-                                               title="Veuillez cliquer ici pour sélectionner une date"
-                                               required/>
-                                    </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="champlabel" rowspan="2">Remarques facture :</td>
-                                <td>
-                                    <label>
-                                        <textarea name="remarques_facture" rows="3" cols="20" style="resize: none"
-                                                  maxlength="200"
-                                                  class="form-control"></textarea>
-                                    </label>
-                                </td>
-                                <td class="champlabel">Proforma :</td>
-                                <td>
-                                    <label>
-                                        <input type="text" class="form-control" id="num_pro">
-                                    </label>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="col-md-2">
-                        <img src="img/icons_1775b9/facture-100.png">
-                    </div>
-                    <br/>
+        <?php
+        $code = $_GET['id'];
 
-                    <div class="response"></div>
+        $sql = "SELECT * FROM factures WHERE num_fact = '" . $code . "'";
+        if ($res = $connexion->query($sql)) {
+            $lines = $res->fetch_all(MYSQLI_ASSOC);
+            foreach ($lines as $line) { ?>
+                <!--suppress ALL -->
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Facture <?php echo $code; ?>
+                            <a href='form_principale.php?page=accueil' type='button'
+                               class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
+                                <span aria-hidden='true'>&times;</span>
+                            </a>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <table class="formulaire" style="width= 100%" border="0">
+                                        <tr>
+                                            <td class="champlabel" title="Référence facture">Référence :</td>
+                                            <td>
+                                                <label>
+                                                    <input type="text" name="num_fact" class="form-control" size="15"
+                                                           readonly
+                                                           value="<?php echo $line['num_fact']; ?>"/>
+                                                </label>
+                                            </td>
+                                            <td class="champlabel" title="Numéro figurant sur la facture">N° Facture :
+                                            </td>
+                                            <td>
+                                                <label>
+                                                    <input type="text" name="ref_fact" class="form-control" size="15"
+                                                           value="<?php echo $line['ref_fact']; ?>"
+                                                           readonly/>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="champlabel">Date d'Etablissement :</td>
+                                            <td>
+                                                <label>
+                                                    <input type="text" name="dateetablissement_fact"
+                                                           readonly
+                                                           value="<?php echo rev_date($line['dateetablissement_fact']); ?>"
+                                                           class="form-control"/>
+                                                </label>
+                                            </td>
+                                            <td class="champlabel">Date de reception :</td>
+                                            <td>
+                                                <label>
+                                                    <input type="text" name="datereception_fact"
+                                                           class="form-control" readonly
+                                                           value="<?php echo rev_date($line['datereception_fact']); ?>"/>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="champlabel" rowspan="2">Remarques facture :</td>
+                                            <td>
+                                                <label>
+                                                        <textarea name="remarques_facture" rows="3" cols="20"
+                                                                  style="resize: none"
+                                                                  maxlength="200" readonly
+                                                                  class="form-control"><?php echo $line['remarques_facture']; ?></textarea>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-2">
+                                    <img src="img/icons_1775b9/facture-100.png">
+                                </div>
+                                <br/>
+
+                                <div class="response">
+                                    <div class="col-md-12">
+                                        <div class="panel panel-default">
+                                            <table border="0" class="table table-hover table-bordered">
+                                                <thead>
+                                                <th class="entete" style="text-align: center">Libelle</th>
+                                                <th class="entete" style="text-align: center">Quantité</th>
+                                                <th class="entete" style="text-align: center">Prix Unitaire</th>
+                                                <th class="entete" style="text-align: center">Remise</th>
+                                                <th class="entete" style="text-align: center">Prix T.T.C</th>
+                                                </thead>
+                                                <?php
+                                                    $sql3 = "SELECT * FROM details_facture WHERE num_fact = '" . $code . "'";
+                                                    if ($result = $connexion->query($sql3)) {
+                                                        $rows = $result->fetch_all(MYSQLI_ASSOC);
+                                                        $total = 0;
+                                                        foreach ($rows as $row) {
+                                                            $qte = stripslashes($row['qte_df']);
+                                                            $pu = stripslashes($row['pu_df']);
+                                                            $rem = stripslashes($row['remise_df']);
+
+                                                            if ($rem > 0) {
+                                                                $rem = $rem / 100;
+                                                                $ttc = $qte * $pu * (1 - $rem);
+                                                            }
+                                                            else
+                                                                $ttc = $qte * $pu;
+
+                                                            $total = (int)$total + (int)$ttc;
+                                                            ?>
+
+                                                            <tr>
+                                                                <td style="text-align: left"><?php echo stripslashes($row['libelle_df']); ?></td>
+                                                                <td style="text-align: center"><?php echo stripslashes($row['qte_df']); ?></td>
+                                                                <td style="text-align: right"><?php echo number_format(stripslashes($row['pu_df']), 0, ',', ' '); ?></td>
+                                                                <td style="text-align: center"><?php echo stripslashes($row['remise_df']); ?>
+                                                                    %
+                                                                </td>
+                                                                <td style="text-align: right"><?php echo number_format($ttc, 0, ',', ' '); ?></td>
+                                                            </tr>
+
+                                                            <?php
+                                                        }
+                                                    }
+                                                ?>
+                                                <thead>
+                                                <th class="entete" style="text-align: center" colspan="4">
+                                                    TOTAL
+                                                </th>
+                                                <th class="entete"
+                                                    style="text-align: right"><?php echo number_format($total, 0, ',', ' '); ?></th>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<script>
-    var proformas = ["a", "b"];
-    function validationForme() {
-        var date_e = document.forms["myForm"]["dateetablissement_fact"].value;
-        var date_r = document.forms["myForm"]["datereception_fact"].value;
-        if (date_e == null || date_e == "" || date_r == null || date_r == "") {
-            alert("Veuillez renseignez les différentes dates s'il vous plaît.");
-            return false;
+                <?php
+            }
         }
-    }
+        ?>
 
-    $(document).ready(function () {
-        $('#date_e').datepicker({dateFormat: 'dd-mm-yy'});
-        $('#date_r').datepicker({dateFormat: 'dd-mm-yy'});
+    <?php else: ?>
 
-        $("select.proforma").change(function () {
-            var pro = $(".proforma option:selected").val();
+        <!--suppress ALL -->
+        <meta charset="utf-8">
+        <script>
             $.ajax({
                 type: "POST",
-                url: "factures/ajax_factures_proforma.php",
-                data: {
-                    proforma: pro
-                },
+                url: "factures/ajax_num_facture.php",
                 success: function (resultat) {
-                    $('.response').html(resultat);
+                    $('#num_fact').val(resultat);
                 }
             });
-        });
+        </script>
 
-        $.ajax({
-            url: "bons_commande/num_proformas.php",
-            dataType: "json",
-            type: "GET",
-            success: function (data) {
-                for (var i = 0; i < data.length; i += 1) {
-                    proformas[i] = data[i].ref_fp;
+        <div class="col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Facture
+                    <a href='form_principale.php?page=accueil' type='button'
+                       class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
+                        <span aria-hidden='true'>&times;</span>
+                    </a>
+                </div>
+                <div class="panel-body">
+                    <form action="form_principale.php?page=factures/form_factures" method="POST" name="myForm"
+                          onsubmit="return validationForme();">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <table class="formulaire" style="width= 100%" border="0">
+                                    <tr>
+                                        <td class="champlabel" title="Référence facture">Référence :</td>
+                                        <td>
+                                            <label>
+                                                <input type="text" name="num_fact" class="form-control" size="15"
+                                                       readonly
+                                                       id="num_fact"/>
+                                            </label>
+                                        </td>
+                                        <td class="champlabel" title="Numéro figurant sur la facture">N° Facture :
+                                        </td>
+                                        <td>
+                                            <label>
+                                                <input type="text" name="ref_fact" class="form-control" size="15"
+                                                       onblur="this.value = this.value.toUpperCase();"
+                                                       required/>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="champlabel">Date d'Etablissement :</td>
+                                        <td>
+                                            <label>
+                                                <input type="text" name="dateetablissement_fact"
+                                                       id="date_e" readonly
+                                                       title="Veuillez cliquer ici pour sélectionner une date"
+                                                       class="form-control"/>
+                                            </label>
+                                        </td>
+                                        <td class="champlabel">Date de reception :</td>
+                                        <td>
+                                            <label>
+                                                <input type="text" name="datereception_fact"
+                                                       class="form-control" id="date_r" readonly
+                                                       title="Veuillez cliquer ici pour sélectionner une date"
+                                                       required/>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="champlabel" rowspan="2">Remarques facture :</td>
+                                        <td>
+                                            <label>
+                                                <textarea name="remarques_facture" rows="3" cols="20" style="resize: none"
+                                                  maxlength="200"
+                                                  class="form-control"></textarea>
+                                            </label>
+                                        </td>
+                                        <td colspan="2">
+                                            <div class="panel panel-default">
+                                                <table class="formulaire" border="0">
+                                                    <tr>
+                                                        <td>
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="choix" value="oui">A partir d'une proforma
+                                                            </label>
+                                                        </td>
+                                                        <td class="champlabel pro">Proforma :</td>
+                                                        <td class="pro">
+                                                            <label>
+                                                                <input type="text" class="form-control" id="num_pro" size="9">
+                                                            </label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <label class="radio-inline">
+                                                                <input type="radio" name="choix" value="non" readonly>Générique
+                                                            </label>
+                                                        </td>
+                                                        <td class="champlabel generique">Nombre d'articles :</td>
+                                                        <td class="generique">
+                                                            <label>
+                                                                <input type="number" class="form-control" name="nbr">
+                                                            </label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-1" style="margin-left: 3%;">
+                                <img src="img/icons_1775b9/facture-100.png">
+                            </div>
+                            <br/>
+
+                            <div class="response"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            var proformas = ["a", "b"];
+            function validationForme() {
+                var date_e = $('#date_e').val();
+                var date_r = $('#date_r').val();
+                if (date_e == null || date_e == "" || date_r == null || date_r == "") {
+                    alert("Veuillez renseignez les différentes dates s'il vous plaît.");
+                    return false;
                 }
-                $('#num_pro').autocomplete({
-                    source: proformas
+            }
+
+            $(document).ready(function () {
+                $('#date_e').datepicker({dateFormat: 'dd-mm-yy'});
+                $('#date_r').datepicker({dateFormat: 'dd-mm-yy'});
+                $('.pro').hide();
+                $('.generique').hide();
+
+                $("select.proforma").change(function () {
+                    var pro = $(".proforma option:selected").val();
+                    $.ajax({
+                        type: "POST",
+                        url: "factures/ajax_factures_proforma.php",
+                        data: {
+                            proforma: pro
+                        },
+                        success: function (resultat) {
+                            $('.response').html(resultat);
+                        }
+                    });
                 });
-            }
-        });
-    })
 
-    $('#num_pro').on('change', function () {
-        var prof = $("#num_pro").val();
-        console.log(prof);
-        $.ajax({
-            type: "POST",
-            url: "factures/ajax_factures_proforma.php",
-            data: {
-                proforma: prof
-            },
-            success: function (resultat) {
-                $('.response').html(resultat);
-            }
-        });
-    });
-</script>
-
-<?php
-
-    if (sizeof($_POST) > 0) {
-
-        $num_fact = htmlspecialchars($_POST['num_fact'], ENT_QUOTES);
-        $ref_fact = htmlspecialchars($_POST['ref_fact'], ENT_QUOTES);
-        $code_four = htmlspecialchars($_POST['code_four'], ENT_QUOTES);
-        $dateetablissement_fact = rev_date($_POST['dateetablissement_fact']);
-        $datereception_fact = rev_date($_POST['datereception_fact']);
-        $remarques_facture = addslashes($_POST['remarques_facture']);
-
-        $req = "INSERT INTO factures (num_fact,
-                            code_four,
-                            ref_fact,
-                            dateetablissement_fact,
-                            datereception_fact,
-                            remarques_facture)
-                VALUES      ('$num_fact',
-                            '$code_four',
-                            '$ref_fact',
-                            '$dateetablissement_fact',
-                            '$datereception_fact',
-                            '$remarques_facture')";
-        
-        if ($result = mysqli_query($connexion, $req)) {
-
-            //Saisie de chaque article de la facture dans la table "details_facture"
-            $n = $_POST['nbr'];
-            $test = TRUE;
-            for ($i = 0; $i < $n; $i++) {
-
-                $req = "SELECT code_df FROM details_facture ORDER BY code_df DESC LIMIT 1";
-                $resultat = $connexion->query($req);
-
-                if ($resultat->num_rows > 0) {
-                    $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
-
-                    //reccuperation du code
-                    $code_df = "";
-                    foreach ($ligne as $data) {
-                        $code_df = stripslashes($data['code_df']);
+                $.ajax({
+                    url: "bons_commande/num_proformas.php",
+                    dataType: "json",
+                    type: "GET",
+                    success: function (data) {
+                        for (var i = 0; i < data.length; i += 1) {
+                            proformas[i] = data[i].num_fp;
+                        }
+                        $('#num_pro').autocomplete({
+                            source: proformas
+                        });
                     }
+                });
+            })
 
-                    //extraction des 4 derniers chiffres
-                    $code_df = substr($code_df, -4);
-
-                    //incrementation du nombre
-                    $code_df += 1;
-
-                    $b = "DF";
-                    $dat = date("Y");
-                    $dat = substr($dat, -2);
-                    $format = '%04d';
-                    $resultat = $dat . "" . $b . "" . sprintf($format, $code_df);
-
-                } else {
-                    //s'il n'existe pas d'enregistrements dans la base de données
-                    $code_df = 1;
-                    $b = "DF";
-                    $dat = date("Y");
-                    $dat = substr($dat, -2);
-                    $format = '%04d';
-                    $resultat = $dat . "" . $b . "" . sprintf($format, $code_df);
+            $('#num_pro').on('keypress', function (e) {
+                if (e.which == 13) {
+                    var prof = $("#num_pro").val();
+                    console.log(prof);
+                    $.ajax({
+                        type: "POST",
+                        url: "factures/ajax_factures_proforma.php",
+                        data: {
+                            proforma: prof
+                        },
+                        success: function (resultat) {
+                            $('.response').html(resultat);
+                        }
+                    });
                 }
-                //on affecte au code le resultat
-                $code_df = $resultat;
+            });
+        </script>
 
-                $libelle_df = ($_POST['libelle'][$i]);
-                $qte_df = ($_POST['qte'][$i]);
-                $pu_df = ($_POST['pu'][$i]);
-                $rem = ($_POST['rem'][$i]);
+        <?php
 
-                $libelle_df = addslashes($libelle_df);
-                $qte_df = htmlspecialchars($qte_df, ENT_QUOTES);
-                $pu_df = htmlspecialchars($pu_df, ENT_QUOTES);
-                $rem = addslashes($rem);
+        if ((sizeof($_POST) > 0) && (isset($_POST['num_fact']))) {
 
-                $REQ = "INSERT INTO details_facture (code_df, num_fact, libelle_df, qte_df, pu_df, remise_df)
-	            VALUES ('$code_df', '$num_fact', '$libelle_df', '$qte_df', '$pu_df', '$rem')";
+            include 'class_factures.php';
 
-                //exécution de la requête REQ:
-                if (!mysqli_query($connexion, $REQ)) {
-                    $test = FALSE;
-                    break;
+            $facture = new factures();
+
+            if ($facture->recuperation($_POST['num_fact'])) { $facture->enregistrement();
+                /*if ($facture->enregistrement()) {
+                    header('Location: form_principale.php?page=factures/form_factures');
                 }
-            }
-            if ($test) {
-                header('Location: form_principale.php?page=factures/form_factures');
-            } else {
-                echo "
-                    <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
-                        <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
-                            <span aria-hidden='true'>&times;</span>
-                        </button>
-                        <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement des détails de la facture. Veuillez contacter l'administrateur.
-                    </div>
-                    ";
-            }
-        } else {
-            echo "
+                else {
+                    echo "
             <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
                 <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                     <span aria-hidden='true'>&times;</span>
                 </button>
-                <strong>Une erreur s'est produite lors de la tentative d'enregistrement de la facture. Veuillez contacter l'administrateur.</strong>
+                <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement de la facture. Veuillez contacter l'administrateur.
             </div>
             ";
+                }*/
+            }
+            else {
+                echo "
+            <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
+                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
+                    <span aria-hidden='true'>&times;</span>
+                </button>
+                <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la récupération des informations de la facture. Veuillez contacter l'administrateur.
+            </div>
+            ";
+            }
         }
-        mysqli_close($connexion);
-    }
-?>  
+        ?>
+
+    <?php endif; ?>

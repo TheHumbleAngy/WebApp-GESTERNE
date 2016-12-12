@@ -13,7 +13,7 @@
             header('Location: form_principale.php');
         } else {
             $status = $_SESSION['etat_connecte'];
-            if ($status == 1) {
+            if ($status === 1) {
                 header('Location: index.php?error=2');
             } else {
                 header('Location: index.php?error=1');

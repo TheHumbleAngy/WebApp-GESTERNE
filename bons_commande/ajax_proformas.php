@@ -10,7 +10,7 @@
     $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
 //On appelle ici toutes les proformas qui ne figurent pas encore sur un bon de commande
-    $sql = "SELECT ref_fp FROM proformas";
+    $sql = "SELECT num_fp FROM proformas";
 
     $resultat = $connexion->query($sql);
     $option = "";

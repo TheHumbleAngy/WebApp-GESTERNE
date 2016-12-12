@@ -25,11 +25,11 @@
                     <?php
                     $id = $_GET['id'];
 
-                    $req = "SELECT demande_bien_service.date_dbs, detail_demande.code_dbs, employe.nom_emp, employe.prenoms_emp, libelle_dd, qte_dd, observations_dd, code_dd
+                    $req = "SELECT demande_bien_service.date_dbs, detail_demande.num_dbs, employe.nom_emp, employe.prenoms_emp, libelle_dd, qte_dd, observations_dd, num_dd
                                 FROM detail_demande, demande_bien_service, employe
-                                WHERE detail_demande.code_dbs = demande_bien_service.code_dbs
+                                WHERE detail_demande.num_dbs = demande_bien_service.num_dbs
                                 AND employe.code_emp = demande_bien_service.code_emp
-                                AND demande_bien_service.code_dbs = '" . $id . "'";
+                                AND demande_bien_service.num_dbs = '" . $id . "'";
 
                     if ($valeur = $connexion->query($req)) {
                         $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
@@ -37,7 +37,7 @@
                             ?>
                             <tr>
                                 <td style="text-align: center"><?php echo stripslashes($list['date_dbs']); ?></td>
-                                <td style="text-align: center"><?php echo stripslashes($list['code_dbs']); ?></td>
+                                <td style="text-align: center"><?php echo stripslashes($list['num_dbs']); ?></td>
                                 <td><?php echo stripslashes($list['libelle_dd']); ?></td>
                                 <td style="text-align: center"><?php echo stripslashes($list['qte_dd']); ?></td>
                                 <td><?php echo stripslashes($list['observations_dd']); ?></td>

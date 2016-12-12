@@ -54,7 +54,7 @@
                     pour l'imprimer.
                 </div>
                 ";*/
-                $_SESSION['id'] = $demande->code_dbs;
+                $_SESSION['id'] = $demande->num_dbs;
             }
             else
                 echo "

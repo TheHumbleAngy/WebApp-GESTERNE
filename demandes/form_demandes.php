@@ -11,7 +11,7 @@
         <?php
         $code = $_GET['id'];
 
-        $sql = "SELECT * FROM demandes WHERE code_dbs = '" . $code . "'";
+        $sql = "SELECT * FROM demandes WHERE num_dbs = '" . $code . "'";
         if ($valeur = $connexion->query($sql)) {
             $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
             foreach ($ligne as $data) {
@@ -35,16 +35,16 @@
                                         </td>
                                         <td>
                                             <label>
-                                                <input type="text" size="10" name="code_dbs" class="form-control"
-                                                       id="code_dbs"
-                                                       value="<?php echo stripslashes($data['code_dbs']); ?>"
+                                                <input type="text" size="10" name="num_dbs" class="form-control"
+                                                       id="num_dbs"
+                                                       value="<?php echo stripslashes($data['num_dbs']); ?>"
                                                        readonly/>
                                             </label>
                                         </td>
                                         <td></td>
                                         <td></td>
                                         <td rowspan="3" style="padding-right: 0">
-                                            <a href="demandes/fiche_demandes.php?id=<?php echo stripslashes($data['code_dbs']); ?>"
+                                            <a href="demandes/fiche_demandes.php?id=<?php echo stripslashes($data['num_dbs']); ?>"
                                                target="_blank" title="Imprimer">
                                                 <img src="img/icons_1775b9/agreement_1.png">
                                             </a>
@@ -59,7 +59,7 @@
                                                             FROM employes AS e
                                                             INNER JOIN demandes AS d
                                                             ON e.code_emp = d.code_emp
-                                                            WHERE d.code_dbs = '" . stripslashes($data['code_dbs']) . "'";
+                                                            WHERE d.num_dbs = '" . stripslashes($data['num_dbs']) . "'";
                                                     if ($valeur = $connexion->query($sql)) {
                                                         $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
                                                         $nom_prenoms_emp = "";
@@ -85,7 +85,7 @@
 
                                 <div class="feedback">
                                     <?php
-                                        $sql = "SELECT * FROM details_demande WHERE code_dbs = '" . $code . "'";
+                                        $sql = "SELECT * FROM details_demande WHERE num_dbs = '" . $code . "'";
                                         if ($valeur = $connexion->query($sql)) {
                                             $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
                                             ?>
@@ -142,7 +142,7 @@
                         option: "bien_service"
                     },
                     success: function (resultat) {
-                        $('#code_dbs').val(resultat);
+                        $('#num_dbs').val(resultat);
                     }
                 });
             </script>
@@ -164,7 +164,7 @@
                                 <td class="champlabel" title="Le numéro de la demande en cours de saisie">Numéro :</td>
                                 <td>
                                     <label>
-                                        <input type="text" size="10" name="code_dbs" class="form-control" id="code_dbs"
+                                        <input type="text" size="10" name="num_dbs" class="form-control" id="num_dbs"
                                                readonly/>
                                     </label>
                                 </td>
@@ -262,7 +262,7 @@
         </body>
 
         <?php
-        if (isset($_POST['code_dbs'])) {
+        if (isset($_POST['num_dbs'])) {
             include_once 'class_demandes.php';
 
             $demande = new demandes();
@@ -274,7 +274,7 @@
                     $nbr = $_POST['nbr'];
 
                     for ($i = 0; $i < $nbr; $i++) {
-                        if ($details_demande->recuperation_details($demande->code_dbs, $i)) {
+                        if ($details_demande->recuperation_details($demande->num_dbs, $i)) {
                             if ($details_demande->enregistrement_details())
                                 header('Location: form_principale.php?page=demandes/form_demandes&action=ajout');
                             else {

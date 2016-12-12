@@ -14,7 +14,7 @@
         if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
         $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
-        $sql = "DELETE FROM proformas WHERE ref_fp = '" . $id . "'";
+        $sql = "DELETE FROM proformas WHERE num_fp = '" . $id . "'";
 
         if ($result = mysqli_query($connexion, $sql)) {
             echo "

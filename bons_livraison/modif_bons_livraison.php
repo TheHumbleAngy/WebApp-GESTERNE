@@ -6,15 +6,15 @@
  * Time: 16:35
  */
 
-$code_bl = $_SESSION['code_temp'];
+$num_bl = $_SESSION['code_temp'];
 
-$req = "SELECT * FROM bons_livraison WHERE code_bl ='" . $code_bl . "'";
+$req = "SELECT * FROM bons_livraison WHERE num_bl ='" . $num_bl . "'";
 
 if ($result = $connexion->query($req)) {
 
     $lignes = $result->fetch_all(MYSQLI_ASSOC);
     foreach ($lignes as $ligne) {
-        $code_bl = stripslashes($ligne['code_bl']);
+        $num_bl = stripslashes($ligne['num_bl']);
         $dateetablissement_bl = stripslashes($ligne['dateetablissement_bl']);
         $datereception_bl = stripslashes($ligne['datereception_bl']);
         $code_four = stripslashes($ligne['code_four']);
@@ -148,7 +148,7 @@ if ($result = $connexion->query($req)) {
                         </button>
                     </div>
 
-                    <input type="hidden" id="code_bl" name="code_bl" value="<?php echo $code_bl; ?>"/>
+                    <input type="hidden" id="num_bl" name="num_bl" value="<?php echo $num_bl; ?>"/>
                 </form>
             </div>
         </div>

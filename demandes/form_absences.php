@@ -20,7 +20,7 @@
             <form id="myform">
                 <table class="formulaire" style="width: 100%" border="0">
                     <tr>
-                        <td colspan="4">
+                        <td colspan="7">
                             <div class="jumbotron"
                                  style="width: 70%;
                                     padding: 20px 30px 20px 30px;
@@ -39,7 +39,7 @@
                     </tr>
                     <tr>
                         <td class="champlabel">Motif :</td>
-                        <td>
+                        <td colspan="4">
                             <label>
                                 <textarea id="motif" rows="2" cols="30" class="form-control" required
                                           style="resize: none"></textarea>
@@ -54,11 +54,23 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="champlabel">Durée :</td>
+                        <td class="champlabel">Début :</td>
                         <td>
                             <label>
-                                <input type="number" id="duree" class="form-control" min="1" max="5" required>
-                            </label> Heure(s)
+                                <input type="text" name="debut" size="10"
+                                       id="debut_dab" readonly
+                                       title="Veuillez cliquer ici pour sélectionner une date"
+                                       class="form-control"/>
+                            </label>
+                        </td>
+                        <td class="champlabel">Fin :</td>
+                        <td>
+                            <label>
+                                <input type="text" name="fin" size="10"
+                                       id="fin_dab" readonly
+                                       title="Veuillez cliquer ici pour sélectionner une date"
+                                       class="form-control"/>
+                            </label>
                         </td>
                     </tr>
                 </table>
@@ -103,6 +115,8 @@
 
 <script>
     var attr = $('#valider').attr('data-toggle');
+    $('#debut_dab').datepicker({dateFormat: 'dd-mm-yy'});
+    $('#fin_dab').datepicker({dateFormat: 'dd-mm-yy'});
 
     function validation() {
         var i = 0;
