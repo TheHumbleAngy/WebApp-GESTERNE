@@ -16,7 +16,7 @@
         echo '
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
-        <h5 style="color: #29487d">Sur la période du ' . $debut . ' au ' . $fin . '</h5>
+        <h5 style="color: #29487d">Sur la période du <strong>' . $debut . '</strong> au <strong>' . $fin . '</strong></h5>
     </div>
 </div>
 ';
@@ -175,7 +175,6 @@
                                         </thead>
                     ';
 
-                        //$sql = "SELECT * FROM details_sortie WHERE num_sort = '" . stripslashes($list['num_sort']) . "'";
                         $sql = "SELECT num_sort, num_dsort, qte_dsort, designation_art
                                 FROM details_sortie
                                   INNER JOIN articles ON details_sortie.code_art = articles.code_art
@@ -184,18 +183,7 @@
                         if ($result = $connexion->query($sql)) {
                             $lignes = $result->fetch_all(MYSQLI_ASSOC);
                             foreach ($lignes as $liste) {
-                                /*$sql1 = "SELECT designation_art FROM articles WHERE code_art = '" . stripslashes($liste['code_art']) . "'";
-                                $art = "";
-                                if ($result1 = $connexion->query($sql1)) {
-                                    $lignes1 = $result1->fetch_all(MYSQLI_ASSOC);
-                                    foreach ($lignes1 as $liste1) {
-                                        $art = stripslashes($liste1['designation_art']);
-                                    }
-                                }*/
                                 $art = stripslashes($liste['designation_art']);
-                                /*$nom = stripslashes($liste['nom_emp']);
-                                $prenom = stripslashes($liste['prenoms_emp']);
-                                $employe = $prenom . " " . $nom;*/
                                 echo '
                         <tr>
                             <td>' . $art . '</td>

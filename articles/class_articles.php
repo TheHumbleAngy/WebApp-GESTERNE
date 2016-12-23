@@ -169,22 +169,13 @@
 
             if ($res->num_rows > 0) {
                 $ligne = $res->fetch_all(MYSQLI_ASSOC);
-
-                //reccuperation du code
                 $num_entr = "";
-                foreach ($ligne as $data) {
+                foreach ($ligne as $data)
                     $num_entr = stripslashes($data['num_entr']);
-                }
-
-                //extraction des 4 derniers chiffres
                 $num_entr = substr($num_entr, -4);
-
-                //incrementation du nombre
                 $num_entr += 1;
-            } else {
-                //s'il n'existe pas d'enregistrements dans la base de données
+            } else
                 $num_entr = 1;
-            }
 
             $b = "ENT";
             $dat = date("Y");
@@ -237,7 +228,7 @@
                     //Recuperation du code de l'article en cours, celui pour lequel l'entree d'article est en cours de saisie
                     $libelle = addslashes($_POST['libelle'][$i]);
 
-                    $sql = sprintf("SELECT code_art, stock_art FROM articles WHERE designation_art = '%s'", $libelle); //print_r($sql); echo $i . '<br>';
+                    $sql = "SELECT code_art, stock_art FROM articles WHERE designation_art = '$libelle'"; //print_r($sql); echo $i . '<br>';
                     $res = $connexion->query($sql);
                     $code_art = "";
                     $stock_art = "";

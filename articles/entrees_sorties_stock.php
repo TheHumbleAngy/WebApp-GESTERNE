@@ -42,7 +42,7 @@
             echo '<tr>
                 <td style="vertical-align: middle">
                     <label style="width: 100%" class="nomargin_tb">
-                        <select name="libelle_dd[]" required class="form-control">
+                        <select name="libelle[]" required class="form-control">
                             <option disabled selected>--- Sélectionner un article ---</option>';
 
             $sql = "SELECT designation_art, stock_art FROM articles ORDER BY designation_art ASC ";
@@ -57,7 +57,7 @@
                 </td>
                 <td style="text-align: center; vertical-align: middle">
                     <label style="margin-left: auto; margin-right: auto" class="nomargin_tb">
-                        <input type="number" value="1" min="1" maxlength="4" class="form-control nomargin_tb" name="qte_serv[]">
+                        <input type="number" value="1" min="1" maxlength="4" class="form-control nomargin_tb" name="qte[]">
                     </label>
                 </td>
                 <td style="vertical-align: middle">

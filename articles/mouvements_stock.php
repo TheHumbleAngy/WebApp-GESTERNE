@@ -110,13 +110,27 @@
             $entree = new entrees_articles();
 
             if ($entree->recuperation($_SESSION['user_id'])) {
-                if (!($entree->enregistrement())) {
-                    echo "Une erreur s'est produite lors de la tentative d'enregistrement des informations";
-                }
+                if ($entree->enregistrement()) {
+                    header('Location: form_principale.php?page=articles/mouvements_stock&action=entree');
+                } else
+                    echo "
+                <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
+                    <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
+                        <span aria-hidden='true'>&times;</span>
+                    </button>
+                    <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement de l'entrée en stock. Veuillez contacter l'administrateur.
+                </div>
+                ";
             }
-            else {
-                echo "Une erreur s'est produite lors de la tentative de récupération des informations entrées";
-            }
+            else
+                echo "
+                <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
+                    <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
+                        <span aria-hidden='true'>&times;</span>
+                    </button>
+                    <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de récupération de l'entrée de stock. Veuillez contacter l'administrateur.
+                </div>
+                ";
         }
         ?>
 
