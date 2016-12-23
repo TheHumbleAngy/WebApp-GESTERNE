@@ -33,42 +33,36 @@
         if ($resultat = $connexion->query($req)) {
             if ($resultat->num_rows == 1) {
                 $ligne = $resultat->fetch_array(MYSQLI_ASSOC);
-//                $code_emp = $ligne['code_emp'];
-
-//                $req = "SELECT * FROM droits WHERE code_emp = '" . $code_emp . "'";
-//                print_r($req);
-//                if ($result = $connexion->query($req)) {
-//                    if ($resultat->num_rows == 1) {
-//                        session_start();
-                        $_SESSION['etat_connecte'] = $ligne['etat_connecte'];
-
-                        if ($ligne['etat_connecte'] == 0) {
-                            $_SESSION['user_id'] = $ligne['code_emp'];
-                            $_SESSION['email'] = $email;
-                            $_SESSION['nom_emp'] = $ligne['nom_emp'];
-                            $_SESSION['prenoms_emp'] = $ligne['prenoms_emp'];
-                            $_SESSION['mdp'] = $password;
-                            $_SESSION['test_login'] = TRUE;
-
-                            //On met à jour la propriété etat_connecte de la table employés
-                            $req = "UPDATE employes SET etat_connecte = 1 WHERE email_emp = '" . $email . "'";
-
-                            $resultat = $connexion->query($req);
-                            
-                            $_SESSION['login_time'] = time();
-                            //ini_set("session.cookie_lifetime", "60");
-
-                            if (!$resultat)
-                                return FALSE;
-                            else {
-                                $_SESSION['etat_connecte'] = 1;
-
-                                return TRUE;
-                            }
-                        } else return FALSE;
-//                    } else return FALSE;
-//                } else return FALSE;
-            } else return FALSE;
+        
+                $_SESSION['etat_connecte'] = $ligne['etat_connecte'];
+        
+                if ($_SESSION['etat_connecte'] == 0) {
+                    $_SESSION['user_id'] = $ligne['code_emp'];
+                    $_SESSION['email'] = $email;
+                    $_SESSION['nom_emp'] = $ligne['nom_emp'];
+                    $_SESSION['prenoms_emp'] = $ligne['prenoms_emp'];
+                    $_SESSION['mdp'] = $password;
+                    $_SESSION['test_login'] = TRUE;
+            
+                    //On met à jour la propriété etat_connecte de la table employés
+                    $req = "UPDATE employes SET etat_connecte = 1 WHERE email_emp = '" . $email . "'";
+            
+                    $resultat = $connexion->query($req);
+            
+                    $_SESSION['login_time'] = time();
+                    //ini_set("session.cookie_lifetime", "60");
+            
+                    if (!$resultat)
+                        return FALSE;
+                    else {
+                        $_SESSION['etat_connecte'] = 1;
+                
+                        return TRUE;
+                    }
+                }
+                else return FALSE;
+            }
+            else return FALSE;
         } else return FALSE;
     }
 

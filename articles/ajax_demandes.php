@@ -44,9 +44,7 @@
 
         $nbr = 0;
         for ($i = 0; $i < $length; $i++) {
-//            echo $demandes[$i];
             $sql = "SELECT * FROM details_demande WHERE num_dbs = '" . $demandes[$i] . "' AND statut_dd = 'non satisfait'";
-//            echo "<br>";
             if (($result = $connexion->query($sql)) && ($result->num_rows > 0)) {
                 $lignes = $result->fetch_all(MYSQLI_ASSOC);
 
@@ -61,7 +59,7 @@
                             <input type="hidden" name="num_demandes[]" value="' . stripslashes($list['num_dbs']) . '">
                             <input type="hidden" name="num_details_demande[]" value="' . stripslashes($list['num_dd']) . '"></td>';
                     echo '<td style="text-align: center">' . $qte_dmd . '<input type="hidden" name="qte_dd[]" value="' . stripslashes($list['qte_dd']) . '"></td>';
-                    $sql = "SELECT qte_serv FROM details_demande WHERE num_dbs = '" . $dmd . "' AND libelle_dd = '" . addslashes($libelle_dmd) . "'";
+                    $sql = "SELECT qte_serv FROM details_demande WHERE num_dbs = '" . $demandes[$i] . "' AND libelle_dd = '" . addslashes($libelle_dmd) . "'";
                     if ($result = $connexion->query($sql)) {
                         $lines = $result->fetch_assoc();
                         $qte_serv = (int)$lines['qte_serv'];
@@ -94,8 +92,4 @@
             }
         }
         echo '<input type="hidden" name="nbr_dmd" id="nbr_dmd" value="' . $nbr . '">';
-
-//        $sql = "SELECT * FROM details_demande WHERE num_dbs = '" . $dmd . "' AND statut_dd = 'non satisfait'";
-
-
     }

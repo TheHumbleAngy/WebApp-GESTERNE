@@ -1,23 +1,26 @@
 <?php
     require_once 'fonctions.php';
 
-    $config = parse_ini_file('../config.ini');
-    $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+    $connexion = db_connect();
     session_start();
 
     if (isset($_POST['txt_email'], $_POST['txt_password'])) {
         $email = $_POST['txt_email'];
-        $password = $_POST['txt_password'];
+        $password = $_POST['txt_password']; //login($email, $password);
 
         if (login($email, $password)) {
             header('Location: form_principale.php');
         } else {
-            $status = $_SESSION['etat_connecte'];
-            if ($status === 1) {
-                header('Location: index.php?error=2');
-            } else {
+            if (isset($_SESSION['etat_connecte'])) { //echo $_SESSION['etat_connecte'];
+                $status = $_SESSION['etat_connecte'];
+                session_destroy();
+                $_SESSION = array();
+                if ($status == 1)
+                    header('Location: index.php?error=2');
+                else
+                    header('Location: index.php?error=1');
+            } else
                 header('Location: index.php?error=1');
-            }
         }
     } else {
 
@@ -27,9 +30,6 @@
         if (!$result)
             exit ($connexion->error);
         else {
-            // Unset all session values
-            $_SESSION = array();
-
             // get session parameters
             $params = session_get_cookie_params();
 
@@ -43,8 +43,9 @@
 
             // Destroy session
             session_destroy();
+
+            // Unset all session values
+            $_SESSION = array();
             header('Location:index.php');
         }
     }
-
-
