@@ -42,9 +42,11 @@
 
         $demande = new demandes_absence();
 
-        if ($demande->recuperation($_SESSION['user_id'])) {
+        $demande->recuperation($_SESSION['user_id']);
+
+        /*if ($demande->recuperation($_SESSION['user_id'])) {
             if ($demande->enregistrement($_SESSION['user_id'])) {
-                /*echo "
+                echo "
                 <div class='alert alert-success alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
                     <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                         <span aria-hidden='true'>&times;</span>
@@ -53,7 +55,7 @@
                     <strong><a href='../demandes/fiche_absence.php' target='_blank'>ici</a></strong> 
                     pour l'imprimer.
                 </div>
-                ";*/
+                ";
                 $_SESSION['id'] = $demande->num_dbs;
             }
             else
@@ -73,5 +75,5 @@
                     </button>
                     <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de récupération des informations de la demande. Veuillez contacter l'administrateur.
                 </div>
-                ";
+                ";*/
     }

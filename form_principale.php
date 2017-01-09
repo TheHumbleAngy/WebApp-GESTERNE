@@ -62,9 +62,32 @@
                 <link rel="shortcut icon" href="img/icone_ncare.ico"/>
 
                 <title>.:NCARe | GESTERNE:.</title>
+
+                <script>
+                    var timer = 0;
+                    function auto_logout() {
+                        window.location = "processing.php";
+                    }
+
+                    function set_interval() {
+                        timer = setInterval('auto_logout()', 60 * 60 * 1000);
+                    }
+                    
+                    function reset_interval() {
+                        if (timer != 0) {
+                            clearInterval(timer);
+                            timer = 0;
+                            set_interval();
+                        }
+                    }
+                    
+                    /*window.onbeforeunload = function () {
+                        return "Unloading...";
+                    }*/
+                </script>
             </head>
             <html>
-        <body class="arriere_plan">
+        <body class="arriere_plan" onload="set_interval()" onclick="reset_interval()" onkeypress="reset_interval()" onscroll="reset_interval()">
         <div class="container" style="padding-right: 0; padding-left: 0">
 
             <div style="position: fixed; top: 0; z-index: 100; width: 100%; box-shadow: 0 0 8px #000">

@@ -158,13 +158,13 @@
         protected $duree_dab;
 
         function recuperation($code){
-            $this->code_emp = $code;
-            $this->date_dbs = date("Y-m-d");
-            $this->motif_dab = addslashes($_POST['motif']);
-            $this->lieu_dab = addslashes($_POST['lieu']);
-            $this->duree_dab = addslashes($_POST['duree']);
+            echo $this->code_emp = $code; echo "<br>";
+            echo $this->date_dbs = date("Y-m-d"); echo "<br>";
+            echo $this->motif_dab = addslashes($_POST['motif']); echo "<br>";
+            echo $this->lieu_dab = addslashes($_POST['lieu']); echo "<br>";
+            echo $this->duree_dab = addslashes($_POST['duree']); echo "<br>";
 
-            return true;
+//            return true;
         }
 
         function afficher() {
