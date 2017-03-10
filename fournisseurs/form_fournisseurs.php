@@ -87,6 +87,46 @@
                         <button class="btn btn-info" type="button" name="valider" onclick="ajout()" style="width: 150px">
                             Valider
                         </button>
+                        <div class="modal fade" id="modal-success" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close"><span
+                                                aria-hidden="true">&times;</span>
+                                        </button>
+                                        <h4 class="modal-title" style="color: #0e76bc">
+                                            <span class="glyphicon glyphicon-info-sign"></span>
+                                            Message
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h5>Le fournisseur a été enregistré avec succès.</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="modal-warning" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close"><span
+                                                aria-hidden="true">&times;</span>
+                                        </button>
+                                        <h4 class="modal-title" style="color: red">
+                                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                            Message
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h5>
+                                            Veuillez renseigner tous les champs précédés de "*".
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </form>
 
@@ -150,7 +190,7 @@
 
         function ajout() {
             if (validation() != 0) {
-                alert('Veuillez renseigner tous les champs précédés de * s\'il vous plaît.');
+                $('#modal-warning').modal('show');
             } else {
                 var nom_four = $('#nom_four').val();
                 var email_four = $('#email_four').val();

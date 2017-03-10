@@ -84,7 +84,7 @@
 
                     <div class="centrer_boutton" style="width: 170px">
                         <button class="btn btn-default connexion" type="submit" name="connexion" style="width: 170px">
-                            <img src="img/icons_1775b9/key.png" width="18"> Se Connecter
+                            Se Connecter <img src="img/icons_1775b9/key.png" width="18">
                         </button>
                     </div>
                 </form>

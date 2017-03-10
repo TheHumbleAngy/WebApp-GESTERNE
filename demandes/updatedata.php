@@ -38,13 +38,12 @@
         }
     } elseif (isset($_GET['operation']) && $_GET['operation'] == "ajout") {
         include_once 'class_demandes.php';
+        include '../fonctions.php';
         session_start();
 
         $demande = new demandes_absence();
 
-        $demande->recuperation($_SESSION['user_id']);
-
-        /*if ($demande->recuperation($_SESSION['user_id'])) {
+        if ($demande->recuperation($_SESSION['user_id'])) {
             if ($demande->enregistrement($_SESSION['user_id'])) {
                 echo "
                 <div class='alert alert-success alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
@@ -56,7 +55,8 @@
                     pour l'imprimer.
                 </div>
                 ";
-                $_SESSION['id'] = $demande->num_dbs;
+                //On recupere le numero de la demande pour la fiche PDF
+                $_SESSION['id'] = $demande->num_dmd;
             }
             else
                 echo "
@@ -75,5 +75,5 @@
                     </button>
                     <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de récupération des informations de la demande. Veuillez contacter l'administrateur.
                 </div>
-                ";*/
+                ";
     }

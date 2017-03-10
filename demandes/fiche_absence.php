@@ -6,7 +6,8 @@
      * Time: 17:14
      */
 
-    require_once "../fpdf/fpdf.php";
+    require "../fpdf/fpdf.php";
+    include "../fonctions.php";
     header('Content-Type: text/html; charset=iso-8859-1');
     session_start();
 
@@ -191,10 +192,13 @@
     $pdf->SetWidths(array(25, 70, 40, 60, 82));
 
     //DETAILS DE LA DEMANDE
-    if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
+//    if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
+    $iniFile = 'config.ini';
+    while (!$config = parse_ini_file($iniFile))
+        configpath($iniFile);
     $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
-    $sql = "SELECT nom_emp, prenoms_emp, fonction_emp, motif_dab, lieu_dab, duree_dab 
+    $sql = "SELECT nom_emp, prenoms_emp, fonction_emp, motif_dab, lieu_dab, duree_dab, debut_dab, fin_dab
             FROM employes AS e INNER JOIN demandes_absence AS d 
             ON e.code_emp = d.code_emp
             WHERE e.code_emp = '" . $_SESSION['user_id'] . "' AND d.code_dab = '" . $_SESSION['id'] . "'";
@@ -208,7 +212,8 @@
                 $motif = $list['motif_dab'];
                 $lieu = $list['lieu_dab'];
                 $duree = $list['duree_dab'];
-
+                $debut = $list['debut_dab'];
+                $fin = $list['fin_dab'];
             }
         }
     }
@@ -247,8 +252,8 @@
     
     $pdf->Line(20, 114, 210 - 25, 114);
     $pdf->SetFont('Arial', '', 10);
-    $pdf->SetWidths(array(15, 60, 50));
-    $pdf->Row(array("", "DUREE", strtoupper($duree) . " Heure(s)"));
+    $pdf->SetWidths(array(15, 60, 70));
+    $pdf->Row(array("", "DUREE", strtoupper($duree) . " jour(s) " . iconv('UTF-8', 'windows-1252', "à partir du ") . rev_date($debut)));
     $pdf->Ln(12);
     
     $pdf->Line(20, 123, 210-25, 123);

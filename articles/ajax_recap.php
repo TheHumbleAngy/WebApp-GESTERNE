@@ -36,7 +36,7 @@
                 echo '
 <div class="col-md-6">
     <strong>
-        <h5 style="color: #29487d">Entrées :</h5>
+        <h4 style="color: #29487d"><span class="label label-info">Entrées </span></h4>
     </strong>
     <div class="panel panel-default">
         <table class="table table-hover table-bordered">
@@ -117,7 +117,7 @@
                 echo '
                 <div class="col-md-6">
                     <strong>
-                        <h5 style="color: #29487d">Entrée : </h5>
+                        <h5 style="color: #29487d"><span class="label label-info">Entrée </span></h5>
                     </strong>
                     <strong>
                         <h5 style="color: #29487d">Il n\'y a eu aucune entrée durant cette période.</h5>
@@ -133,7 +133,7 @@
                     echo '
 <div class="col-md-6">
     <strong>
-        <h5 style="color: #29487d">Sorties :</h5>
+        <h4 style="color: #29487d"><span class="label label-info">Sorties </span></h4>
     </strong>
     <div class="panel panel-default">
         <table class="table table-hover table-bordered">
@@ -211,7 +211,7 @@
                     echo '
                 <div class="col-md-6">
                     <strong>
-                        <h5 style="color: #29487d">Sorties : </h5>
+                        <h5 style="color: #29487d"><span class="label label-info">Sorties </span></h5>
                     </strong>
                     <strong>
                         <h5 style="color: #29487d">Il n\'y a eu aucune sortie durant cette période.</h5>

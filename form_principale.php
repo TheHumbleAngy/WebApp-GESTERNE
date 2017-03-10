@@ -87,7 +87,7 @@
                 </script>
             </head>
             <html>
-        <body class="arriere_plan" onload="set_interval()" onclick="reset_interval()" onkeypress="reset_interval()" onscroll="reset_interval()">
+        <body class="arriere_plan">
         <div class="container" style="padding-right: 0; padding-left: 0">
 
             <div style="position: fixed; top: 0; z-index: 100; width: 100%; box-shadow: 0 0 8px #000">

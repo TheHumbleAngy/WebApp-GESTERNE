@@ -118,7 +118,7 @@
 
     function ajout() {
         if (validation() != 0) {
-            alert('Veuillez renseigner tous les champs précédés de * s\'il vous plaît.');
+            alert('Veuillez renseigner tous les champs précédés de ""*"');
             $('#valider').removeAttr('data-toggle');
         } else {
             $('#valider').attr('data-toggle', attr);

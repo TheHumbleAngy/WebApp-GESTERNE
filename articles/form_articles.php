@@ -26,6 +26,27 @@
                                        required
                                        class="form-control" onblur="this.value = this.value.toUpperCase();"/>
                             </label>
+                            <div class="modal fade" id="modal-article" tabindex="-1" role="dialog">
+                                <div class="modal-dialog modal-sm" role="document">
+                                    <div class="modal-content" style="text-align: center">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close"><span
+                                                    aria-hidden="true">&times;</span>
+                                            </button>
+                                            <h4 class="modal-title" style="color: red">
+                                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                                Message
+                                            </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h5>
+                                                Ce nom d'article existe déjà dans la base.
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                         <td class="champlabel">*Stock Initial :</td>
                         <td>
@@ -85,6 +106,46 @@
                             onclick="ajout()">
                         Valider
                     </button>
+                    <div class="modal fade" id="modal-success" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close"><span
+                                            aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title" style="color: #0e76bc">
+                                        <span class="glyphicon glyphicon-info-sign"></span>
+                                        Message
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <h5>L'article a été enregistré avec succès.</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="modal-warning" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close"><span
+                                            aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title" style="color: red">
+                                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                        Message
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <h5>
+                                        Veuillez renseigner tous les champs précédés de "*".
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="info"></div>
@@ -134,7 +195,7 @@
 
     $('#designation_art').bind('blur', function () {
         if (articles.indexOf(this.value) > -1) {
-            alert("Cet article existe déjà dans la base.");
+            $('#modal-article').modal('show');
             this.value = ""; this.focus();
         }
     });
@@ -150,7 +211,7 @@
 
     function ajout() {
         if (validation() != 0) {
-            alert('Veuillez renseigner tous les champs précédés de * s\'il vous plaît.');
+            $('#modal-warning').modal('show');
         }
         else {
             var code_grp = $('#code_grp').val();
@@ -168,11 +229,9 @@
                 url: 'articles/updatedata.php?operation=' + operation,
                 data: infos,
                 success: function (data) {
-                    $('#info').html(data);
+//                    $('#info').html(data);
                     $('#myform').trigger('reset');
-                    setTimeout(function () {
-                        $(".alert-success").slideToggle("slow");
-                    }, 2500);
+                    $('#modal-success').modal('show');
                     libellesArticles();
                 }
             });

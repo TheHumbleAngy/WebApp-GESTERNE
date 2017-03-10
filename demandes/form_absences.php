@@ -84,7 +84,7 @@
                             style="width: 150px">
                         Valider
                     </button>
-                    <div class="modal fade"
+                    <!--<div class="modal fade"
                          id="modalFiche"
                          data-backdrop="static"
                          tabindex="-1"
@@ -106,7 +106,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </form>
         </div>
@@ -115,8 +115,8 @@
 
 <script>
     var attr = $('#valider').attr('data-toggle');
-    $('#debut_dab').datepicker({dateFormat: 'dd-mm-yy'});
-    $('#fin_dab').datepicker({dateFormat: 'dd-mm-yy'});
+    $('#debut_dab').datepicker({dateFormat: 'mm/dd/yy'});
+    $('#fin_dab').datepicker({dateFormat: 'mm/dd/yy'});
 
     function validation() {
         var i = 0;
@@ -129,16 +129,21 @@
 
     function ajout() {
         if (validation() != 0) {
-            alert('Veuillez renseigner tous les champs précédés de * s\'il vous plaît.');
+            alert('Veuillez renseigner tous les champs précédés de ""*"');
             $('#valider').removeAttr('data-toggle');
         } else {
             $('#valider').attr('data-toggle', attr);
             var motif_dab = $('#motif').val();
             var lieu_dab = $('#lieu').val();
-            var duree_dab = $('#duree').val();
+            var debut_dab = $('#debut_dab').val();
+            var fin_dab = $('#fin_dab').val();
 
-            var infos = "motif=" + motif_dab + "&lieu=" + lieu_dab + "&duree=" + duree_dab;
-            var operation = "ajout";
+            function diffDates(date1, date2) {
+                return (new Date(date2) - new Date(date1))/(1000*60*60*24) | 0;
+            }
+
+            var infos = "motif=" + motif_dab + "&lieu=" + lieu_dab + "&debut=" + debut_dab + "&fin=" + fin_dab + "&duree=" + diffDates(debut_dab, fin_dab);
+            var operation =  "ajout";
 
             $.ajax({
                 type: 'POST',

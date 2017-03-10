@@ -208,16 +208,23 @@
     }
 
     function rev_date($date) {
-        $new_date = strtr($date, "/", "-");
+        if (strpos($date, '-') == TRUE) {
+            $arr = $date;// $date format yy-mm-dd
+            $arr = preg_split("/-/", $arr);
 
-        $arr = preg_split("/-/", $new_date);
-        
-        $new_date = "";
-        for ($i = count($arr) - 1; $i >= 0; $i--) {
-            if ($i <> 0)
-                $new_date .= $arr[$i] . "-";
-            else
-                $new_date .= $arr[$i];
+            $day = $arr[2];
+            $month = $arr[1];
+            $year = $arr[0];
+
+            return $day . "/" . $month . "/" . $year;
+        } else {
+            $arr = strtr($date, "/", "-"); // $date format mm/dd/yy
+            $arr = preg_split("/-/", $arr);
+
+            $day = $arr[1];
+            $month = $arr[0];
+            $year = $arr[2];
+
+            return $year . "-" . $month . "-" . $day;
         }
-        return $new_date;
     }

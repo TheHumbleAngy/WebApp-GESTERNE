@@ -6,7 +6,7 @@
      * Time: 15:10
      */
     error_reporting(E_ERROR);
-    protected function configpath(&$ini) {
+    function configpath(&$ini) {
         return $ini = '../' . $ini;
     }
 

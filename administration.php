@@ -259,10 +259,11 @@
             $employe = $_POST['emp'];
             $sql = "UPDATE employes SET code_droit = (SELECT code_droit FROM droits WHERE libelle_droit = '$droit') WHERE code_emp = '$employe'";
 
+            print_r($connexion);
             if ($res = mysqli_query($connexion, $sql)) {
                 header('Location:form_principale.php?page=administration&source=utilisateurs');
             }
-            else exit(mysqli_error($connexion));
+            else echo $sql;
         }
     }
 ?>

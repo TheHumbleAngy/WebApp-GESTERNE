@@ -274,7 +274,7 @@
                     $nbr = $_POST['nbr'];
 
                     for ($i = 0; $i < $nbr; $i++) {
-                        if ($details_demande->recuperation_details($demande->num_dbs, $i)) {
+                        if ($details_demande->recuperation_details($demande->num_dmd, $i)) {
                             if ($details_demande->enregistrement_details())
                                 header('Location: form_principale.php?page=demandes/form_demandes&action=ajout');
                             else {
