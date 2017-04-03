@@ -48,11 +48,7 @@
                                 <tr>
                                     <td class="champlabel">Référence :</td>
                                     <td>
-                                        <label>
-                                            <input type="text" name="code_art" id="code_art" size="10" readonly required
-                                                   value="<?php echo $data['code_art']; ?>"
-                                                   class="form-control"/>
-                                        </label>
+                                        <h4><span class="label label-primary"><?php echo $data['code_art']; ?></span></h4>
                                     </td>
                                 </tr>
                                 <tr>
@@ -67,7 +63,7 @@
                                     <td class="champlabel">Stock Initial :</td>
                                     <td>
                                         <label>
-                                            <input type="text" name="stock_art" size="3" required readonly
+                                            <input type="text" name="stock_art" size="2" required readonly
                                                    class="form-control" value="<?php echo $data['stock_art']; ?>"/>
                                         </label>
                                     </td>
@@ -98,7 +94,7 @@
                                                    class="form-control"/>
                                         </label>
                                     </td>
-                                    <td class="champlabel" title="Niveau de R�approvisionnement">Niveau Réapp. :</td>
+                                    <td class="champlabel" title="Niveau de Réapprovisionnement">Niveau Réapp. :</td>
                                     <td>
                                         <label>
                                             <input type="text" name="niveau_reappro_art" size="2" readonly

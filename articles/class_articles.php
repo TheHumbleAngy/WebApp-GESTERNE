@@ -52,7 +52,7 @@
 
         function enregistrement() {
             //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
-            if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
+            if (!$config = parse_ini_file('../../../config.ini')) $config = parse_ini_file('../../config.ini');
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             
             if ($connexion->connect_error)
@@ -101,7 +101,7 @@
 
         function modification($code) {
             //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
-            if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
+            if (!$config = parse_ini_file('../../../config.ini')) $config = parse_ini_file('../../config.ini');
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             
             if ($connexion->connect_error)
@@ -124,7 +124,7 @@
 
         function suppression($code) {
             //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
-            if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
+            if (!$config = parse_ini_file('../../../config.ini')) $config = parse_ini_file('../../config.ini');
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             
             if ($connexion->connect_error)
@@ -188,6 +188,7 @@
 
             $sql = "INSERT INTO entrees_stock (num_entr, code_emp, date_entr)
                 VALUES ('$this->code', '$this->code_emp', '$this->date_mvt')";
+//            print_r($sql);
 
             if ($result = mysqli_query($connexion, $sql)) {
 
@@ -249,17 +250,16 @@
                     $sql = "INSERT INTO details_entree (num_dentr, num_entr, qte_dentr, code_art, rem_entr)
                     VALUES ('$num_dentr', '$this->code', '$qte', '$code_art', '$rem')"; //print_r($sql);
 
-                    /*$result = mysqli_query($connexion, $sql);
-                    print_r($result);*/
+                    /*$result = mysqli_query($connexion, $sql);*/
                     if ($result = mysqli_query($connexion, $sql)) {
                         //Mise à jour de la quantité de l'article en cours
                         $sql = "UPDATE articles SET stock_art = $stock_art WHERE code_art = '" . $code_art . "'";
+//                        print_r($sql);
                         mysqli_query($connexion, $sql);
                     }
                 }
 
                 return TRUE;
-                //            return !$test ? TRUE : FALSE;
             } else
                 return FALSE;
         }
@@ -268,8 +268,10 @@
     class sorties_articles extends mouvements {
         protected $arr_num_dmd;
         protected $arr_num_dd;
-        
-        function recuperation($employe) {
+        protected $nbr_dmd;
+
+        function recuperation($employe)
+        {
             $this->date_mvt = date('Y-m-j');
             $this->code_emp = $employe;
             $this->num_dbs = htmlspecialchars($_POST['num_dmd'], ENT_QUOTES);
@@ -278,18 +280,35 @@
             return TRUE;
         }
 
-        protected function configpath(&$ini) {
+        protected function configpath(&$ini)
+        {
             return $ini = '../' . $ini;
         }
-        
-        function recup_demandes($arr_num_dmd, $arr_num_dd) {
+
+        function recup_demandes($arr_num_dmd, $arr_num_dd, $nbr_dmd)
+        {
             $this->arr_num_dmd = $arr_num_dmd;
             $this->arr_num_dd = $arr_num_dd;
-            
+            $this->nbr_dmd = $nbr_dmd;
+
             return TRUE;
         }
 
-        function enregistrement($nbr, $arr_libelle, $arr_qte, $arr_obsv) {
+        function enregistrement($nbr, $arr_libelle, $arr_qte, $arr_obsv)
+        {
+            /*echo "Numeros demandes";
+            print_r($this->arr_num_dmd);
+            echo "Numeros details demandes";
+            print_r($this->arr_num_dd);
+            echo "Nombre";
+            print_r($nbr);
+            echo "Libellés";
+            print_r($arr_libelle);
+            echo "Quantités";
+            print_r($arr_qte);
+            echo "Observations";
+            print_r($arr_obsv);*/
+
             //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
             while (!$config = parse_ini_file($this->iniFile))
                 $this->configpath($this->iniFile);
@@ -311,7 +330,8 @@
                     $num_sort = stripslashes($data['num_sort']);
                 $num_sort = substr($num_sort, -4);
                 $num_sort += 1;
-            } else
+            }
+            else
                 $num_sort = 1;
 
             $b = "SOR";
@@ -323,7 +343,7 @@
             $this->code = $res;
 
             $sql = "INSERT INTO sorties_stock (num_sort, code_emp, date_sort)
-                        VALUES ('$this->code', '$this->code_emp', '$this->date_mvt')";
+                        VALUES ('$this->code', '$this->code_emp', '$this->date_mvt')"; //print_r($sql);
 
             if ($result = mysqli_query($connexion, $sql)) {
 
@@ -339,7 +359,8 @@
                             $code_ds = stripslashes($data['num_dsort']);
                         $code_ds = substr($code_ds, -4);
                         $code_ds += 1;
-                    } else $code_ds = 1;
+                    } else
+                        $code_ds = 1;
 
                     $b = "DS";
                     $dat = date("Y");
@@ -362,55 +383,134 @@
                     }
 
                     //Recuperation de la quantite
-                    if ($arr_qte[$i] != "null")
+                    if ($arr_qte[$i] != "null") {
+//                        echo "Quantité = " .
                         $qte = $arr_qte[$i];
-                    else
-                        $qte = 0;
+//                        echo "Stock article = " . $stock_art -= $qte;
+                        $stock_art -= $qte;
+                    }
+                    else {
+//                        echo "Quantité = " . $qte = "";
+                        $qte = "";
+                    }
 
                     //Recuperation de l'observation
-                    if ($arr_obsv[$i] != "RAS")
+                    if ($arr_obsv[$i] != "RAS") {
+//                        echo "Observation = " . $rem = $arr_obsv[$i];
                         $rem = $arr_obsv[$i];
-                    else
+                    }
+                    else {
+//                        echo "Observation = " . $rem = "";
                         $rem = "";
-
-                    $stock_art -= $qte;
+                    }
 
                     //SORTIE D'ARTICLES A PARTIR D'UNE DEMANDE
                     if (isset($this->arr_num_dmd) && isset($this->arr_num_dd)) {
-                        $arr_num_dmd = $this->arr_num_dmd;
                         $arr_num_dd = $this->arr_num_dd;
 
-                        $sql = "INSERT INTO details_sortie (num_dsort, num_sort, code_art, num_dd, qte_dsort, rem_dsort)
-                                VALUES ('$num_dsort', '$this->code', '$code_art', '$arr_num_dd[$i]', '$qte', '$rem')";
+                        if ($qte === "")
+                            $sql = "INSERT INTO details_sortie (num_dsort, num_sort, num_dd, rem_dsort)
+                                    VALUES ('$num_dsort', '$this->code', '$arr_num_dd[$i]', '$rem')";
+                        else
+                            $sql = "INSERT INTO details_sortie (num_dsort, num_sort, code_art, num_dd, qte_dsort, rem_dsort)
+                                    VALUES ('$num_dsort', '$this->code', '$code_art', '$arr_num_dd[$i]', '$qte', '$rem')";
+//                        print_r($sql);
 
                         if ($resultat = mysqli_query($connexion, $sql)) {
-                            if ($rem === "") {
-                                //MAJ de la quantité de chaque article dans la table articles en fonction de du details_sortie
+                            //MAJ de la quantité de chaque article dans la table articles en fonction de du details_sortie
+                            if ($rem === "" && $qte != "") {
                                 $sql = "UPDATE articles SET stock_art = $stock_art WHERE code_art = '" . $code_art . "'";
+//                                print_r($sql);
 
                                 if ($resultat = mysqli_query($connexion, $sql)) {
                                     //MAJ de la quantité servie de chaque details_demande
                                     $sql = "UPDATE details_demande SET qte_serv = qte_serv + $qte WHERE num_dd = '$arr_num_dd[$i]'";
-                                    //                                        print_r($sql);
-                                    mysqli_query($connexion, $sql);
-                                } else
-                                    return FALSE;
-                            }
+//                                    print_r($sql);
 
+                                    if ($resultat = mysqli_query($connexion, $sql)) {
+                                        //MAJ du statut du détail de la demande
+                                        $sql = "SELECT qte_dd, qte_serv FROM details_demande WHERE num_dd = '$arr_num_dd[$i]'";
+                                        $res = $connexion->query($sql);
+
+                                        $lines = $res->fetch_all(MYSQLI_ASSOC);
+                                        foreach ($lines as $line) {
+                                            $qte_dd = $line['qte_dd'];
+                                            $qte_serv = $line['qte_serv'];
+                                        }
+
+                                        if ($qte_serv >= $qte_dd) {
+                                            $sql = "UPDATE details_demande SET statut_dd = 'satisfait' WHERE num_dd = '$arr_num_dd[$i]'";
+                                            mysqli_query($connexion, $sql);
+                                        }
+                                    } else
+
+                                        return FALSE;
+                                } else
+
+                                    return FALSE;
+                            } else {
+                                if ($rem == "ok") {
+                                    $sql = "UPDATE details_demande SET statut_dd 'satisfait' WHERE '$arr_num_dd[$i]'";
+                                    mysqli_query($connexion, $sql);
+                                }
+                            }
                         } else
+
                             return FALSE;
                     } else {
                         //SORTIE D'ARTICLES SIMPLE
                         $sql = "INSERT INTO details_sortie (num_dsort, num_sort, code_art, qte_dsort, rem_dsort)
                                 VALUES ('$num_dsort', '$this->code', '$code_art', '$qte', '$rem')";
+//                        print_r($sql);
 
-                        if (!($resultat = mysqli_query($connexion, $sql)))
-                            return FALSE;
+                        if ($resultat = mysqli_query($connexion, $sql)) {
+                            $sql = "UPDATE articles SET stock_art = $stock_art WHERE code_art = '" . $code_art . "'";
+
+                            mysqli_query($connexion, $sql);
+                        }
                     }
                 }
+
+                //MAJ du statut de la demande
+                if (isset($this->arr_num_dmd) && isset($this->arr_num_dd)) {
+                    $arr_num_dmd = $this->arr_num_dmd;
+                    $arr_num_dd = $this->arr_num_dd;
+
+                    $n = sizeof($arr_num_dmd);
+//                    print_r($this->arr_num_dd);
+                    for ($i = 0; $i < $n; $i++) {
+                        $sql = "SELECT statut_dd FROM details_demande WHERE num_dbs = '$arr_num_dmd[$i]'";
+//                        print_r($sql);
+
+                        if ($result = mysqli_query($connexion, $sql)) {
+                            $lines = $result->fetch_all(MYSQLI_ASSOC);
+//                            print_r($lines);
+                            $test = TRUE;
+                            foreach ($lines as $line) {
+                                if ($line['statut_dd'] == "non satisfait") {
+                                    $test = FALSE;
+                                    break;
+                                }
+                            }
+                            if ($test) {
+                                $sql = "UPDATE demandes SET statut = 'satisfaite' WHERE num_dbs = '$arr_num_dmd[$i]'";
+//                                print_r($sql);
+                                mysqli_query($connexion, $sql);
+                            }
+                        }
+                    }
+
+                    for ($i = 0; $i < $this->nbr_dmd; $i++) {
+                        $sql = "INSERT INTO demandes_sorties_stock (num_dbs, num_sort, date_dss) 
+                            VALUES ('$arr_num_dmd[$i]', '$this->code', '$this->date_mvt')";
+
+                        mysqli_query($connexion, $sql);
+                    }
+                }
+
                 return TRUE;
             } else
+
                 return FALSE;
         }
     }
-

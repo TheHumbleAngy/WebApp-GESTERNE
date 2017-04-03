@@ -239,7 +239,7 @@
         }
     } else {
     //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
-    if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
+    if (!$config = parse_ini_file('../../../config.ini')) $config = parse_ini_file('../../config.ini');
     $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 ?>
 <!--suppress ALL -->

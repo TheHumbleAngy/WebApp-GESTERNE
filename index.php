@@ -10,12 +10,15 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="css_js/bootstrap-3.3.4-dist/css/bootstrap.css">
-    <link rel="stylesheet" href="css_js/bootstrap-3.3.4-dist/css/bootstrap-theme.css">
-    <link rel="stylesheet" href="css_js/stylish.css">
-    <link rel="stylesheet" href="css_js/windows-10-icons-1.0.0/windows-10-icons-1.0.0/font/styles.min.css">
-    <script src="css_js/bootstrap-3.3.4-dist/js/jquery-1.11.3.js"></script>
-    <script src="css_js/bootstrap-3.3.4-dist/js/bootstrap.js"></script>
+    <!-- Libraaries -->
+    <link rel="stylesheet" href="lib/bootstrap-3.3.4-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="lib/bootstrap-3.3.4-dist/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="lib/windows-10-icons-1.0.0/windows-10-icons-1.0.0/font/styles.min.css">
+    <script src="lib/bootstrap-3.3.4-dist/js/jquery-1.11.3.js"></script>
+    <script src="lib/bootstrap-3.3.4-dist/js/bootstrap.js"></script>
+
+    <!-- Custom -->
+    <link rel="stylesheet" href="css/stylish.css">
     
     <link rel="shortcut icon" href="img/icone_ncare.ico"/>
     

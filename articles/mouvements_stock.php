@@ -120,8 +120,8 @@
                                         <a tabindex="0" class="btn btn-xs btn-info"
                                            role="button" data-toggle="popover" data-placement="bottom"
                                            data-trigger="focus" title="Fonctionnement"
-                                           data-content="Pour saisir une entrée d'Articles, veuillez entrer le nombre
-                                           d'Articles à saisir. Dans les differents champs 'Désignation', sélectionnez
+                                           data-content="Pour saisir une entrée d'articles, veuillez entrer le nombre
+                                           d'articles à saisir. Dans les differents champs 'Désignation', sélectionnez
                                            un article à partir de la liste déroulante; vous avez entre parenthèses,
                                            le stock en temps réel de chaque article. En face se trouve le champ de
                                            saisie du nombre de chaque entrée d'Articles et un autre (facultatif)
@@ -290,6 +290,8 @@
                                             Procéder
                                             <img src="img/icons_1775b9/right_filled.png" width="20">
                                         </button>
+
+                                        <!--Modal source - A partir d'une demande ? -->
                                         <div class="modal fade"
                                              id="modalSource" tabindex="-1"
                                              role="dialog" aria-hidden="true"
@@ -335,85 +337,6 @@
                                             </div>
                                         </div>
 
-                                        <!--Modal saisie nombre d'Articles-->
-                                        <div class="modal fade" id="modalSortie_standard" role="dialog">
-                                            <div class="modal-dialog" style="width: 750px">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                                aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                        <h4 class="modal-title">
-                                                            Sortie d'Articles
-                                                        </h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form id="form_sortie">
-                                                            <table class="formulaire" width="35%" border="0">
-                                                                <tr>
-                                                                    <td class="champlabel">
-                                                                        Nombre d'Articles :
-                                                                    </td>
-                                                                    <td style="vertical-align: bottom; width: 5%">
-                                                                        <label>
-                                                                            <input type="number" min="1"
-                                                                                   class="form-control"
-                                                                                   id="nbr_articles_sortie"
-                                                                                   name="nbr"
-                                                                                   required/>
-                                                                        </label>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                            <div class="feedback_sortie_standard"></div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal fade" id="modal-success" role="dialog">
-                                            <div class="modal-dialog modal-sm" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                                aria-label="Close"><span
-                                                                aria-hidden="true">&times;</span>
-                                                        </button>
-                                                        <h4 class="modal-title" style="color: #0e76bc">
-                                                            <span class="glyphicon glyphicon-info-sign"></span>
-                                                            Message
-                                                        </h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <h5>Succès! La sortie d'Articles a bien été enregistrées.</h5>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal fade" id="modal-error" role="dialog">
-                                            <div class="modal-dialog modal-sm" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                                aria-label="Close"><span
-                                                                aria-hidden="true">&times;</span>
-                                                        </button>
-                                                        <h4 class="modal-title" style="color: red">
-                                                            <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                                            Message
-                                                        </h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <h5>
-                                                            <strong>Erreur!</strong><br/>
-                                                            Une erreur s'est produite. Veuillez contacter l'administrateur.
-                                                        </h5>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
                                         <!--Modal saisie à partir des demandes-->
                                         <div class="modal fade" id="modalSortie_demandes" role="dialog" style="width: 100%">
                                             <div class="modal-dialog" style="width: 1000px;">
@@ -432,7 +355,7 @@
                                                             <table class="formulaire" width="90%" border="0">
                                                                 <tr>
                                                                     <td class="champlabel" style="width: 15%">
-                                                                        Demande :
+                                                                        Demandes :
                                                                     </td>
                                                                     <td style="width: 20%">
                                                                         <label>
@@ -471,7 +394,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="modal fade" id="modal-success" role="dialog">
+                                        <div class="modal fade" id="modal-success-demandes" role="dialog">
                                             <div class="modal-dialog modal-sm" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -490,7 +413,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="modal fade" id="modal-error" role="dialog">
+                                        <div class="modal fade" id="modal-error-demandes" role="dialog">
                                             <div class="modal-dialog modal-sm" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -512,6 +435,96 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <!--Modal saisie nombre d'Articles-->
+                                        <div class="modal fade" id="modalSortie_standard"
+                                             role="dialog" aria-hidden="true">
+                                            <div class="modal-dialog" style="width: 750px">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                        <h4 class="modal-title">
+                                                            Sortie d'Articles
+                                                        </h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form id="form_sortie">
+                                                            <table class="formulaire" width="35%" border="0">
+                                                                <tr>
+                                                                    <td class="champlabel">
+                                                                        Nombre d'Articles :
+                                                                    </td>
+                                                                    <td style="vertical-align: bottom; width: 5%">
+                                                                        <label>
+                                                                            <input type="number" min="1"
+                                                                                   class="form-control"
+                                                                                   id="nbr_articles_sortie"
+                                                                                   name="nbr"
+                                                                                   required/>
+                                                                        </label>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                            <div class="feedback_sortie_standard"></div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal fade" id="modal-success-sortie" role="dialog">
+                                            <div class="modal-dialog modal-sm" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close"><span
+                                                                aria-hidden="true">&times;</span>
+                                                        </button>
+                                                        <h4 class="modal-title" style="color: #0e76bc">
+                                                            <span class="glyphicon glyphicon-info-sign"></span>
+                                                            Message
+                                                        </h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <h5>Succès! La sortie d'Articles a bien été enregistrées.</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal fade" id="modal-error-sortie" role="dialog">
+                                            <div class="modal-dialog modal-sm" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close"><span
+                                                                aria-hidden="true">&times;</span>
+                                                        </button>
+                                                        <h4 class="modal-title" style="color: red">
+                                                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                                            Message
+                                                        </h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <h5>
+                                                            <strong>Erreur!</strong><br/>
+                                                            Une erreur s'est produite. Veuillez contacter l'administrateur.
+                                                        </h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                    <td style="text-align: right">
+                                        <a tabindex="0" class="btn btn-xs btn-info"
+                                           role="button" data-toggle="popover" data-placement="bottom"
+                                           data-trigger="focus" title="Fonctionnement"
+                                           data-content="Pour saisir une sortie d'articles, veuillez
+                                           spécifier l'origine de la sortie d'articles et suivez les instructions.">
+                                            <img src="img/icons_1775b9/info_2_white.png" width="20">
+                                        </a>
                                     </td>
                                 </tr>
                             </table>
@@ -549,6 +562,10 @@
         </div>
 
         <script>
+
+            $(document).ready(function () {
+                $('[data-toggle="popover"]').popover();
+            })
             //Script qui permet de redimensioner la fenetre modal
             $('#modalSortie_demandes').on('show.bs.modal', function () {
                 $('.modal .modal-body').css('overflow-y', 'auto');
@@ -631,12 +648,22 @@
 
             function confirmationSortie() {
                 $('#modalSortie_standard').modal('hide');
-                $('#modal-success').modal('show');
+                $('#modal-success-sortie').modal('show');
             }
 
             function erreurSortie() {
                 $('#modalSortie_standard').modal('hide');
-                $('#modal-error').modal('show');
+                $('#modal-error-sortie').modal('show');
+            }
+
+            function confirmationSortieDemande() {
+                $('#modalSortie_demandes').modal('hide');
+                $('#modal-success-demandes').modal('show');
+            }
+
+            function erreurSortieDemande() {
+                $('#modalSortie_standard').modal('hide');
+                $('#modal-error-demandes').modal('show');
             }
 
             function validation() {
@@ -669,10 +696,10 @@
                 if (validation() != 0) {
                     champsRequis();
                 } else {
-                    var nbr = $('#nbr_articles_sortie').val();
-                    var libelle = new Array();
-                    var qte = new Array();
-                    var obsv = new Array();
+                    var nbr = $('#nbr_articles_sortie').val(),
+                        libelle = new Array(),
+                        qte = new Array(),
+                        obsv = new Array();
 
                     for (var i = 0; i < nbr; i = i + 1) {
                         libelle[i] = $('[id*="libelle_sortie"]')[i].value;
@@ -692,7 +719,7 @@
                         url: 'articles/updatedata.php?operation=' + operation,
                         data: infos,
                         success: function (data) {
-                            console.log(data);
+//                            console.log(data);
                             if (data == "Success!") {
                                 confirmationSortie();
                             } else {
@@ -704,41 +731,21 @@
             }
             
             function ajout_sortie_demande() {
-                /*if (validation_demandes() != 0) {
-                 qteRequis();
-                 } else {*/
-                var nbr = $('#nbr_dmd').val();
-                var libelle = new Array();
-                var qte = new Array();
-                var obsv = new Array();
-                var num_dmd = new Array();
-                var num_dd = new Array();
-
-//                console.log($('#qte_aserv0').val());
-//                console.log(nbr);
-
+                var nbr = $('#nbr_dd').val(),
+                    nbr_dmd = $('#nbr_dmd').val(),
+                    libelle = new Array(),
+                    qte = new Array(),
+                    obsv = new Array(),
+                    num_dmd = new Array(),
+                    num_dd = new Array();
+                
                 for (var i = 0; i < nbr; i = i + 1) {
-//                    libelle[i] = $('[name^="libelle_dd"]')[i].value;
-
-//                    console.log($('[id*="obsv"]')[i]);
-
-//                    var qte = "qte_aserv" + i;
-
-//                    if ($('[name*="qte_aserv"]')[i].length) {
-                    /*if ($('[id*="qte_aserv"]')[i].value) {
-                        qte[i] = $('[id*="qte_aserv"]')[i].value;
-                        console.log(qte[i]);
-                    }*/
-
                     try {
                         libelle[i] = $('[id*="libelle_dd"]')[i].value;
                         qte[i] = $('[id*="qte_aserv"]')[i].value;
                         obsv[i] = $('[id*="obsv"]')[i].value;
                         num_dmd[i] = $('[id*="num_demande"]')[i].value;
                         num_dd[i] = $('[id*="num_details_demande"]')[i].value;
-                        /*console.log(libelle[i]);
-                        console.log(qte[i]);
-                        console.log(obsv[i]);*/
                     } catch (e) {
                         alert(e.message + ". Veuillez consulter la console pour plus de détails");
                         console.log(e);
@@ -747,11 +754,11 @@
 
                 var json_libelle = JSON.stringify(libelle),
                     json_qte = JSON.stringify(qte),
-                    json_obsv = JSON.stringify(obsv);
-                    json_num_dmd = JSON.stringify(num_dmd);
+                    json_obsv = JSON.stringify(obsv),
+                    json_num_dmd = JSON.stringify(num_dmd),
                     json_num_dd = JSON.stringify(num_dd);
 
-                var infos = "i=" + nbr + "&libelle=" + json_libelle + "&qte=" + json_qte + "&obsv=" + json_obsv + "&num_dmd=" + json_num_dmd + "&num_dd=" + json_num_dd;
+                var infos = "i=" + nbr + "&n=" + nbr_dmd +"&libelle=" + json_libelle + "&qte=" + json_qte + "&obsv=" + json_obsv + "&num_dmd=" + json_num_dmd + "&num_dd=" + json_num_dd;
                 var operation = "sortir_demande";
 
                 $.ajax({
@@ -759,7 +766,12 @@
                     url: 'articles/updatedata.php?operation=' + operation,
                     data: infos,
                     success: function (data) {
-                        console.log(data);
+//                        console.log(data);
+                        if (data == "Success!") {
+                         confirmationSortieDemande();
+                         } else {
+                         erreurSortieDemande();
+                         }
                     }
                 });
                 //}

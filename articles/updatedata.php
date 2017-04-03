@@ -257,17 +257,14 @@
         else
             echo "Une erreur s'est produite lors de la tentative de récupération de l'entrée de stock. Veuillez contacter l'administrateur.";
     }
-    elseif (isset($_POST['i']) && isset($_GET['operation']) && $_GET['operation'] == "sortir_demande") {
+    elseif (isset($_POST['i']) && isset($_GET['operation']) && $_GET['operation'] == "sortir_demande" && isset($_POST['n'])) {
         include 'class_articles.php';
         $nbr = $_POST['i'];
+        $nbr_dmd = $_POST['n'];
 
         $sortie = new sorties_articles();
 
         if ($sortie->recuperation($_SESSION['user_id'])) {
-
-            /*$arr_libelle = json_decode($_POST['libelle']);
-            $arr_qte = json_decode($_POST['qte']);
-            $arr_obsv = json_decode($_POST['obsv']);*/
 
             $arr_libelle = json_decode($_POST['libelle']);
             $arr_qte = json_decode($_POST['qte']);
@@ -277,15 +274,13 @@
 
             $n = sizeof($arr_libelle);
 
-//            print_r($arr_num_dmd);
-//            $sortie->recup_demandes($arr_num_dmd, $arr_num_dd);
-            if ($sortie->recup_demandes($arr_num_dmd, $arr_num_dd)) {
-                $sortie->enregistrement($n, $arr_libelle, $arr_qte, $arr_obsv);
-                /*if ($sortie->enregistrement($n, $arr_libelle, $arr_qte, $arr_obsv)) {
+            if ($sortie->recup_demandes($arr_num_dmd, $arr_num_dd, $nbr_dmd)) {
+//                $sortie->enregistrement($n, $arr_libelle, $arr_qte, $arr_obsv);
+                if ($sortie->enregistrement($n, $arr_libelle, $arr_qte, $arr_obsv)) {
                     echo "Success!";
                 } else {
                     echo "Une erreur s'est produite lors de la tentative d'enregistrement";
-                }*/
+                }
             }
         }
         else

@@ -171,7 +171,7 @@
         $pdf->Row(array("A", "B", "C", "D", "E"));*/
 
     //DETAILS DE LA DEMANDE
-    if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
+    if (!$config = parse_ini_file('../../../config.ini')) $config = parse_ini_file('../../config.ini');
     $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
     
     $sql = "SELECT code_emp, titre_emp, nom_emp, prenoms_emp, fonction_emp, departement_emp, email_emp, tel_emp FROM employes ORDER BY nom_emp";

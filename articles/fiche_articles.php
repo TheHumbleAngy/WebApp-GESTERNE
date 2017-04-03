@@ -174,7 +174,7 @@
         $pdf->Row(array("A", "B", "C", "D", "E"));*/
 
     //DETAILS DE LA DEMANDE
-    if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
+    if (!$config = parse_ini_file('../../../config.ini')) $config = parse_ini_file('../../config.ini');
     $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
     $sql = "SELECT code_grp, designation_art, description_art, niveau_reappro_art, niveau_cible_art, stock_art FROM articles ORDER BY designation_art";

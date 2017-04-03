@@ -182,7 +182,7 @@
 
     function process_modif_factures() {
         if (recuperation()) {
-            header('Location: form_principale.php?page=factures/modification_factures');
+            header('Location: form_principale.php?page=regulieres/modification_factures');
         } else {
             echo $_GET['id'];
             exit ('Erreur lors de la reccuperation du code');

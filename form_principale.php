@@ -10,12 +10,6 @@
 
     setlocale(LC_TIME, 'fr_FR.utf8', 'fra');
 
-    $_SESSION['last_activity'] = time();
-    /*if ((int)$_SESSION['last_activity'] - (int)$_SESSION['login_time'] > 5 * 60) {
-        header('Location: processing.php');
-    }*/
-
-
     $page = "accueil";
     if (isset($_GET['page']))
         $page = $_GET['page'];
@@ -42,22 +36,24 @@
             <!DOCTYPE html>
             <head>
                 <meta charset="utf-8">
-                <link type="text/css" href="css_js/bootstrap-3.3.4-dist/css/bootstrap.css" rel="stylesheet">
-                <link type="text/css" href="css_js/bootstrap-3.3.4-dist/css/bootstrap-theme.css" rel="stylesheet">
-                <link type="text/css" href="css_js/bootstrap-table-master/src/bootstrap-table.css" rel="stylesheet">
-                <link type="text/css" href="css_js/menu_nav.css" rel="stylesheet"/>
-                <link type="text/css" href="css_js/stylish.css" rel="stylesheet">
-                <link type="text/css" href="css_js/jquery-ui-1.11.4.custom/jquery-ui.min.css" rel="stylesheet">
-                <link type="text/css" href="css_js/windows-10-icons-1.0.0/windows-10-icons-1.0.0/font/styles.min.css" rel="stylesheet">
-                <link type="text/css" href="css_js/slick.css" rel="stylesheet">
-                <link type="text/css" href="css_js/slick-theme.css" rel="stylesheet">
+                <!-- Libraries -->
+                <link type="text/css" href="lib/bootstrap-3.3.4-dist/css/bootstrap.css" rel="stylesheet">
+                <link type="text/css" href="lib/bootstrap-3.3.4-dist/css/bootstrap-theme.css" rel="stylesheet">
+                <link type="text/css" href="lib/bootstrap-table-master/src/bootstrap-table.css" rel="stylesheet">
+                <link type="text/css" href="lib/menu_nav.css" rel="stylesheet"/>
+                <link type="text/css" href="lib/jquery-ui-1.11.4.custom/jquery-ui.min.css" rel="stylesheet">
+                <link type="text/css" href="lib/windows-10-icons-1.0.0/windows-10-icons-1.0.0/font/styles.min.css" rel="stylesheet">
+                <link type="text/css" href="lib/slick.css" rel="stylesheet">
+                <link type="text/css" href="lib/slick-theme.css" rel="stylesheet">
+                <script src="lib/bootstrap-3.3.4-dist/js/jquery-1.11.3.js"></script>
+                <script src="lib/bootstrap-3.3.4-dist/js/bootstrap.js"></script>
+                <script src="lib/bootstrap-table-master/src/bootstrap-table.js"></script>
+                <script src="lib/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
+                <script src="lib/slick.js"></script>
 
-                <script src="css_js/bootstrap-3.3.4-dist/js/jquery-1.11.3.js"></script>
-                <script src="css_js/bootstrap-3.3.4-dist/js/bootstrap.js"></script>
-                <script src="css_js/bootstrap-table-master/src/bootstrap-table.js"></script>
-                <script src="css_js/menu_vertical.js"></script>
-                <script src="css_js/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
-                <script src="css_js/slick.js"></script>
+                <!-- Custom -->
+                <link type="text/css" href="css/stylish.css" rel="stylesheet">
+                <script src="js/menu_vertical.js"></script>
 
                 <link rel="shortcut icon" href="img/icone_ncare.ico"/>
 
@@ -80,10 +76,6 @@
                             set_interval();
                         }
                     }
-                    
-                    /*window.onbeforeunload = function () {
-                        return "Unloading...";
-                    }*/
                 </script>
             </head>
             <html>
@@ -121,20 +113,18 @@
                                     </a>
                                     <ul>
                                         <li>
-                                            <a href="form_principale.php?page=demandes/form_absences">Absence</a>
+                                            <a href="form_principale.php?page=demandes/absences/form_absences">Absence</a>
                                         </li>
                                         <li>
-                                            <a href="form_principale.php?page=demandes/form_demandes&action=ajout">Biens
+                                            <a href="form_principale.php?page=demandes/biens_services/form_demandes&action=ajout">Biens
                                                 & Services</a>
                                         </li>
                                         <li>
-                                            <a href="form_principale.php?page=demandes/form_conges&action=ajout">Congés</a>
+                                            <a href="form_principale.php?page=demandes/conges/form_conges&action=ajout">Congés</a>
                                         </li>
                                         <li>
-                                            <a href="form_principale.php?page=demandes/form_permissions">Permission</a>
+                                            <a href="form_principale.php?page=demandes/permissions/form_permissions">Permission</a>
                                         </li>
-
-
                                     </ul>
                                 </li>
                                 <li class="ic-bon">
@@ -146,10 +136,10 @@
                                             <a href="">Bon de Carburant</a>
                                         </li>
                                         <?php if ($droit === "administrateur" || $droit === "moyens generaux"): ?>
-                                            <li><a href="form_principale.php?page=bons_commande/form_bon_commande">Bon
+                                            <li><a href="form_principale.php?page=bons/bons_commande/form_bon_commande">Bon
                                                     de
                                                     Commande</a></li>
-                                            <li><a href="form_principale.php?page=bons_livraison/form_bons_livraison">Bon
+                                            <li><a href="form_principale.php?page=bons/bons_livraison/form_bons_livraison">Bon
                                                     de
                                                     Livraison</a></li>
                                         <?php endif; ?>
@@ -173,10 +163,10 @@
                                             <span>Factures</span>
                                         </a>
                                         <ul>
-                                            <li><a href="form_principale.php?page=proformas/form_proformas">Facture
+                                            <li><a href="form_principale.php?page=factures/proformas/form_proformas">Facture
                                                     Proforma</a>
                                             </li>
-                                            <li><a href="form_principale.php?page=factures/form_factures">Facture</a>
+                                            <li><a href="form_principale.php?page=factures/regulieres/form_factures">Facture</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -188,14 +178,14 @@
                                     <ul>
                                         <li><a href="form_principale.php?page=demandes/liste_demandes">Demandes</a></li>
                                         <?php if ($droit === "administrateur" || $droit === "moyens generaux"): ?>
-                                            <li><a href="form_principale.php?page=proformas/liste_proformas">Factures
+                                            <li><a href="form_principale.php?page=factures/proformas/liste_proformas">Factures
                                                     Proformas</a></li>
-                                            <li><a href="form_principale.php?page=bons_commande/liste_bons_commande">Bons
+                                            <li><a href="form_principale.php?page=bons/bons_commande/liste_bons_commande">Bons
                                                     de
                                                     Commande</a></li>
-                                            <li><a href="form_principale.php?page=factures/liste_factures">Factures</a>
+                                            <li><a href="form_principale.php?page=factures/regulieres/liste_factures">Factures</a>
                                             </li>
-                                            <li><a href="form_principale.php?page=bons_livraison/liste_bons_livraison">Bons
+                                            <li><a href="form_principale.php?page=bons/bons_livraison/liste_bons_livraison">Bons
                                                     de Livraison</a></li>
                                         <?php endif; ?>
 

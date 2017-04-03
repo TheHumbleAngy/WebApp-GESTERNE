@@ -5,7 +5,7 @@
      * Date: 25/01/2016
      * Time: 17:13
      */
-    if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
+    if (!$config = parse_ini_file('../../../config.ini')) $config = parse_ini_file('../../config.ini');
     $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
     if (isset($_POST["nbr"])) {

@@ -50,12 +50,7 @@
                                     <tr>
                                         <td class="champlabel">Référence :</td>
                                         <td>
-                                            <label>
-                                                <input type="text" name="code_art" id="code_art" size="10" readonly
-                                                       required
-                                                       value="<?php echo $data['code_art']; ?>"
-                                                       class="form-control"/>
-                                            </label>
+                                            <h4><span class="label label-primary"><?php echo $data['code_art']; ?></span></h4>
                                         </td>
                                     </tr>
                                     <tr>

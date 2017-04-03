@@ -59,7 +59,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <strong>
-                                                <h5>A la date du <?php echo date('j/m/Y'); ?>:</h5>
+                                                <h5>A la date de ce jour :</h5>
                                             </strong>
 
                                             <div class="panel panel-default">
@@ -74,7 +74,9 @@
                                                                     $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                                                                     foreach ($ligne as $list) {
                                                                         ?>
-                                                                        <div><?php echo stripslashes($list['designation_art']) . " (<strong>" . stripslashes($list['stock_art']) . "</strong>)"; ?></div>
+                                                                        <div style="margin-bottom: 2px">
+                                                                            <?php echo stripslashes($list['designation_art']) . " <span class=\"label label-info\">" . stripslashes($list['stock_art']) . "</span>"; ?>
+                                                                        </div>
                                                                         <?php
                                                                     }
                                                                 } else { ?>
@@ -90,7 +92,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <strong>
-                                                <h5>Seuil minimum:</h5>
+                                                <h5>Seuil minimum :</h5>
                                             </strong>
 
                                             <div class="panel panel-default">
@@ -103,8 +105,9 @@
                                                                     $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                                                                     foreach ($ligne as $list) {
                                                                         ?>
-                                                                        <div
-                                                                        ><?php echo stripslashes($list['designation_art']) . " (<strong>" . stripslashes($list['stock_art']) . "</strong>)"; ?></div>
+                                                                        <div style="margin-bottom: 2px">
+                                                                            <?php echo stripslashes($list['designation_art']) . " <span class=\"label label-warning\">" . stripslashes($list['stock_art']) . "</span>"; ?>
+                                                                        </div>
                                                                         <?php
                                                                     }
                                                                 } else { ?>
@@ -122,7 +125,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <strong>
-                                                <h5>Rupture de stock:</h5>
+                                                <h5>Rupture de stock :</h5>
                                             </strong>
 
                                             <div class="col-md-9">
@@ -136,7 +139,11 @@
                                                                         $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                                                                         foreach ($ligne as $list) {
                                                                             ?>
-                                                                            <div><?php echo stripslashes($list['designation_art']); ?></div>
+                                                                            <div style="margin-bottom: 2px">
+                                                                                <span class="label label-danger">
+                                                                                    <?php echo stripslashes($list['designation_art']); ?>
+                                                                                </span>
+                                                                            </div>
                                                                             <?php
                                                                         }
                                                                     } else { ?>
@@ -178,7 +185,7 @@
                                                     if ($nbr > 0) {
                                                         ?>
                                                         <strong>
-                                                            <h5>En Attente (<?php echo $nbr; ?>):</h5>
+                                                            <h5>En Attente <span class="label label-info"><?php echo $nbr; ?></span> :</h5>
                                                         </strong>
                                                         <div class="panel panel-default">
                                                             <div class="panel-body">
@@ -202,7 +209,7 @@
                                                     <?php }
                                                     else { ?>
                                                         <strong>
-                                                            <h5>En Attente:</h5>
+                                                            <h5>En Attente :</h5>
                                                         </strong>
                                                         <div class="panel panel-default">
                                                             <div class="panel-body">
@@ -227,7 +234,7 @@
                                                         ?>
                                                         <strong>
                                                             <h5 title="Il s'agit ici des demandes partiellement satisfaites">
-                                                                Partielles (<?php echo $nbr; ?>):</h5>
+                                                                Partielles <span class="label label-info"><?php echo $nbr; ?></span> :</h5>
                                                         </strong>
                                                         <div class="panel panel-default">
                                                             <div class="panel-body">
@@ -250,7 +257,7 @@
                                                     <?php }
                                                     else { ?>
                                                         <strong>
-                                                            <h5>Partielles:</h5>
+                                                            <h5>Partielles :</h5>
                                                         </strong>
                                                         <div class="panel panel-default">
                                                             <div class="panel-body">
@@ -289,8 +296,8 @@
                                                         $date_entr = date('j/m/Y', strtotime($dat));
                                                         echo '
                                                         <strong>
-                                                            <h5 title="La dernière entrée en date">Entrées
-                                                                au ' . $date_entr . ':</h5>
+                                                            <h4 title="La dernière entrée en date"><span class="label label-primary">Entrées
+                                                                au ' . $date_entr . '</span></h4>
                                                         </strong>
                                                         ';
                                                     }
@@ -316,7 +323,7 @@
                                                                 if ($resultat->num_rows > 0) {
                                                                     $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                                                                     foreach ($ligne as $list) { ?>
-                                                                        <div><?php echo stripslashes($list['designation_art']) . " <img src='img/icons_1775b9/reply_arrow.png' width='20' style='margin-bottom: 5px'> (<strong>" . stripslashes($list['qte_dentr']) . "</strong>)" ?></div>
+                                                                        <div><?php echo stripslashes($list['designation_art']) . " <img src='img/icons_1775b9/reply_arrow.png' width='20' style='margin-bottom: 5px'> <span class=\"label label-success\">" . stripslashes($list['qte_dentr']) . "</span>" ?></div>
                                                                     <?php }
                                                                 } else { ?>
                                                                     <div>
@@ -342,8 +349,8 @@
                                                         $date_sort = date('j/m/Y', strtotime($dat));
                                                         echo '
                                                         <strong>
-                                                            <h5 title="La dernière sortie en date">Sorties
-                                                                au ' . $date_sort . ':</h5>
+                                                            <h4 title="La dernière sortie en date"><span class="label label-primary">Sorties
+                                                                au ' . $date_sort . '</span></h4>
                                                         </strong>
                                                         ';
                                                     }
@@ -370,7 +377,7 @@
                                                                 if ($resultat->num_rows > 0) {
                                                                     $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                                                                     foreach ($ligne as $list) { ?>
-                                                                        <div><?php echo stripslashes($list['designation_art']) . " <img src='img/icons_1775b9/forward_arrow.png' width='20' style='margin-bottom: 5px'> (<strong>" . stripslashes($list['qte_dsort']) . "</strong>)" ?></div>
+                                                                        <div><?php echo stripslashes($list['designation_art']) . " <img src='img/icons_1775b9/forward_arrow.png' width='20' style='margin-bottom: 5px'> <span class=\"label label-danger\">" . stripslashes($list['qte_dsort']) . "</span>" ?></div>
                                                                     <?php }
                                                                 } else { ?>
                                                                     <div>

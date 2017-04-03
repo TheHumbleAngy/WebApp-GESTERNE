@@ -6,7 +6,7 @@
      * Time: 18:11
      */
     require_once '../fonctions.php';
-    if (!$config = parse_ini_file('../../config.ini')) $config = parse_ini_file('../config.ini');
+    if (!$config = parse_ini_file('../../../config.ini')) $config = parse_ini_file('../../config.ini');
     $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
     
     if (isset($_POST['debut']) && isset($_POST['fin'])) {
@@ -53,7 +53,7 @@
 
                     echo '
             <tr>
-                <td style="text-align: center">' . stripslashes($list['date_entr']) . '</td>
+                <td style="text-align: center">' . rev_date(stripslashes($list['date_entr'])) . '</td>
                 <td style="text-align: center">
                     <a class="btn btn-default" data-toggle="modal" data-target="#modalConsultation' . stripslashes($list['num_entr']) . '">' . stripslashes($list['num_entr']) . '</a>
                     <div class="modal fade" id="modalConsultation' . stripslashes($list['num_entr']) . '" tabindex="-1" role="dialog">
@@ -65,7 +65,7 @@
                                             aria-hidden="true">&times;</span>
                                     </button>
                                     <h4 class="modal-title" id="modalConsultation' . stripslashes($list['num_entr']) . '">
-                                        Entrée ' . stripslashes($list['num_entr']) . ' au ' . stripslashes($list['date_entr']) . '
+                                        Entrée ' . stripslashes($list['num_entr']) . ' au ' . rev_date(stripslashes($list['date_entr'])) . '
                                     </h4>
                                 </div>
                                 <div class="modal-body">
@@ -162,7 +162,7 @@
                                             aria-hidden="true">&times;</span>
                                     </button>
                                     <h4 class="modal-title" id="modalConsultation' . stripslashes($list['num_sort']) . '">
-                                        Sortie ' . stripslashes($list['num_sort']) . ' au ' . stripslashes($list['date_sort']) . '
+                                        Sortie ' . stripslashes($list['num_sort']) . ' au ' . rev_date(stripslashes($list['date_sort'])) . '
                                     </h4>
                                 </div>
                                 <div class="modal-body">

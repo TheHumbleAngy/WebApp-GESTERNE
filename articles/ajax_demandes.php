@@ -29,7 +29,7 @@
         </div>
         <table class="formulaire">
             <tr>
-                <td><h4>Demandes </h4></td>                
+                <td><h4>Demandes Sélectionnées </h4></td>                
             ';
 
         //Affiche la liste des différents numéros de demandes du tableau
@@ -106,8 +106,8 @@
 //                            echo '<td></td>';
                         }
                     } else {
-                        echo '<td colspan="2"></td>';
-                        echo '<td><input type="hidden" name="qte_aserv[]" value="null" id="qte_aserv' . $nbr . '"></td>';
+//                        echo '<td colspan="2"></td>';
+                        echo '<td colspan="3"><input type="hidden" name="qte_aserv[]" value="null" id="qte_aserv' . $nbr . '"></td>';
                         echo '<td style="text-align: center">
                         <select class="form-control" name="obsv['. $nbr . ']" id="obsv' . $nbr . '" >
                             <option value="non">NON FAIT</option>
@@ -120,5 +120,6 @@
                 }
             }
         }
-        echo '<input type="hidden" name="nbr_dmd" id="nbr_dmd" value="' . $nbr . '">';
+        echo '<input type="hidden" name="nbr_dd" id="nbr_dd" value="' . $nbr . '">';
+        echo '<input type="hidden" name="nbr_dmd" id="nbr_dmd" value="' . $length . '">';
     }

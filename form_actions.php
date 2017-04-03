@@ -780,7 +780,7 @@
         </div>
 
     <?php }
-} elseif ($source == 'factures') {
+} elseif ($source == 'regulieres') {
     if ($action == 'rechercher') { ?>
 
         <div class="col-md-8 col-md-offset-2">
