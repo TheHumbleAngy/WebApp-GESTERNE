@@ -68,7 +68,7 @@
                                                             }
                                                         ?>
                                                         <a class="btn btn-default"
-                                                           href="form_principale.php?page=demandes/form_demandes&action=consultation&id=<?php echo stripslashes($list['num_dbs']); ?>"
+                                                           href="form_principale.php?page=demandes/biens_services/form_demandes&action=consultation&id=<?php echo stripslashes($list['num_dbs']); ?>"
                                                            title="<?php echo $str; ?>"
                                                            role="button"><?php echo stripslashes($list['num_dbs']); ?></a>
                                                     </td>
@@ -133,7 +133,7 @@
                                                 </tr>
                                                 <?php
                                             }
-                                        } else echo "La recherche n'a renvoye aucun resultat.";?>
+                                        } else echo "La recherche n'a renvoyé aucun resultat.";?>
                                 </table>
                             </div>
                         </div>
@@ -142,7 +142,7 @@
             <?php } else echo "
                         <div style='width: 400px; margin-right: auto; margin-left: auto'>
                             <div class='alert alert-info alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
-                                <a href='form_principale.php?page=form_actions&source=proformas&action=rechercher' type='button' class='close'
+                                <a href='form_principale.php?page=form_actions&source=demandes&action=rechercher' type='button' class='close'
                                        data-dismiss='alert' aria-label='Close' style='position: inherit'>
                                         <span aria-hidden='true'>&times;</span>
                                     </a>
@@ -155,7 +155,7 @@
         if (!$config = parse_ini_file('../../../config.ini')) $config = parse_ini_file('../../config.ini');
         $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
         session_start();
-        require_once '../fonctions.php';
+        require_once '../../fonctions.php';
         ?>
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -204,7 +204,7 @@
                                                 }
                                             ?>
                                             <a class="btn btn-default"
-                                               href="form_principale.php?page=demandes/form_demandes&action=consultation&id=<?php echo stripslashes($list['num_dbs']); ?>"
+                                               href="form_principale.php?page=demandes/biens_services/form_demandes&action=consultation&id=<?php echo stripslashes($list['num_dbs']); ?>"
                                                title="<?php echo $str; ?>"
                                                role="button"><?php echo stripslashes($list['num_dbs']); ?></a>
                                         </td>

@@ -1,5 +1,5 @@
 <?php
-    error_reporting(E_ERROR);
+    //error_reporting(E_ERROR);
     /**
      * Created by PhpStorm.
      * User: Ange KOUAKOU
@@ -21,15 +21,15 @@
         protected $connexion;
         protected $iniFile;
 
-        abstract protected function enregistrement();
-        abstract protected function recuperation();
-        abstract protected function modification($code);
-        abstract protected function suppression($code);
+        abstract protected function enregistrer();
+        abstract protected function recuperer();
+        abstract protected function modifier($code);
+        abstract protected function supprimer($code);
     }
 
     class employes extends class_employes
     {
-        function recuperation()
+        function recuperer()
         {
             $this->titre_emp = htmlspecialchars($_POST['titre_emp'], ENT_QUOTES);
             $this->nom_emp = htmlspecialchars($_POST['nom_emp'], ENT_QUOTES);
@@ -62,7 +62,7 @@
             $this->mdp = $mdp;
         }
 
-        function enregistrement()
+        function enregistrer()
         {
             while (!$config = parse_ini_file($this->iniFile))
                 $this->configpath($this->iniFile);
@@ -113,7 +113,7 @@
                 return FALSE;
         }
 
-        function modification($code)
+        function modifier($code)
         {
             while (!$config = parse_ini_file($this->iniFile))
                 $this->configpath($this->iniFile);
@@ -138,7 +138,7 @@
                 return FALSE;
         }
 
-        function suppression($code) {
+        function supprimer($code) {
             while (!$config = parse_ini_file($this->iniFile)) 
                 $this->configpath($this->iniFile);
             

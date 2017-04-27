@@ -1,5 +1,5 @@
 <?php
-    error_reporting(E_ERROR);
+    //error_reporting(E_ERROR);
     /**
      * Created by PhpStorm.
      * User: Ange KOUAKOU
@@ -38,7 +38,7 @@
     }
 
     class articles extends class_articles {
-        function recuperation() {
+        function recuperer() {
             $this->stock_art = htmlspecialchars($_POST['stock_art'], ENT_QUOTES);
             $this->designation_art = addslashes($_POST['designation_art']);
             $this->date_art = date("Y/m/d");
@@ -50,11 +50,20 @@
             return TRUE;
         }
 
-        function enregistrement() {
+        protected function configpath($ini) {
+            try {
+                $ini = '../../../' . $ini;
+                return $ini;
+            } catch (Exception $e) {
+                return "Exception caught :" . $e->getMessage();
+            }
+        }
+        
+        function enregistrer() {
             //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
-            if (!$config = parse_ini_file('../../../config.ini')) $config = parse_ini_file('../../config.ini');
+            $config = parse_ini_file($this->configpath($this->iniFile));
+
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
-            
             if ($connexion->connect_error)
                 die($connexion->connect_error);
 
@@ -99,7 +108,7 @@
                 return FALSE;
         }
 
-        function modification($code) {
+        function modifier($code) {
             //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
             if (!$config = parse_ini_file('../../../config.ini')) $config = parse_ini_file('../../config.ini');
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
@@ -122,7 +131,7 @@
                 return FALSE;
         }
 
-        function suppression($code) {
+        function supprimer($code) {
             //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
             if (!$config = parse_ini_file('../../../config.ini')) $config = parse_ini_file('../../config.ini');
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
@@ -140,7 +149,7 @@
     }
 
     class entrees_articles extends mouvements {
-        function recuperation($employe) {
+        function recuperer($employe) {
             $this->date_mvt = date('Y-m-j');
             $this->code_emp = $employe;
             $this->iniFile = 'config.ini';
@@ -148,16 +157,20 @@
             return TRUE;
         }
 
-        protected function configpath(&$ini) {
-            return $ini = '../' . $ini;
+        protected function configpath($ini) {
+            try {
+                $ini = '../../../' . $ini;
+                return $ini;
+            } catch (Exception $e) {
+                return "Exception caught :" . $e->getMessage();
+            }
         }
 
-        function enregistrement($nbr, $arr_libelle, $arr_qte, $arr_obsv) {
+        function enregistrer($nbr, $arr_libelle, $arr_qte, $arr_obsv) {
             //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
-            while (!$config = parse_ini_file($this->iniFile))
-                $this->configpath($this->iniFile);
+            $config = parse_ini_file($this->configpath($this->iniFile));
+
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
-            
             if ($connexion->connect_error)
                 die($connexion->connect_error);
 
@@ -270,7 +283,7 @@
         protected $arr_num_dd;
         protected $nbr_dmd;
 
-        function recuperation($employe)
+        function recuperer($employe)
         {
             $this->date_mvt = date('Y-m-j');
             $this->code_emp = $employe;
@@ -280,9 +293,13 @@
             return TRUE;
         }
 
-        protected function configpath(&$ini)
-        {
-            return $ini = '../' . $ini;
+        protected function configpath($ini) {
+            try {
+                $ini = '../../../' . $ini;
+                return $ini;
+            } catch (Exception $e) {
+                return "Exception caught :" . $e->getMessage();
+            }
         }
 
         function recup_demandes($arr_num_dmd, $arr_num_dd, $nbr_dmd)
@@ -294,26 +311,12 @@
             return TRUE;
         }
 
-        function enregistrement($nbr, $arr_libelle, $arr_qte, $arr_obsv)
+        function enregistrer($nbr, $arr_libelle, $arr_qte, $arr_obsv)
         {
-            /*echo "Numeros demandes";
-            print_r($this->arr_num_dmd);
-            echo "Numeros details demandes";
-            print_r($this->arr_num_dd);
-            echo "Nombre";
-            print_r($nbr);
-            echo "Libellés";
-            print_r($arr_libelle);
-            echo "Quantités";
-            print_r($arr_qte);
-            echo "Observations";
-            print_r($arr_obsv);*/
-
             //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
-            while (!$config = parse_ini_file($this->iniFile))
-                $this->configpath($this->iniFile);
-            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+            $config = parse_ini_file($this->configpath($this->iniFile));
 
+            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             if ($connexion->connect_error)
                 die($connexion->connect_error);
 

@@ -6,8 +6,8 @@
      * Time: 12:00
      */
 
-    require_once "../fpdf/fpdf.php";
-    require_once "../fonctions.php";
+    require_once "../../fpdf/fpdf.php";
+    require_once "../../fonctions.php";
 
     class PDF extends FPDF
     {
@@ -15,7 +15,7 @@
         function Header()
         {
             // Logo
-            $this->Image('../img/logo3.png', 10, 6, 50);
+            $this->Image('../../img/logo3.png', 10, 6, 50);
             $this->SetFont('Arial', 'B', 15);
             // Move to the right
             $this->Cell(80, 20);
@@ -27,7 +27,7 @@
         // Page footer
         function Footer()
         {
-            $this->Image('../img/logo1.png', 95, 280, 10.5, 8);
+            $this->Image('../../img/logo1.png', 95, 280, 10.5, 8);
         }
     }
 

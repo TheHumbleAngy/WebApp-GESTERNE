@@ -258,52 +258,52 @@ ul.nav li.secondary:hover a:active {
 }
 
 ul.nav > li.ic-menu > a span, .ic-menu {
-    background: url(../img/home.png) no-repeat center left;
+    background: url(../img/menu_horizontal/home.png) no-repeat center left;
 }
 
 ul.nav li.ic-statistique a span, .ic-statistique {
-    background: url(../img/stats.png) no-repeat center left;
+    background: url(../img/menu_horizontal/stats.png) no-repeat center left;
     background-size: 25px 25px;
 }
 
 ul.nav li.ic-recherche a span, .ic-recherche {
-    background: url(../img/search.png) no-repeat center left;
+    background: url(../img/menu_horizontal/search.png) no-repeat center left;
     background-size: 25px 25px;
 }
 
 ul.nav li.ic-form-style a span, .ic-form-style {
-    background: url(../img/new_file.png) no-repeat center left;
+    background: url(../img/menu_horizontal/new_file.png) no-repeat center left;
     background-size: 25px 25px;
 }
 
 ul.nav li.ic-bon a span, .ic-bon {
-    background: url(../img/horizontal/folder_2.png) no-repeat center left;
+    background: url(../img/menu_horizontal/folder_2.png) no-repeat center left;
     background-size: 25px 25px;
 }
 
 ul.nav li.ic-facture a span, .ic-facture {
-    background: url(../img/horizontal/check.png) no-repeat center left;
+    background: url(../img/menu_horizontal/check.png) no-repeat center left;
     background-size: 25px 25px;
 }
 
 ul.nav li.ic-grid-tables a span, .ic-grid-tables {
-    background: url(../img/list_unsorted.png) no-repeat center left;
+    background: url(../img/menu_horizontal/list_unsorted.png) no-repeat center left;
     background-size: 25px 25px;
 }
 
-ul.nav li.ic-gallery a span, .ic-gallery {
-    background: url(../img/icon-gallery.png) no-repeat center left;
-}
+/*ul.nav li.ic-gallery a span, .ic-gallery {
+    background: url(../img/menu_horizontal/icon-gallery.png) no-repeat center left;
+}*/
 
 ul.nav li.ic-imprimer a span, .ic-imprimer {
-    background: url(../img/printer.png) no-repeat center left;
+    background: url(../img/menu_horizontal/printer.png) no-repeat center left;
     background-size: 25px 25px;
     /*width: 21px;
     height: 24px;*/
 }
 
 ul.nav li.ic-a_propos a span, .ic-a_propos {
-    background: url(../img/icon-notifications.png) no-repeat center left;
+    background: url(../img/menu_horizontal/icon-notifications.png) no-repeat center left;
 }
 
 ul.nav li {

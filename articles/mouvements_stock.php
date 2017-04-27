@@ -766,7 +766,6 @@
                     url: 'articles/updatedata.php?operation=' + operation,
                     data: infos,
                     success: function (data) {
-//                        console.log(data);
                         if (data == "Success!") {
                          confirmationSortieDemande();
                          } else {

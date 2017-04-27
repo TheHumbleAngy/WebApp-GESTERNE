@@ -18,7 +18,7 @@
 
         $article = new articles();
 
-        if ($article->suppression($id)) {
+        if ($article->supprimer($id)) {
             echo "
             <div class='alert alert-success alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
                 <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
@@ -33,7 +33,7 @@
                 <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                     <span aria-hidden='true'>&times;</span>
                 </button>
-                <strong>Erreur!</strong><br/><br>Une erreur s'est produite lors de la tentative de suppression de l'article " . $id . ". Veuillez contacter l'administrateur.
+                <strong>Erreur!</strong><br/><br>Une erreur s'est produite lors de la tentative de supprimer de l'article " . $id . ". Veuillez contacter l'administrateur.
             </div>
             ";
         }

@@ -7,7 +7,7 @@
      *
      * Ce script permet de générer les champs de saisie des entrées en stock
      */
-    error_reporting(E_ERROR);
+    //error_reporting(E_ERROR);
     include '../fonctions.php';
 
     $iniFile = 'config.ini';

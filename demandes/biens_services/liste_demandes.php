@@ -18,7 +18,7 @@
     function afficherInfos() {
         $.ajax({
             type: 'GET',
-            url: 'demandes/getdata.php',
+            url: 'demandes/biens_services/getdata.php',
             success: function (data) {
                 $('#feedback').html(data);
             }
@@ -28,7 +28,7 @@
     function suppressionInfos(code) {
         $.ajax({
             type: 'POST',
-            url: 'demandes/updatedata.php?operation=suppr',
+            url: 'demandes/biens_services/updatedata.php?operation=suppr',
             data: {
                 id: code
             },

@@ -13,7 +13,7 @@
         protected $fin_dab;
         protected $duree_dab;
 
-        function recuperation($code){
+        function recuperer($code){
             $this->code_emp = $code;
             $this->date_dbs = date("Y-m-d");
             $this->motif_dab = addslashes($_POST['motif']);
@@ -35,7 +35,7 @@
             echo $this->duree_dab; echo '<br>';
         }
 
-        function enregistrement($emp) {
+        function enregistrer($emp) {
             if (!$config = parse_ini_file('../../../config.ini')) $config = parse_ini_file('../../config.ini');
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 

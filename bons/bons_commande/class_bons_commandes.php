@@ -16,7 +16,7 @@
     }
 
     class bons_commandes extends class_bons_commandes {
-        function recuperation($num_bc)
+        function recuperer($num_bc)
         {
             $this->num_bc = $num_bc;
             $this->code_emp = $_SESSION['user_id'];
@@ -32,7 +32,7 @@
             return $ini = '../' . $ini;
         }
 
-        function enregistrement()
+        function enregistrer()
         {
             while (!$config = parse_ini_file($this->iniFile))
                 $this->configpath($this->iniFile);

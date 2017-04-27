@@ -8,7 +8,7 @@
     /** @lang MySQL */
     if (isset($_POST["demande"])) {
     
-        error_reporting(E_ERROR);
+        //error_reporting(E_ERROR);
         include '../fonctions.php';
     
         $iniFile = 'config.ini';

@@ -10,11 +10,12 @@
         include '../../fonctions.php';
         $iniFile = 'config.ini';
 
-        while (!$config = parse_ini_file($iniFile))
-            configpath($iniFile);
+        $config = parse_ini_file('../../../' . $iniFile);
 
         $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
-
+        if ($connexion->connect_error)
+            die($connexion->connect_error);
+        
         $pro = htmlspecialchars($_POST['proforma'], ENT_QUOTES);
 
         //On vérifie que la proforma existe

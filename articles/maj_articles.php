@@ -15,9 +15,9 @@
 
         $article = new articles();
 
-        if ($article->recuperation()) {
+        if ($article->recuperer()) {
             if ($_POST['action'] == "maj") {
-                if ($article->modification($code)) {
+                if ($article->modifier($code)) {
                     header("refresh:2;url=form_principale.php?page=form_actions&source=articles&action=modifier");
                     echo "
             <div style='width: 400px; margin-right: auto; margin-left: auto'>
@@ -32,7 +32,7 @@
             ";
                 }
             } elseif ($_POST['action'] == "supprimer") {
-                if ($article->suppression($code)) {
+                if ($article->supprimer($code)) {
                     echo "
             <div style='width: 400px; margin-right: auto; margin-left: auto'>
                 <div class='alert alert-success alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>

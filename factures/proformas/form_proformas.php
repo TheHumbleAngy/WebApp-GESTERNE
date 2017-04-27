@@ -176,16 +176,7 @@
     ?>
 <?php else : ?>
 
-    <script>
-        $.ajax({
-            type: "POST",
-            url: "factures/proformas/ajax_num_proforma.php",
-            success: function (resultat) {
-                $('#num_fp').text(resultat);
-            }
-        });
-    </script>
-
+    <body onload="numero_proforma();">
     <div class="col-md-10 col-md-offset-1">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -196,7 +187,7 @@
                 </a>
             </div>
             <div class="panel-body">
-                <form method="POST">
+                <form id="myForm">
                     <div class="row">
                         <div class="col-md-10">
                             <table class="formulaire" style="width= 100%" border="0">
@@ -216,7 +207,7 @@
                                     <td class="champlabel">*Fournisseur :</td>
                                     <td>
                                         <label>
-                                            <select name="code_four" required class="form-control">
+                                            <select name="code_four" id="code_four" required class="form-control">
                                                 <option disabled selected></option>
                                                 <?php
                                                     $sql = "SELECT code_four, nom_four FROM fournisseurs ORDER BY nom_four ASC ";
@@ -226,6 +217,14 @@
                                                     }
                                                 ?>
                                             </select>
+                                        </label>
+                                    </td>
+                                    <td style="width: 5%"></td>
+                                    <td class="champlabel" rowspan="2">Notes :</td>
+                                    <td rowspan="3">
+                                        <label>
+                                                <textarea rows="5" cols="20" name="notes_fp" id="notes_fp" style="resize: none"
+                                                          class="form-control"></textarea>
                                         </label>
                                     </td>
                                 </tr>
@@ -239,13 +238,6 @@
                                                    class="form-control" readonly/>
                                         </label>
                                     </td>
-                                    <td class="champlabel" rowspan="2">Notes :</td>
-                                    <td rowspan="2">
-                                        <label>
-                                                <textarea rows="3" cols="20" name="notes_fp" style="resize: none"
-                                                          class="form-control"></textarea>
-                                        </label>
-                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="champlabel">*Date de reception :</td>
@@ -257,7 +249,6 @@
                                                    class="form-control" readonly/>
                                         </label>
                                     </td>
-                                    <td></td>
 
                                 </tr>
 
@@ -277,13 +268,14 @@
                             <img src="img/icons_1775b9/proforma.png">
                         </div>
                         <br/>
-
-                        <div class="response"></div>
                     </div>
+                    <div class="response"></div>
                 </form>
             </div>
         </div>
     </div>
+    </body>
+
 
     <script>
         $(document).ready(function() {
@@ -291,8 +283,10 @@
             $('#datereception_fp').datepicker({ dateFormat: 'dd-mm-yy' });
         });
 
-        var date_eta = "";
-        var date_rec = "";
+        var date_eta = "",
+            date_rec = "",
+            articles = ["a", "b"],
+            nbr_art = $('input[type=number]#nbr_articles');
 
         $('#dateetablissement_fp').on('change', function () {
             date_eta = this.value;
@@ -313,9 +307,6 @@
                 }
             }
         })
-
-        var articles = ["a", "b"],
-            nbr_art = $('input[type=number]#nbr_articles');
 
         nbr_art.bind('keyup mouseup', function () {
             var n = $("#nbr_articles").val();
@@ -349,39 +340,82 @@
                 }
             });
         });
-    </script>
 
-    <?php
-
-    if ((sizeof($_POST) > 0) && (isset($_POST['num_fp']))) {
-        include 'class_proformas.php';
-
-        $proforma = new proformas();
-        
-        if ($proforma->recuperation($_POST['num_fp'])) {
-            if ($proforma->enregistrement()) {
-                header('Location: form_principale.php?page=proformas/form_proformas');
-            } else {
-                echo "
-            <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
-                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
-                    <span aria-hidden='true'>&times;</span>
-                </button>
-                <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement de la proforma. Veuillez contacter l'administrateur.
-            </div>
-            ";
-            }
-        } else {
-            echo "
-            <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
-                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
-                    <span aria-hidden='true'>&times;</span>
-                </button>
-                <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la récupération des informations de la proforma. Veuillez contacter l'administrateur.
-            </div>
-            ";
+        function numero_proforma() {
+            $.ajax({
+                type: "POST",
+                url: "factures/proformas/ajax_num_proforma.php",
+                success: function (resultat) {
+                    $('#num_fp').text(resultat);
+                }
+            });
         }
-    }
-    ?>
+
+        function validation() {
+            var i = 0;
+            $(':input[required]').each(function () {
+                if (this.value == '')
+                    i++;
+            });
+            return i;
+        }
+
+        function ajout_proforma() {
+            if (validation() != 0)
+                alert("Veuillez remplir les champs requis s'il vous plait.");
+            else {
+                //Different variables declarations and assignments
+                //variables pour la proforma
+                var num_pro = $('#num_fp').text(),
+                    code_four = $('#code_four').val(),
+                    date_eta = $('#dateetablissement_fp').val(),
+                    date_rec = $('#datereception_fp').val(),
+                    notes_fp = $('#notes_fp').val(),
+                    nbr = $('#nbr_articles').val();
+
+                //variables pour les details sur la proforma
+                var libelle_dp = new Array(),
+                    qte_dp = new Array(),
+                    pu_dp = new Array(),
+                    rem_dp = new Array();
+
+                for (var i = 0; i < nbr; i = i + 1) {
+                    try {
+                        libelle_dp[i] = $('[id*="libelle_dp"]')[i].value;
+                        qte_dp[i] = $('[id*="qte_dp"]')[i].value;
+                        pu_dp[i] = $('[id*="pu_dp"]')[i].value;
+                        rem_dp[i] = $('[id*="rem_dp"]')[i].value;
+                    } catch(e) {
+                        alert(e.message + ". Veuillez consulter la console pour plus de détails");
+                        console.log(e);
+                    }
+                }
+
+                //conversion des var tableaux au format Json afin de les utiliser
+                // dans l'autre fichier grace à AJAX
+                var json_libelle = JSON.stringify(libelle_dp),
+                    json_qte = JSON.stringify(qte_dp),
+                    json_pu = JSON.stringify(pu_dp),
+                    json_rem = JSON.stringify(rem_dp);
+
+                var infos = "i=" + nbr + "&num_pro=" + num_pro + "&code_four=" + code_four + "&date_eta=" + date_eta + "&date_rec=" + date_rec + "&notes_fp=" + notes_fp + "&libelle_dp=" + json_libelle + "&qte_dp=" + json_qte + "&pu_dp=" + json_pu + "&rem_dp=" + json_rem,
+                    operation = "ajout_proforma";
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'factures/proformas/updatedata.php?operation=' + operation,
+                    data: infos,
+                    success: function (data) {
+                        numero_proforma();
+                        $('#myForm').trigger('reset');
+                        $('.response').html(data);
+                        setTimeout(function () {
+                            $('.alert-success').slideToggle('slow');
+                        }, 2500);
+                    }
+                });
+            }
+        }
+    </script>
 
 <?php endif; ?>

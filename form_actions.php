@@ -598,7 +598,7 @@
                                 <td>
                                     <p style="font-size: small">Veuillez selectionner l'article a modifier a l'aide de
                                         la liste
-                                        déroulante puis cliquez sur le boutton en face pour proceder a la modification.
+                                        déroulante puis cliquez sur le boutton en face pour proceder a la modifier.
                                     </p>
                                 </td>
                                 <td style="padding-left: 10px; vertical-align: top">

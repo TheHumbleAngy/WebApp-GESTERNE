@@ -18,7 +18,7 @@
     }
 
     class factures extends class_factures {
-        function recuperation($num_fact) {
+        function recuperer($num_fact) {
             $this->num_fact = $num_fact;
             $this->code_four = htmlspecialchars($_POST['code_four'], ENT_QUOTES);
             $this->ref_fact = htmlspecialchars($_POST['ref_fact'], ENT_QUOTES);
@@ -34,7 +34,7 @@
             return $ini = '../' . $ini;
         }
 
-        function enregistrement() {
+        function enregistrer() {
             while (!$config = parse_ini_file($this->iniFile))
                 $this->configpath($this->iniFile);
 

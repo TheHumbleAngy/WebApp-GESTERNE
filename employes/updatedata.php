@@ -11,9 +11,9 @@
 
         $employe = new employes();
 
-        if ($employe->recuperation()) {
+        if ($employe->recuperer()) {
             $employe->motdepasse("ncare");
-            if ($employe->enregistrement()) {
+            if ($employe->enregistrer()) {
                 echo "
                 <div class='alert alert-success alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
                     <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
@@ -51,8 +51,8 @@
 
         $employe = new employes();
 
-        if ($employe->recuperation()) {
-            if ($employe->modification($id)) {
+        if ($employe->recuperer()) {
+            if ($employe->modifier($id)) {
                 echo "
                 <div class='alert alert-success alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
                     <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
@@ -67,7 +67,7 @@
                     <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                         <span aria-hidden='true'>&times;</span>
                     </button>
-                    <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de modification de l'employé " . $id . ". Veuillez contacter l'administrateur.
+                    <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de modifier de l'employé " . $id . ". Veuillez contacter l'administrateur.
                 </div>
                 ";
             }
@@ -92,7 +92,7 @@
 
         $employe = new employes();
 
-        if ($employe->suppression($id)) {
+        if ($employe->supprimer($id)) {
             echo "
             <div class='alert alert-success alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
                 <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
@@ -116,7 +116,7 @@
 
     }
     elseif (isset($_POST['code_emp']) || isset($_POST['action'])) {
-        //TODO: MAJ et suppression des infos depuis les forms modif_employes et suppr_employes
+        //TODO: MAJ et supprimer des infos depuis les forms modif_employes et suppr_employes
 
         $code = $_POST['code_emp'];
         
@@ -124,9 +124,9 @@
 
         $employe = new employes();
 
-        if ($employe->recuperation()) {
+        if ($employe->recuperer()) {
             if ($_POST['action'] == "maj") {
-                if ($employe->modification($code)) {
+                if ($employe->modifier($code)) {
                     header("refresh:3;url=form_principale.php?page=administration&source=employes");
                     echo "
                     <div style='width: 80%; margin-right: auto; margin-left: auto; margin-top: 10%'>
@@ -141,7 +141,7 @@
                     ";
                 }
             } elseif ($_POST['action'] == "supprimer") {
-                if ($employe->suppression($code)) {
+                if ($employe->supprimer($code)) {
                     header("refresh:3;url=form_principale.php?page=administration&source=employes");
                     echo "
                     <div style='width: 80%; margin-right: auto; margin-left: auto; margin-top: 10%'>

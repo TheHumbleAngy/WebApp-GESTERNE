@@ -93,7 +93,7 @@
         </div>
     </div>
 
-<?php elseif ($action == "modification"): ?>
+<?php elseif ($action == "modifier"): ?>
     <div class="col-md-7" style="margin-left: 20.83%">
         <div class="panel panel-default">
             <div class="panel-heading" style="font-size: 12px; font-weight: bolder">

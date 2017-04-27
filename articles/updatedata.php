@@ -13,8 +13,8 @@
 
         $article = new articles();
 
-        if ($article->recuperation()) {
-            if ($article->enregistrement()) {
+        if ($article->recuperer()) {
+            if ($article->enregistrer()) {
                 echo "
                 <div class='alert alert-success alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
                     <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
@@ -56,8 +56,8 @@
 
         $article = new articles();
 
-        if ($article->recuperation()) {
-            if ($article->modification($id)) {
+        if ($article->recuperer()) {
+            if ($article->modifier($id)) {
                 echo "
                 <div class='alert alert-success alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
                     <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
@@ -72,7 +72,7 @@
                     <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                         <span aria-hidden='true'>&times;</span>
                     </button>
-                    <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de modification de l'article " . $id . ". Veuillez contacter l'administrateur.
+                    <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de modifier de l'article " . $id . ". Veuillez contacter l'administrateur.
                 </div>
                 ";
             }
@@ -97,7 +97,7 @@
 
         $article = new articles();
 
-        if ($article->suppression($id)) {
+        if ($article->supprimer($id)) {
             echo "
             <div class='alert alert-success alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
                 <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
@@ -121,16 +121,16 @@
 
     }
     elseif (isset($_POST['code_art']) || isset($_POST['action'])) {
-        //TODO: MAJ et suppression des infos depuis les forms modif_articles et suppr_articles
+        //TODO: MAJ et supprimer des infos depuis les forms modif_articles et suppr_articles
 
         $code = $_POST['code_art'];
         include_once 'class_articles.php';
 
         $article = new articles();
 
-        if ($article->recuperation()) {
+        if ($article->recuperer()) {
             if ($_POST['action'] == "maj") {
-                if ($article->modification($code)) {
+                if ($article->modifier($code)) {
                     header("refresh:3;url=form_principale.php?page=form_actions&source=articles&action=modifier");
                     echo "
                     <div style='width: 80%; margin-right: auto; margin-left: auto; margin-top: 10%'>
@@ -145,7 +145,7 @@
                     ";
                 }
             } elseif ($_POST['action'] == "supprimer") {
-                if ($article->suppression($code)) {
+                if ($article->supprimer($code)) {
                     header("refresh:3;url=form_principale.php?page=form_actions&source=articles&action=supprimer");
                     echo "
                     <div style='width: 80%; margin-right: auto; margin-left: auto; margin-top: 10%'>
@@ -194,9 +194,9 @@
         include 'class_articles.php';
         session_start();
         $sortie = new sorties_articles();
-        $sortie->recuperation($_SESSION['user_id'], $_POST['nbr']);
-//        if () { $sortie->enregistrement();
-//            /*if ($sortie->enregistrement()) {
+        $sortie->recuperer($_SESSION['user_id'], $_POST['nbr']);
+//        if () { $sortie->enregistrer();
+//            /*if ($sortie->enregistrer()) {
 //                echo "Great!";
 //            } else {
 //                echo "Oops!";
@@ -217,7 +217,7 @@
 
         $entree = new entrees_articles();
 
-        if ($entree->recuperation($_SESSION['user_id'])) {
+        if ($entree->recuperer($_SESSION['user_id'])) {
 
             $arr_libelle = json_decode($_POST['libelle']);
             $arr_qte = json_decode($_POST['qte']);
@@ -225,7 +225,7 @@
 
             $n = sizeof($arr_libelle);
 
-            if ($entree->enregistrement($n, $arr_libelle, $arr_qte, $arr_obsv)) {
+            if ($entree->enregistrer($n, $arr_libelle, $arr_qte, $arr_obsv)) {
                 echo "Success!";
             } else {
                 echo "Une erreur s'est produite lors de la tentative d'enregistrement";
@@ -240,7 +240,7 @@
 
         $sortie = new sorties_articles();
 
-        if ($sortie->recuperation($_SESSION['user_id'])) {
+        if ($sortie->recuperer($_SESSION['user_id'])) {
 
             $arr_libelle = json_decode($_POST['libelle']);
             $arr_qte = json_decode($_POST['qte']);
@@ -248,7 +248,7 @@
 
             $n = sizeof($arr_libelle);
             
-            if ($sortie->enregistrement($n, $arr_libelle, $arr_qte, $arr_obsv)) {
+            if ($sortie->enregistrer($n, $arr_libelle, $arr_qte, $arr_obsv)) {
                 echo "Success!";
             } else {
                 echo "Une erreur s'est produite lors de la tentative d'enregistrement";
@@ -264,7 +264,7 @@
 
         $sortie = new sorties_articles();
 
-        if ($sortie->recuperation($_SESSION['user_id'])) {
+        if ($sortie->recuperer($_SESSION['user_id'])) {
 
             $arr_libelle = json_decode($_POST['libelle']);
             $arr_qte = json_decode($_POST['qte']);
@@ -275,8 +275,8 @@
             $n = sizeof($arr_libelle);
 
             if ($sortie->recup_demandes($arr_num_dmd, $arr_num_dd, $nbr_dmd)) {
-//                $sortie->enregistrement($n, $arr_libelle, $arr_qte, $arr_obsv);
-                if ($sortie->enregistrement($n, $arr_libelle, $arr_qte, $arr_obsv)) {
+//                $sortie->enregistrer($n, $arr_libelle, $arr_qte, $arr_obsv);
+                if ($sortie->enregistrer($n, $arr_libelle, $arr_qte, $arr_obsv)) {
                     echo "Success!";
                 } else {
                     echo "Une erreur s'est produite lors de la tentative d'enregistrement";

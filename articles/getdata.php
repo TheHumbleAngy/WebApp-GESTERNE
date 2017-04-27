@@ -217,7 +217,7 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- Modal suppression des infos -->
+                                                <!-- Modal supprimer des infos -->
                                                 <div class="modal fade"
                                                      id="modalSupprimer<?php echo stripslashes($data['code_art']); ?>"
                                                      tabindex="-1"
@@ -451,7 +451,7 @@
                                                 </div>
                                             </div>
 
-                                            <!-- Modal suppression des infos -->
+                                            <!-- Modal supprimer des infos -->
                                             <div class="modal fade"
                                                  id="modalSupprimer<?php echo stripslashes($list['code_art']); ?>"
                                                  tabindex="-1"

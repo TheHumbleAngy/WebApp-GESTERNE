@@ -1,5 +1,4 @@
 <?php
-    
     /**
      * Created by PhpStorm.
      * User: Ange KOUAKOU
@@ -7,45 +6,41 @@
      * Time: 15:55
      */
     abstract class class_demandes {
-        public $num_dmd;
-        public $code_emp;
-        public $date_dbs;
-        public $objets_dbs;
-        public $statut;
+        protected $num_dmd;
+        protected $code_emp;
+        protected $date_dbs;
+        protected $objets_dbs;
+        protected $statut;
         protected $iniFile;
     }
     
     class demandes extends class_demandes {        
-        function recuperation($code_emp) {
-            $this->num_dmd = htmlspecialchars($_POST['num_dbs'], ENT_QUOTES);
+        function recuperer($code_emp) {
+            $this->num_dmd = htmlspecialchars($_POST['num_dmd'], ENT_QUOTES);
             $this->code_emp = $code_emp;
-            $this->objets_dbs = addslashes($_POST['objets_dbs']);
+            $this->objets_dbs = addslashes($_POST['objet_dmd']);
             $this->date_dbs = date("Y-m-d");
             $this->iniFile = "config.ini";
             
             return TRUE;
         }
-        
-        function afficher() {
-            echo $this->num_dmd;
-            echo '<br>';
-            echo $this->code_emp;
-            echo '<br>';
-            echo $this->date_dbs;
-            echo '<br>';
-            echo $this->objets_dbs;
-            echo '<br>';
-            echo $this->statut;
-            echo '<br>';
-        }
 
-        protected function configpath(&$ini) {
-            return $ini = '../' . $ini;
+        protected function configpath($ini) {
+            try {
+                $ini = '../../../' . $ini;
+                return $ini;
+            } catch (Exception $e) {
+                return "Exception caught :" . $e->getMessage();
+            }
         }
         
-        function enregistrement() {
-            while (!$config = parse_ini_file($this->iniFile))
-                $this->configpath($this->iniFile);
+        function recup_num() {
+            return $this->num_dmd;
+        }
+        
+        function enregistrer() {
+            $config = parse_ini_file($this->configpath($this->iniFile));
+            
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             if ($connexion->connect_error)
                 die($connexion->connect_error);
@@ -59,10 +54,10 @@
                 return FALSE;
         }
 
-        function suppression($code) {
-            if (!$config = parse_ini_file('../../../config.ini')) $config = parse_ini_file('../../config.ini');
-            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+        function supprimer($code) {
+            $config = parse_ini_file($this->configpath($this->iniFile));
 
+            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             if ($connexion->connect_error)
                 die($connexion->connect_error);
             
@@ -82,35 +77,19 @@
         protected $qte_dd;
         protected $observations_dd;
         
-        function recuperation_details($num_dmd, $i) {
-            $this->num_dmd = $num_dmd;
-            $this->nature_dd = htmlspecialchars($_POST['nature'][$i], ENT_QUOTES);
-            $this->libelle_dd = addslashes($_POST['libelle'][$i]);
-            $this->qte_dd = htmlspecialchars($_POST['qte'][$i], ENT_QUOTES);
-            $this->observations_dd = addslashes($_POST['obv'][$i]);
+        function recuperer_detail($libelle_dd, $nature_dd, $qte_dd, $obsv_dd) {
+            $this->nature_dd = $nature_dd;
+            $this->libelle_dd = $libelle_dd;
+            $this->qte_dd = $qte_dd;
+            $this->observations_dd = $obsv_dd;
             $this->iniFile = "config.ini";
-//            echo "<br>";
+            
             return TRUE;
         }
         
-        function afficher_details() {
-            echo $this->num_dd;
-            echo '<br>';
-            echo $this->num_dmd;
-            echo '<br>';
-            echo $this->nature_dd;
-            echo '<br>';
-            echo $this->libelle_dd;
-            echo '<br>';
-            echo $this->qte_dd;
-            echo '<br>';
-            echo $this->observations_dd;
-            echo '<br>';
-        }
-        
-        function enregistrement_details() {
-            while (!$config = parse_ini_file($this->iniFile))
-                $this->configpath($this->iniFile);
+        function enregistrer_detail($num_dmd) {
+            $config = parse_ini_file($this->configpath($this->iniFile));
+            
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             if ($connexion->connect_error)
                 die($connexion->connect_error);
@@ -142,7 +121,7 @@
             $this->num_dd = $resultat;
 
             $sql = "INSERT INTO details_demande (num_dd, nature_dd, num_dbs, libelle_dd, qte_dd, observations_dd)
-                        VALUES ('$this->num_dd', '$this->nature_dd', '$this->num_dmd', '$this->libelle_dd', '$this->qte_dd', '$this->observations_dd')";
+                        VALUES ('$this->num_dd', '$this->nature_dd', '$num_dmd', '$this->libelle_dd', '$this->qte_dd', '$this->observations_dd')";
             
             if ($result = mysqli_query($connexion, $sql))
                 return TRUE;

@@ -137,16 +137,7 @@
 
     <?php else : ?>
 
-        <script>
-            $.ajax({
-                type: "POST",
-                url: "bons/bons_commande/ajax_num_bon_commande.php",
-                success: function (resultat) {
-                    $('#num_bc').text(resultat);
-                }
-            });
-        </script>
-
+        <body onload="numero_bon_cmd();">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -207,6 +198,7 @@
                 </div>
             </div>
         </div>
+        </body>
 
         <script>
             var proformas = ["a", "b"];
@@ -216,6 +208,16 @@
                     alert("Veuillez sélectionner un fournisseur.");
                     return false;
                 }
+            }
+
+            function numero_bon_cmd() {
+                $.ajax({
+                    type: "POST",
+                    url: "bons/bons_commande/ajax_num_bon_commande.php",
+                    success: function (resultat) {
+                        $('#num_bc').text(resultat);
+                    }
+                });
             }
 
             $(document).ready(function () {
@@ -236,6 +238,8 @@
                     if (reponse == 'oui') {
                         $('.proforma').show();
                         $('.zone').hide();
+                        //Vider le champ du numero de la proforma
+                        $('')
 
                         $.ajax({
                             url: "factures/proformas/num_proformas.php",
@@ -286,6 +290,11 @@
                     $(".alert-success").remove();
                 }, 3000);
 
+                function ajout_bon_cmd() {
+                    var num_bon = $('#num_bc').text();
+
+                }
+
             })
         </script>
 
@@ -294,8 +303,8 @@
             include 'class_bons_commandes.php';
 
             $bon_commande = new bons_commandes();
-            if ($bon_commande->recuperation($_POST['num_bc'])) {
-                if ($bon_commande->enregistrement()) {
+            if ($bon_commande->recuperer($_POST['num_bc'])) {
+                if ($bon_commande->enregistrer()) {
                     header('Location: form_principale.php?page=bons/bons_commande/form_bon_commande');
                 } else {
                     echo "

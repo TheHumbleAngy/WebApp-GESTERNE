@@ -14,8 +14,8 @@
 
         $fournisseur = new fournisseurs();
 
-        if ($fournisseur->recuperation()) {
-            if ($fournisseur->enregistrement()) {
+        if ($fournisseur->recuperer()) {
+            if ($fournisseur->enregistrer()) {
                 echo "
                 <div class='alert alert-success alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
                     <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
@@ -46,8 +46,8 @@
 
         $fournisseur = new fournisseurs();
 
-        if ($fournisseur->recuperation()) {
-            if ($fournisseur->modification($id)) {
+        if ($fournisseur->recuperer()) {
+            if ($fournisseur->modifier($id)) {
                 echo "
                 <div class='alert alert-success alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
                     <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
@@ -62,7 +62,7 @@
                     <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                         <span aria-hidden='true'>&times;</span>
                     </button>
-                    <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de modification du fournisseur " . $id . ". Veuillez contacter l'administrateur.
+                    <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de modifier du fournisseur " . $id . ". Veuillez contacter l'administrateur.
                 </div>
                 ";
             }
@@ -87,7 +87,7 @@
 
         $fournisseur = new fournisseurs();
 
-        if ($fournisseur->suppression($id)) {
+        if ($fournisseur->supprimer($id)) {
             echo "
             <div class='alert alert-success alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
                 <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
@@ -111,16 +111,16 @@
 
     }
     elseif (isset($_POST['code_four']) || isset($_POST['action'])) {
-        //TODO: MAJ et suppression des infos depuis les forms modif_fournisseurs et suppr_fournisseurs
+        //TODO: MAJ et supprimer des infos depuis les forms modif_fournisseurs et suppr_fournisseurs
         $code = $_POST['code_four'];
         
         include_once 'class_fournisseurs.php';
 
         $fournisseur = new fournisseurs();
 
-        if ($fournisseur->recuperation()) {
+        if ($fournisseur->recuperer()) {
             if ($_POST['action'] == "maj") {
-                if ($fournisseur->modification($code)) {
+                if ($fournisseur->modifier($code)) {
                     header("refresh:3;url=form_principale.php?page=administration&source=fournisseurs");
                     echo "
                     <div style='width: 80%; margin-right: auto; margin-left: auto; margin-top: 10%'>
@@ -135,7 +135,7 @@
                     ";
                 }
             } elseif ($_POST['action'] == "supprimer") {
-                if ($fournisseur->suppression($code)) {
+                if ($fournisseur->supprimer($code)) {
                     header("refresh:3;url=form_principale.php?page=administration&source=fournisseurs");
                     echo "
                     <div style='width: 80%; margin-right: auto; margin-left: auto; margin-top: 10%'>

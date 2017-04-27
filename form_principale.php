@@ -3,6 +3,7 @@
     ob_start();
     session_start();
     require_once 'fonctions.php';
+    include 'fpdf/fpdf.php';
 
     if (!isset($_SESSION['user_id'])) { //TODO: conditionner aussi le paramètre de connexion
         header('Location: index.php');
@@ -176,7 +177,7 @@
                                         <span>Listes</span>
                                     </a>
                                     <ul>
-                                        <li><a href="form_principale.php?page=demandes/liste_demandes">Demandes</a></li>
+                                        <li><a href="form_principale.php?page=demandes/biens_services/liste_demandes">Demandes</a></li>
                                         <?php if ($droit === "administrateur" || $droit === "moyens generaux"): ?>
                                             <li><a href="form_principale.php?page=factures/proformas/liste_proformas">Factures
                                                     Proformas</a></li>

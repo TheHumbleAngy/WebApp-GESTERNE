@@ -77,7 +77,7 @@
                                                     </a>
                                                 </div>
 
-                                                <!-- Modal suppression des infos -->
+                                                <!-- Modal supprimer des infos -->
                                                 <div class="modal fade"
                                                      id="modalSupprimer<?php echo stripslashes($data['num_bc']); ?>" tabindex="-1"
                                                      role="dialog">

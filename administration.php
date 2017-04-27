@@ -214,7 +214,7 @@
                 type: "POST",
                 url: "utilisateurs/form_utilisateurs.php",
                 data: {
-                    action: "modification"
+                    action: "modifier"
                 },
                 success: function (resultat) {
                     $(".feedback").html(resultat);
@@ -254,7 +254,7 @@
 
         $connexion = db_connect();
 
-        if (isset($_POST['validation']) && (($_POST['validation'] == "valider ajout") || ($_POST['validation'] == "valider modification"))) {
+        if (isset($_POST['validation']) && (($_POST['validation'] == "valider ajout") || ($_POST['validation'] == "valider modifier"))) {
             $droit = $_POST['compte'];
             $employe = $_POST['emp'];
             $sql = "UPDATE employes SET code_droit = (SELECT code_droit FROM droits WHERE libelle_droit = '$droit') WHERE code_emp = '$employe'";

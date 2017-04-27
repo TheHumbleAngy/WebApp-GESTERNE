@@ -274,7 +274,7 @@
                     <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                         <span aria-hidden='true'>&times;</span>
                     </button>
-                    <strong>Une erreur s'est produite lors de l'enregistrement des détails du bon de livraison. Veuillez contacter l'administrateur.</strong>
+                    <strong>Une erreur s'est produite lors de l'enregistrer des détails du bon de livraison. Veuillez contacter l'administrateur.</strong>
                 </div>
                 ";
             }
@@ -304,7 +304,7 @@
                     <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                         <span aria-hidden='true'>&times;</span>
                     </button>
-                    <strong>Une erreur s'est produite lors de l'enregistrement du bon de livraion. Veuillez contacter l'administrateur.</strong>
+                    <strong>Une erreur s'est produite lors de l'enregistrer du bon de livraion. Veuillez contacter l'administrateur.</strong>
                 </div>
                 ";
         mysqli_close($connexion);

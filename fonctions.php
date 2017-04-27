@@ -1,5 +1,5 @@
 <?php
-    error_reporting(E_ERROR);
+    //error_reporting(E_ERROR);
     /**
      * Created by PhpStorm.
      * User: Ange Kouakou
@@ -14,6 +14,8 @@
         static $connexion;
 
         $iniFile = 'config.ini';
+        configpath($iniFile);
+        
         if (!isset($connexion)) {
             while (!$config = parse_ini_file($iniFile))
                 configpath($iniFile);
@@ -125,7 +127,7 @@
         }
     }
 
-    function recuperation() {
+    function recuperer() {
         if (isset($_GET['id'])) {
             $_SESSION['code_temp'] = $_GET['id'];
 
@@ -136,7 +138,7 @@
     }
 
     function fonction_modif_employes() {
-        if (recuperation()) {
+        if (recuperer()) {
             header('Location: form_principale.php?page=employes/modification_employes');
         } else {
             echo $_GET['id'];
@@ -145,7 +147,7 @@
     }
 
     function fonction_modif_fournisseurs() {
-        if (recuperation()) {
+        if (recuperer()) {
             header('Location: form_principale.php?page=fournisseurs/modification_fournisseurs');
         } else {
             echo $_GET['id'];
@@ -154,7 +156,7 @@
     }
 
     function process_modif_reglements() {
-        if (recuperation()) {
+        if (recuperer()) {
             header('Location: form_principale.php?page=reglements/modification_reglements');
         } else {
             echo $_GET['id'];
@@ -163,7 +165,7 @@
     }
 
     function process_modif_biens_ou_services() {
-        if (recuperation()) {
+        if (recuperer()) {
             header('Location: form_principale.php?page=articles/articles/modification_biens_ou_services');
         } else {
             echo $_GET['id'];
@@ -172,7 +174,7 @@
     }
 
     function process_modif_demandes() {
-        if (recuperation()) {
+        if (recuperer()) {
             header('Location: form_principale.php?page=articles/demandes/modif_demandes');
         } else {
             echo $_GET['id'];
@@ -181,7 +183,7 @@
     }
 
     function process_modif_factures() {
-        if (recuperation()) {
+        if (recuperer()) {
             header('Location: form_principale.php?page=regulieres/modification_factures');
         } else {
             echo $_GET['id'];
@@ -190,7 +192,7 @@
     }
 
     function process_modif_factures_proforma() {
-        if (recuperation()) {
+        if (recuperer()) {
             header('Location: form_principale.php?page=proformas/modification_factures_proforma');
         } else {
             echo $_GET['id'];
@@ -199,7 +201,7 @@
     }
 
     function process_modif_bons_livraison() {
-        if (recuperation()) {
+        if (recuperer()) {
             header('Location: form_principale.php?page=bons_livraison/modif_bons_livraison');
         } else {
             echo $_GET['id'];

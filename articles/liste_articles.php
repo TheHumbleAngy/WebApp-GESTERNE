@@ -31,11 +31,12 @@
         var niveau_reappro_art = $('#niveau_reappro_art' + code).val();
         var niveau_cible_art = $('#niveau_cible_art' + code).val();
 
-        var infos = "stock_art=" + stock_art + "&designation_art=" + designation_art + "&code_grp=" + code_grp + "&description_art=" + description_art + "&niveau_reappro_art=" + niveau_reappro_art + "&niveau_cible_art=" + niveau_cible_art;
+        var infos = "stock_art=" + stock_art + "&designation_art=" + designation_art + "&code_grp=" + code_grp + "&description_art=" + description_art + "&niveau_reappro_art=" + niveau_reappro_art + "&niveau_cible_art=" + niveau_cible_art,
+            operation = "maj";
 
         $.ajax({
             type: 'POST',
-            url: 'articles/updatedata.php?id=' + id + '&operation=maj',
+            url: 'articles/updatedata.php?id=' + id + '&operation=' + operation,
             data: infos,
             success: function (data) {
                 $('#info').html(data);

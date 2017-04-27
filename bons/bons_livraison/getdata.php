@@ -97,7 +97,7 @@
                                                     </a>
                                                 </div>
 
-                                                <!-- Modal suppression des infos -->
+                                                <!-- Modal supprimer des infos -->
                                                 <div class="modal fade"
                                                      id="modalSupprimer<?php echo stripslashes($list['num_bl']); ?>"
                                                      tabindex="-1"

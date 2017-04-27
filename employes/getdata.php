@@ -5,7 +5,7 @@
      * Date: 26/08/2015
      * Time: 15:10
      */
-    error_reporting(E_ERROR);
+    //error_reporting(E_ERROR);
     function configpath(&$ini) {
         return $ini = '../' . $ini;
     }
@@ -206,7 +206,7 @@
                                                 </div>
                                             </div>
 
-                                            <!-- Modal suppression des infos -->
+                                            <!-- Modal supprimer des infos -->
                                             <div class="modal fade"
                                                  id="modalSupprimer<?php echo stripslashes($data['code_emp']); ?>"
                                                  tabindex="-1"
@@ -436,7 +436,7 @@
                                             </div>
                                         </div>
 
-                                        <!-- Modal suppression des infos -->
+                                        <!-- Modal supprimer des infos -->
                                         <div class="modal fade"
                                              id="modalSupprimer<?php echo stripslashes($list['code_emp']); ?>"
                                              tabindex="-1"

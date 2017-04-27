@@ -37,7 +37,7 @@
                     <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                         <span aria-hidden='true'>&times;</span>
                     </button>
-                    <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de suppression du bon de commande " . $id . ". Veuillez contacter l'administrateur.
+                    <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de supprimer du bon de commande " . $id . ". Veuillez contacter l'administrateur.
                 </div>
                 ";
             }
@@ -47,7 +47,7 @@
                     <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                         <span aria-hidden='true'>&times;</span>
                     </button>
-                    <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de suppression des articles du bon de commande " . $id . ". Veuillez contacter l'administrateur.
+                    <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de supprimer des articles du bon de commande " . $id . ". Veuillez contacter l'administrateur.
                 </div>
                 ";
         }

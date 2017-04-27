@@ -8,7 +8,7 @@
 
     require_once '../../bd/connection.php';
     require_once '../../fonctions.php';
-    error_reporting(0);
+    //error_reporting(0);
 
 
     if (isset($_POST['num_dbs'])) {

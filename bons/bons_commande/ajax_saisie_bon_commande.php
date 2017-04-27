@@ -8,11 +8,12 @@
     include '../../fonctions.php';
     $iniFile = 'config.ini';
 
-    while (!$config = parse_ini_file($iniFile))
-        configpath($iniFile);
+    $config = parse_ini_file('../../../' . $iniFile);
 
     $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
-
+    if ($connexion->connect_error)
+        die($connexion->connect_error);
+    
     session_start();
 ?>
     <table class="formulaire" style="width: 100%" border="0">

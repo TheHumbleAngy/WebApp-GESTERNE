@@ -350,8 +350,8 @@
 
             $facture = new factures();
 
-            if ($facture->recuperation($_POST['num_fact'])) { $facture->enregistrement();
-                /*if ($facture->enregistrement()) {
+            if ($facture->recuperer($_POST['num_fact'])) { $facture->enregistrer();
+                /*if ($facture->enregistrer()) {
                     header('Location: form_principale.php?page=factures/form_factures');
                 }
                 else {
