@@ -164,7 +164,7 @@
                                             </label>
                                         </td>
                                         <td>
-                                            <div class="panel panel-default" style="margin-bottom: 0; width: 80%">
+                                            <div class="panel panel-default" style="margin-bottom: 0; width: 90%">
                                                 <table border="0" style="border-collapse: separate;border-spacing: 10px">
                                                     <tr>
                                                         <td>
@@ -280,9 +280,22 @@
                 nbr_art = $('#nbr_articles'),
                 articles = ["a", "b"],
                 choix = $('input[type=radio][name=choix]'),
-                nbr = $('#nbr').val(),
-                num_bc = $('#num_bc').text(),
-                code_four = $('#code_four').val();
+                nbr = $('#nbr').val();
+
+            $(document).ready(function () {
+                //Initialisation
+                $('#row_proforma').hide();
+                $('#row_new').hide();
+
+                //Script qui previent la validation de la touche entrée
+                $('#myform').on('keyup keypress', function (e) {
+                    var key = e.keyCode || e.which;
+                    if (key === 13) {
+                        e.preventDefault;
+                        return false;
+                    }
+                });
+            });
 
             function numero_bon_cmd() {
                 $.ajax({
@@ -294,65 +307,51 @@
                 });
             }
 
-            $(document).ready(function () {
-                //Initialisation
-                $('#row_proforma').hide();
-                $('#row_new').hide();
+            choix.change(function () {
+                if (this.value == "oui") {
+                    $('#row_proforma').show();
+                    $('#row_new').hide();
 
-                //Script qui previent la validation de la touche entrée
-                $('#myform').on('keyup keypress', function (e) {
-                    var key = e.keyCode || e.which;
-                    if (key === 13) {
-                         e.preventDefault;
-                         return false;
-                     }
-                });
+                    $('#choixLabel1').addClass('label label-success');
+                    $('#choixLabel1').css('font-size', '100%');
+                    $('#choixLabel2').removeClass('label label-success');
 
-                choix.change(function () {
-                    if (this.value == "oui") {
-                        $('#row_proforma').show();
-                        $('#row_new').hide();
+                    //Reinitialiser le champ du numero de la proforma et la zone
+                    //d'affichage des details
+                    $('#num_pro').val("");
+                    $('#response').empty();
 
-                        $('#choixLabel1').addClass('label label-success');
-                        $('#choixLabel1').css('font-size', '100%');
-                        $('#choixLabel2').removeClass('label label-success');
+                    $.ajax({
+                        url: "factures/proformas/num_proformas.php",
+                        dataType: "json",
+                        type: "GET",
+                        success: function (data) {
+                            for (var i = 0; i < data.length; i += 1)
+                                proformas[i] = data[i].num_fp;
 
-                        //Reinitialiser le champ du numero de la proforma et la zone
-                        //d'affichage des details
-                        $('#num_pro').val("");
-                        $('#response').empty();
+                            $('#num_pro').autocomplete({
+                                source: proformas
+                            });
+                        }
+                    })
+                } else if (this.value == "non") {
+                    $('#row_proforma').hide();
+                    $('#row_new').show();
 
-                        $.ajax({
-                            url: "factures/proformas/num_proformas.php",
-                            dataType: "json",
-                            type: "GET",
-                            success: function (data) {
-                                for (var i = 0; i < data.length; i += 1)
-                                    proformas[i] = data[i].num_fp;
+                    $('#choixLabel2').addClass('label label-success');
+                    $('#choixLabel2').css('font-size', '100%');
+                    $('#choixLabel1').removeClass('label label-success');
 
-                                $('#num_pro').autocomplete({
-                                    source: proformas
-                                });
-                            }
-                        })
-                    } else if (this.value == "non") {
-                        $('#row_proforma').hide();
-                        $('#row_new').show();
-
-                        $('#choixLabel2').addClass('label label-success');
-                        $('#choixLabel2').css('font-size', '100%');
-                        $('#choixLabel1').removeClass('label label-success');
-
-                        //Reinitialiser le combobox du fournisseur et la zone
-                        //d'affichage des details
-                        $('#code_four_gen')[0].selectedIndex = 0;
-                        $('#nbr_articles').val("");
-                        $('#response').empty();
-                    }
-                });
+                    //Reinitialiser le combobox du fournisseur et la zone
+                    //d'affichage des details
+                    $('#code_four_gen')[0].selectedIndex = 0;
+                    $('#nbr_articles').val("");
+                    $('#response').empty();
+                }
             });
 
-            /* Ce script permet d'afficher le fournisseur et les différents articles figurants de la proforma sélectionnée */
+            /* Ce script permet d'afficher le fournisseur et les
+            différents articles figurants de la proforma sélectionnée */
             $("#num_pro").on('keypress', function (e) {
                 if (e.which == 13) {
                     $('#response').show();
@@ -411,7 +410,10 @@
                 return i;
             }
 
-            function ajout() {
+            function ajout(code_four) {
+                var code_four = code_four,
+                    num_bc = $('#num_bc').text();
+
                 //variables pour les details sur le bon de commande
                 var libelle_dbc = new Array(),
                     qte_dbc = new Array(),
@@ -452,33 +454,31 @@
                         $('#response').html(data);
                         setTimeout(function () {
                             $('.alert-success').slideToggle('slow');
-                        }, 2500);
+                        }, 5000);
                     }
                 });
             }
 
             function ajout_bon_commande() {
-                var test = true;
-                console.log(test);
-                console.log(code_four);
+                var test = true,
+                    code_four = $('#code_four').val();
 
-                if (code_four == null) {
+                if (!code_four) {
                     code_four = $('#code_four_gen').val();
                     test = false;
                 }
 
                 if (test == true)
-                    console.log(test);
+                    ajout(code_four);
                 else {
                     if ($('#code_four_gen')[0].value == "Raison Sociale")
                         alert("Veuillez sélectionner un fournisseur");
                     else if (validation() != 0)
                         alert("Veuillez remplir TOUS les champs requis s'il vous plaît.");
                     else {
-                        ajout();
+                        ajout(code_four);
                     }
                 }
-
             }
         </script>
 
