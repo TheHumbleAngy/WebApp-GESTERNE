@@ -88,11 +88,11 @@
         protected $pu_dp;
         protected $rem_dp;
 
-        function recuperer_detail($libelle_dp, $qte_dp, $pu_dp, $rem_dp) {
-            $this->libelle_dp = $libelle_dp;
-            $this->qte_dp = $qte_dp;
-            $this->pu_dp = $pu_dp;
-            $this->rem_dp = $rem_dp;
+        function recuperer_detail($libelle, $qte, $pu, $rem) {
+            $this->libelle_dp = $libelle;
+            $this->qte_dp = $qte;
+            $this->pu_dp = $pu;
+            $this->rem_dp = $rem;
             $this->iniFile = "config.ini";
 
             return TRUE;

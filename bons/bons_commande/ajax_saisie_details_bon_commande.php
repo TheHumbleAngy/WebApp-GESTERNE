@@ -12,7 +12,7 @@
         echo '
 <div class="col-md-12">
     <div style="text-align: center; margin-bottom: 1%">
-        <button class="btn btn-info" id="valider" type="submit" name="valider" style="width: 150px">
+        <button class="btn btn-info" id="valider" type="button" onclick="ajout_bon_commande();" name="valider" style="width: 150px">
             Valider
         </button>
     </div>
@@ -32,22 +32,22 @@
             echo '<tr>
                 <td style="vertical-align: middle">
                     <label style="width: 100%" class="nomargin_tb">
-                        <input type="text" class="form-control" name="libelle_dbc[]" required style="font-weight: lighter" onblur="this.value = this.value.toUpperCase();">
+                        <input type="text" class="form-control" id="libelle_dbc' . $i . '" required style="font-weight: lighter" onblur="this.value = this.value.toUpperCase();">
                     </label>
                 </td>
                 <td style="text-align: center; vertical-align: middle">
                     <label style="margin-left: auto; margin-right: auto" class="nomargin_tb">
-                        <input type="number" value="1" min="1" maxlength="4" class="form-control nomargin_tb" name="qte_dbc[]" id="qte" required>
+                        <input type="number" value="1" min="1" maxlength="4" class="form-control nomargin_tb" id="qte_dbc' . $i . '" required>
                     </label>
                 </td>
                 <td style="vertical-align: middle">
                     <label style="width: 100%" class="nomargin_tb">
-                        <input type="text" class="form-control" name="pu_dbc[]" id="pu" style="font-weight: lighter; text-align: right" placeholder="0" required>
+                        <input type="text" class="form-control" id="pu_dbc' . $i . '" style="font-weight: lighter; text-align: right" placeholder="0" required>
                     </label>
                 </td>
                 <td style="vertical-align: middle">
                     <label style="width: 100%" class="nomargin_tb">
-                        <input type="text" class="form-control" name="remise_dbc[]" id="rem" style="font-weight: lighter; text-align: right" placeholder="0" value="0">
+                        <input type="text" class="form-control" id="rem_dbc' . $i . '" style="font-weight: lighter; text-align: right" placeholder="0" value="0">
                     </label>
                 </td>
               </tr>

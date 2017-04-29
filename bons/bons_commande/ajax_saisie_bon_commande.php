@@ -16,13 +16,13 @@
     
     session_start();
 ?>
-    <table class="formulaire" style="width: 100%" border="0">
+    <table class="formulaire" style="width: 100%" border="1">
         <tr>
             <td class="champlabel">Employé :</td>
             <td>
                 <label>
                     <?php
-                        $sql = "SELECT code_emp, nom_emp, prenoms_emp FROM employes WHERE email_emp= '" . $_SESSION['email'] . "'"; //print_r($sql);
+                        $sql = "SELECT code_emp, nom_emp, prenoms_emp FROM employes WHERE email_emp= '" . $_SESSION['email'] . "'";
                         if ($resultat = $connexion->query($sql)) {
                             $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
                             foreach ($ligne as $data) {

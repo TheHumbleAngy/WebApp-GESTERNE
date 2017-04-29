@@ -2,67 +2,34 @@
     /**
      * Created by PhpStorm.
      * User: Ange KOUAKOU
-     * Date: 29/08/2016
-     * Time: 18:20
+     * Date: 28-Apr-17
+     * Time: 2:22 PM
      */
 
     session_start();
-    if (isset($_POST['id']) && isset($_GET['operation']) && $_GET['operation'] == "suppr") {
-        //TODO: Suppression des infos depuis la form liste_proformas
-
-        $id = $_POST['id'];
-
-        if (!$config = parse_ini_file('../../../config.ini')) $config = parse_ini_file('../../config.ini');
-        $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
-
-        $sql = "DELETE FROM proformas WHERE num_fp = '" . $id . "'";
-
-        if ($result = mysqli_query($connexion, $sql)) {
-            echo "
-            <div class='alert alert-success alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
-                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
-                    <span aria-hidden='true'>&times;</span>
-                </button>
-                <strong>Succès!</strong><br/> La facture proforma " . $id . " a été supprimée de la base.
-            </div>
-            ";
-        } else {
-            echo "
-            <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
-                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
-                    <span aria-hidden='true'>&times;</span>
-                </button>
-                <strong>Erreur!</strong><br/><br/>
-                La facture proforma " . $id . " est liée à certains formulaires et ne peut donc pas être supprimée de la base.<br/>
-                Veuillez donc contacter un administrateur.
-            </div>
-            ";
-        }
-    } elseif (isset($_GET['operation']) && $_GET['operation'] == "ajout_proforma") {
-        include 'class_proformas.php';
+    if (isset($_GET['operation']) && $_GET['operation'] == "ajout_bon_cmd") {
+        include 'class_bons_commandes.php';
         
         $nbr = $_POST['i'];
-        $num_pro = $_POST['num_pro'];
+        $num_bc = $_POST['num_bc'];
         $code_four = $_POST['code_four'];
-        $date_eta = $_POST['date_eta'];
-        $date_rec = $_POST['date_rec'];
-        $notes_fp = $_POST['notes_fp'];
+        
+        $bon_commande = new bons_commandes();
+        
+        if ($bon_commande->recuperer($num_bc, $code_four)) {
+            $arr_libelle = json_decode($_POST['libelle_dbc']);
+            $arr_qte = json_decode($_POST['qte_dbc']);
+            $arr_pu = json_decode($_POST['pu_dbc']);
+            $arr_rem = json_decode($_POST['rem_dbc']);
 
-        $proforma = new proformas();
-
-        if ($proforma->recuperer($num_pro)) {
-            $arr_libelle = json_decode($_POST['libelle_dp']);
-            $arr_qte = json_decode($_POST['qte_dp']);
-            $arr_pu = json_decode($_POST['pu_dp']);
-            $arr_rem = json_decode($_POST['rem_dp']);
-
-            if ($proforma->enregistrer()) {
-                $detail_proforma = new detail_proformas();
+            //print_r($arr_rem);
+            if ($bon_commande->enregistrer()) {
+                $detail_bon_commande = new details_bons_commande();
 
                 $no_error = 0;
                 for ($i = 0; $i < $nbr; $i++) {
-                    if ($detail_proforma->recuperer_detail($arr_libelle[$i], $arr_qte[$i], $arr_pu[$i], $arr_rem[$i])) {
-                        if (!$detail_proforma->enregistrer_detail($proforma->recup_num())) {
+                    if ($detail_bon_commande->recuperer_detail($arr_libelle[$i], $arr_qte[$i], $arr_pu[$i], $arr_rem[$i])) {
+                        if (!$detail_bon_commande->enregistrer_detail($bon_commande->recup_num())) {
                             $no_error = 1;
                             break;
                         }
@@ -78,18 +45,18 @@
                         <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                             <span aria-hidden='true'>&times;</span>
                         </button>
-                        <strong>Succès!</strong><br/> La proforma " . $num_pro . " a été bien enregistrée.
+                        <strong>Succès!</strong><br/> Le bon de commande " . $num_bc . " a été bien enregistré.
                     </div>
                     ";
                 }
                 elseif ($no_error == 1) {
-                    if ($proforma->supprimer($num_pro))
+                    if ($bon_commande->supprimer($num_bc))
                         echo "
                         <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
                             <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                                 <span aria-hidden='true'>&times;</span>
                             </button>
-                            <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement de la proforma. Veuillez contacter l'administrateur.
+                            <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement du bon de commande. Veuillez contacter l'administrateur.
                         </div>
                         ";
                     else
@@ -98,19 +65,19 @@
                             <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                                 <span aria-hidden='true'>&times;</span>
                             </button>
-                            <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement de la proforma. 
-                            Veuillez contacter l'administrateur (La proforma n'a pas été supprimée).
+                            <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement du bon de commande. 
+                            Veuillez contacter l'administrateur (Le bon n'a pas été supprimé).
                         </div>
                         ";
                 }
                 elseif ($no_error == 2) {
-                    if ($proforma->supprimer($num_pro))
+                    if ($bon_commande->supprimer($num_bc))
                         echo "
                         <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
                             <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                                 <span aria-hidden='true'>&times;</span>
                             </button>
-                            <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de recupereation des details de la proforma. 
+                            <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de recupereation des details du bon de commande. 
                             Veuillez contacter l'administrateur.
                         </div>
                         ";
@@ -120,8 +87,8 @@
                             <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                                 <span aria-hidden='true'>&times;</span>
                             </button>
-                            <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de recupereation des details de la proforma. 
-                            Veuillez contacter l'administrateur (La proforma n'a pas été supprimée).
+                            <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de recupereation des details du bon de commande. 
+                            Veuillez contacter l'administrateur (Le bon n'a pas été supprimé).
                         </div>
                         ";
                 }
@@ -132,19 +99,19 @@
                         <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                             <span aria-hidden='true'>&times;</span>
                         </button>
-                        <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement de la proforma. 
+                        <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement du bon de commande. 
                         Veuillez contacter l'administrateur.
                     </div>
                     ";
             }
-                
-        } else {
+        }
+        else {
             echo "
                 <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
                     <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                         <span aria-hidden='true'>&times;</span>
                     </button>
-                    <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de récupération des informations de la proforma. 
+                    <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative de récupération des informations du bon de commande. 
                     Veuillez contacter l'administrateur.
                 </div>
                 ";

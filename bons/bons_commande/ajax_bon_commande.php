@@ -46,7 +46,7 @@
 
                     echo '
         <div style="text-align: center; margin-bottom: 1%">
-                <button class="btn btn-info" type="submit" name="valider" style="width: 150px">
+                <button class="btn btn-info" type="button" onclick="ajout_bon_commande();" name="valider" style="width: 150px">
                     Valider
                 </button>
             </div>
@@ -56,7 +56,7 @@
                 <td>
                     <label>
                         <input type="text" name="nom_four" class="form-control" id="four" readonly value="' . $nom_four . '">
-                        <input type="hidden" name="cod_four" value="' . $code_four . '">
+                        <input type="hidden" id="code_four" value="' . $code_four . '">
                     </label>
                 </td>
             </tr>
@@ -83,10 +83,10 @@
                         foreach ($lignes as $list) {
                             $i++;
                             echo '<tr>';
-                            echo '<td style="text-align: center">' . stripslashes($list['libelle']) . '<input type="hidden" name="libelle_dbc[]" value="' . stripslashes($list['libelle']) . '"></td>';
-                            echo '<td style="text-align: center">' . stripslashes($list['qte_dfp']) . '<input type="hidden" name="qte_dbc[]" value="' . stripslashes($list['qte_dfp']) . '"></td>';
-                            echo '<td style="text-align: center">' . number_format(stripslashes($list['pu_dfp']), 0, ',', ' ') . '<input type="hidden" name="pu_dbc[]" value="' . stripslashes($list['pu_dfp']) . '"></td>';
-                            echo '<td style="text-align: center">' . stripslashes($list['remise_dfp']) . '%' . '<input type="hidden" name="remise_dbc[]" value="' . stripslashes($list['remise_dfp']) . '"></td>';
+                            echo '<td style="text-align: center">' . stripslashes($list['libelle']) . '<input type="hidden" id="libelle_dbc' . $i . '" value="' . stripslashes($list['libelle']) . '"></td>';
+                            echo '<td style="text-align: center">' . stripslashes($list['qte_dfp']) . '<input type="hidden" id="qte_dbc' . $i . '" value="' . stripslashes($list['qte_dfp']) . '"></td>';
+                            echo '<td style="text-align: center">' . number_format(stripslashes($list['pu_dfp']), 0, ',', ' ') . '<input type="hidden" id="pu_dbc' . $i . '" value="' . stripslashes($list['pu_dfp']) . '"></td>';
+                            echo '<td style="text-align: center">' . stripslashes($list['remise_dfp']) . '%' . '<input type="hidden" id="rem_dbc' . $i . '" value="' . stripslashes($list['remise_dfp']) . '"></td>';
 
                             $qte = stripslashes($list['qte_dfp']);
                             $pu = stripslashes($list['pu_dfp']);
@@ -116,7 +116,7 @@
                 </table>
             </div>
         </div>';
-                    echo '<input type="hidden" name="nbr" value="' . $i . '">';
+                    echo '<input type="hidden" id="nbr" value="' . $i . '">';
 
                 }
             }

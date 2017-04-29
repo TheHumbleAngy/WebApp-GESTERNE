@@ -286,7 +286,7 @@
         var date_eta = "",
             date_rec = "",
             articles = ["a", "b"],
-            nbr_art = $('input[type=number]#nbr_articles');
+            nbr_art = $('#nbr_articles');
 
         $('#dateetablissement_fp').on('change', function () {
             date_eta = this.value;
@@ -362,7 +362,7 @@
 
         function ajout_proforma() {
             if (validation() != 0)
-                alert("Veuillez remplir les champs requis s'il vous plait.");
+                alert("Veuillez remplir les TOUS champs requis s'il vous plait.");
             else {
                 //Different variables declarations and assignments
                 //variables pour la proforma
