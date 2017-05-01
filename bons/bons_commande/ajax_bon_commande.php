@@ -15,7 +15,7 @@
         $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
         if ($connexion->connect_error)
             die($connexion->connect_error);
-        
+
         $pro = htmlspecialchars($_POST['proforma'], ENT_QUOTES);
 
         //On vérifie que la proforma existe
@@ -24,7 +24,6 @@
         if ($resultat->num_rows > 0) {
             /* on réccupère le département de l'employé demandeur à partir des tables proformas, demandes_proformas, demandes, employés
         en fonction de la proforma sélectionnée*/
-
             $sql1 = "SELECT four.code_four, four.nom_four
             FROM fournisseurs AS four INNER JOIN proformas AS pro
             ON four.code_four = pro.code_four
@@ -95,7 +94,8 @@
                             if ($rem > 0) {
                                 $rem = $rem / 100;
                                 $ttc = $qte * $pu * (1 - $rem);
-                            } else
+                            }
+                            else
                                 $ttc = $qte * $pu;
 
                             $total = (int)$total + (int)$ttc;
@@ -120,7 +120,8 @@
 
                 }
             }
-        } else {
+        }
+        else {
             echo "
             <div class='alert alert-info alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
                 <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>

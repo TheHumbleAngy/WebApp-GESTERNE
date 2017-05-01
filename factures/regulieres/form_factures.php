@@ -157,17 +157,7 @@
     <?php else: ?>
 
         <!--suppress ALL -->
-        <meta charset="utf-8">
-        <script>
-            $.ajax({
-                type: "POST",
-                url: "factures/regulieres/ajax_num_facture.php",
-                success: function (resultat) {
-                    $('#num_fact').text(resultat);
-                }
-            });
-        </script>
-
+        <body onload="numero_fact()">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -178,8 +168,7 @@
                     </a>
                 </div>
                 <div class="panel-body">
-                    <form action="form_principale.php?page=factures/regulieres/form_factures" method="POST" name="myForm"
-                          onsubmit="return validationForme();">
+                    <form name="myForm">
                         <div class="row">
                             <div class="col-md-10">
                                 <table class="formulaire" style="width= 100%" border="0">
@@ -223,45 +212,113 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="champlabel" rowspan="2">Remarques facture :</td>
+                                        <td class="champlabel">Remarques facture :</td>
                                         <td>
                                             <label>
                                                 <textarea name="remarques_facture" rows="3" cols="20" style="resize: none"
-                                                  maxlength="200"
-                                                  class="form-control"></textarea>
+                                                          maxlength="200"
+                                                          class="form-control"></textarea>
                                             </label>
                                         </td>
                                         <td colspan="2">
-                                            <div class="panel panel-default">
+                                            <div class="panel panel-default" style="margin-bottom: 0">
                                                 <table class="formulaire" border="0">
                                                     <tr>
                                                         <td>
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="choix" value="oui">A partir d'une proforma
-                                                            </label>
-                                                        </td>
-                                                        <td class="champlabel pro">Proforma :</td>
-                                                        <td class="pro">
-                                                            <label>
-                                                                <input type="text" class="form-control" id="num_pro" size="9">
+                                                                <input type="radio" name="choix" value="oui">
+                                                                <span id="choixLabel1">A partir d'une proforma</span>
                                                             </label>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
                                                             <label class="radio-inline">
-                                                                <input type="radio" name="choix" value="non" readonly>Générique
-                                                            </label>
-                                                        </td>
-                                                        <td class="champlabel generique">Nombre d'articles :</td>
-                                                        <td class="generique">
-                                                            <label>
-                                                                <input type="number" class="form-control" name="nbr">
+                                                                <input type="radio" name="choix" value="non">
+                                                                <span id="choixLabel2">Générique</span>
                                                             </label>
                                                         </td>
                                                     </tr>
                                                 </table>
                                             </div>
+                                        </td>
+                                    </tr>
+                                    <tr id="row_proforma">
+                                        <td colspan="4">
+                                            <table>
+                                                <tr>
+                                                    <td class="champlabel">
+                                                        Veuillez entrer la proforma :
+                                                    </td>
+                                                    <td class="proforma" style="padding-left: 5px">
+                                                        <label>
+                                                            <input type="text" class="form-control" id="num_pro">
+                                                        </label>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr id="row_new">
+                                        <td colspan="4">
+                                            <table class="formulaire" style="width: 100%" border="0">
+                                                <tr>
+                                                    <td class="champlabel">Employé :</td>
+                                                    <td>
+                                                        <label>
+                                                            <?php
+                                                                $iniFile = 'config.ini';
+
+                                                                $config = parse_ini_file('../' . $iniFile);
+
+                                                                $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+                                                                if ($connexion->connect_error)
+                                                                    die($connexion->connect_error);
+
+                                                                $sql = "SELECT code_emp, nom_emp, prenoms_emp FROM employes WHERE email_emp= '" . $_SESSION['email'] . "'";
+                                                                if ($resultat = $connexion->query($sql)) {
+                                                                    $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
+                                                                    foreach ($ligne as $data) {
+                                                                        $code_emp = stripslashes($data['code_emp']);
+                                                                        $nom_prenoms_emp = stripslashes($data['prenoms_emp']) . ' ' . stripslashes($data['nom_emp']);
+                                                                    }
+                                                                }
+                                                            ?>
+                                                            <h4>
+                                                                <span class="label label-primary">
+                                                                    <?php echo $nom_prenoms_emp; ?>
+                                                                </span>
+                                                            </h4>
+                                                            <input type="hidden" name="code_emp" value="<?php echo $code_emp; ?>">
+                                                        </label>
+                                                    </td>
+                                                    <td class="champlabel" style="padding-left: 10px"
+                                                        title="Si le fournisseur désiré n'apparait pas dans la liste déroulante, veuillez le créer à partir du formulaire Fournisseur">Fournisseur :
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                            <select id="code_four_gen" class="form-control" required>
+                                                                <option disabled selected>Raison Sociale</option>
+                                                                <?php
+                                                                $sql = "SELECT code_four, nom_four FROM fournisseurs ORDER BY nom_four ASC ";
+                                                                $res = mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
+                                                                while ($data = mysqli_fetch_array($res)) {
+                                                                    echo '<option value="' . $data['code_four'] . '" >' . $data['nom_four'] . '</option>';
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="champlabel">Nombre d'articles :</td>
+                                                    <td>
+                                                        <label>
+                                                            <input type="number" min="1" class="form-control" id="nbr_articles" name="nbr" required/>
+                                                        </label>
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </td>
                                     </tr>
                                 </table>
@@ -271,29 +328,25 @@
                             </div>
                             <br/>
 
-                            <div class="response"></div>
+                            <div id="response"></div>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+        </body>
+
 
         <script>
-            var proformas = ["a", "b"];
-            function validationForme() {
-                var date_e = $('#date_e').val();
-                var date_r = $('#date_r').val();
-                if (date_e == null || date_e == "" || date_r == null || date_r == "") {
-                    alert("Veuillez renseignez les différentes dates s'il vous plaît.");
-                    return false;
-                }
-            }
+            var proformas = ["a", "b"],
+                choix = $('input[type=radio][name=choix]');
 
             $(document).ready(function () {
                 $('#date_e').datepicker({dateFormat: 'dd-mm-yy'});
                 $('#date_r').datepicker({dateFormat: 'dd-mm-yy'});
-                $('.pro').hide();
-                $('.generique').hide();
+                //Initialisation
+                $('#row_proforma').hide();
+                $('#row_new').hide();
 
                 $("select.proforma").change(function () {
                     var pro = $(".proforma option:selected").val();
@@ -308,74 +361,92 @@
                         }
                     });
                 });
+            });
 
+            function numero_fact() {
                 $.ajax({
-                    url: "bons/bons_commande/num_proformas.php",
-                    dataType: "json",
-                    type: "GET",
-                    success: function (data) {
-                        for (var i = 0; i < data.length; i += 1) {
-                            proformas[i] = data[i].num_fp;
-                        }
-                        $('#num_pro').autocomplete({
-                            source: proformas
-                        });
+                    type: "POST",
+                    url: "factures/regulieres/ajax_num_facture.php",
+                    success: function (resultat) {
+                        $('#num_fact').text(resultat);
                     }
                 });
+            }
+
+            choix.change(function () {
+                if (this.value == "oui") {
+                    $('#row_proforma').show();
+                    $('#row_new').hide();
+
+                    $('#choixLabel1').addClass('label label-info');
+                    $('#choixLabel1').css('font-size', '100%');
+                    $('#choixLabel2').removeClass('label label-info');
+
+                    //Reinitialiser le champ du numero de la proforma et la zone
+                    //d'affichage des details
+                    $('#num_pro').val("");
+                    $('#response').empty();
+
+                    $.ajax({
+                        url: "factures/proformas/num_proformas.php",
+                        dataType: "json",
+                        type: "GET",
+                        success: function (data) {
+                            for (var i = 0; i < data.length; i += 1) {
+                                proformas[i] = data[i].num_fp;
+                            }
+                            $('#num_pro').autocomplete({
+                                source: proformas
+                            });
+                        }
+                    });
+                }
+                else if (this.value == "non") {
+                    $('#row_proforma').hide();
+                    $('#row_new').show();
+
+                    $('#choixLabel2').addClass('label label-info');
+                    $('#choixLabel2').css('font-size', '100%');
+                    $('#choixLabel1').removeClass('label label-info');
+
+                    //Reinitialiser le combobox du fournisseur et la zone
+                    //d'affichage des details
+                    $('#code_four_gen')[0].selectedIndex = 0;
+                    $('#nbr_articles').val("");
+                    $('#response').empty();
+                }
             })
 
-            $('#num_pro').on('keypress', function (e) {
+            $("#num_pro").on('keypress', function (e) {
                 if (e.which == 13) {
-                    var prof = $("#num_pro").val();
-                    console.log(prof);
+                    $('#response').show();
+                    var proforma = $("#num_pro").val();
                     $.ajax({
                         type: "POST",
                         url: "factures/regulieres/ajax_factures_proforma.php",
                         data: {
-                            proforma: prof
+                            proforma: proforma
                         },
                         success: function (resultat) {
-                            $('.response').html(resultat);
+                            $('#response').html(resultat);
                         }
                     });
                 }
             });
-        </script>
 
-        <?php
-
-        if ((sizeof($_POST) > 0) && (isset($_POST['num_fact']))) {
-
-            include 'class_factures.php';
-
-            $facture = new factures();
-
-            if ($facture->recuperer($_POST['num_fact'])) { $facture->enregistrer();
-                /*if ($facture->enregistrer()) {
-                    header('Location: form_principale.php?page=factures/form_factures');
+            function validationForme() {
+                var date_e = $('#date_e').val();
+                var date_r = $('#date_r').val();
+                if (date_e == null || date_e == "" || date_r == null || date_r == "") {
+                    alert("Veuillez renseignez les différentes dates s'il vous plaît.");
+                    return false;
                 }
-                else {
-                    echo "
-            <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
-                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
-                    <span aria-hidden='true'>&times;</span>
-                </button>
-                <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la tentative d'enregistrement de la facture. Veuillez contacter l'administrateur.
-            </div>
-            ";
-                }*/
             }
-            else {
-                echo "
-            <div class='alert alert-danger alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>
-                <button type='button' class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
-                    <span aria-hidden='true'>&times;</span>
-                </button>
-                <strong>Erreur!</strong><br/> Une erreur s'est produite lors de la récupération des informations de la facture. Veuillez contacter l'administrateur.
-            </div>
-            ";
+            
+            function ajout(code_four) {
+                var code_four = code_four,
+                    num_fact = $('#num_fact').text();
             }
-        }
-        ?>
+        </script>
 
     <?php endif; ?>

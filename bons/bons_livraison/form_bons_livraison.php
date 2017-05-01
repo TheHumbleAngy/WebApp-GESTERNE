@@ -1,14 +1,5 @@
 <!--suppress ALL -->
-<script>
-    $.ajax({
-        type: "POST",
-        url: "bons/bons_livraison/ajax_num_bons_livraison.php",
-        success: function (resultat) {
-            $('#num_bl').text(resultat);
-        }
-    });
-</script>
-
+<body onload="numero_bon_liv();">
 <div class="col-md-11" style="margin-left: 4.33%">
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -60,12 +51,12 @@
                                         <select name="code_four" class="form-control" id="four">
                                             <option selected disabled>Raison sociale</option>
                                             <?php
-                                                $connexion = db_connect();
-                                                $sql = "SELECT code_four, nom_four FROM fournisseurs ORDER BY nom_four ASC ";
-                                                $res = mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
-                                                while ($data = mysqli_fetch_array($res)) {
-                                                    echo '<option value="' . $data['code_four'] . '">' . $data['nom_four'] . '</option>';
-                                                }
+                                            $connexion = db_connect();
+                                            $sql = "SELECT code_four, nom_four FROM fournisseurs ORDER BY nom_four ASC ";
+                                            $res = mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
+                                            while ($data = mysqli_fetch_array($res)) {
+                                                echo '<option value="' . $data['code_four'] . '">' . $data['nom_four'] . '</option>';
+                                            }
                                             ?>
                                         </select>
                                     </label>
@@ -95,12 +86,12 @@
                                         <select name="code_emp" required class="form-control">
                                             <option disabled selected>Employé</option>
                                             <?php
-                                                //$sql = "SELECT code_emp, nom_emp, prenoms_emp FROM employes WHERE departement_emp IN ('ADMINISTRATION', 'MOYENS GENERAUX') AND nom_emp <> 'ABBEY' ORDER BY nom_emp ASC";
-                                                $sql = "SELECT code_emp, nom_emp, prenoms_emp FROM employes WHERE nom_emp <> 'ABBEY' ORDER BY nom_emp ASC";
-                                                $res = mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
-                                                while ($data = mysqli_fetch_array($res)) {
-                                                    echo '<option value="' . $data['code_emp'] . '" >' . $data['prenoms_emp'] . ' ' . $data['nom_emp'] . '</option>';
-                                                }
+                                            //$sql = "SELECT code_emp, nom_emp, prenoms_emp FROM employes WHERE departement_emp IN ('ADMINISTRATION', 'MOYENS GENERAUX') AND nom_emp <> 'ABBEY' ORDER BY nom_emp ASC";
+                                            $sql = "SELECT code_emp, nom_emp, prenoms_emp FROM employes WHERE nom_emp <> 'ABBEY' ORDER BY nom_emp ASC";
+                                            $res = mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
+                                            while ($data = mysqli_fetch_array($res)) {
+                                                echo '<option value="' . $data['code_emp'] . '" >' . $data['prenoms_emp'] . ' ' . $data['nom_emp'] . '</option>';
+                                            }
                                             ?>
                                         </select>
                                     </label>
@@ -128,9 +119,22 @@
         </div>
     </div>
 </div>
+</body>
+
 
 <script>
     var bon_commande = ["a", "b"];
+
+    function numero_bon_liv() {
+        $.ajax({
+         type: "POST",
+         url: "bons/bons_livraison/ajax_num_bons_livraison.php",
+         success: function (resultat) {
+         $('#num_bl').text(resultat);
+         }
+         });
+    }
+
     $(document).ready(function () {
         $('#dateetablissement_bl').datepicker({dateFormat: 'dd-mm-yy'});
         $('#datereception_bl').datepicker({dateFormat: 'dd-mm-yy'});

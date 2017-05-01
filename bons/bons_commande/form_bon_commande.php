@@ -312,9 +312,9 @@
                     $('#row_proforma').show();
                     $('#row_new').hide();
 
-                    $('#choixLabel1').addClass('label label-success');
+                    $('#choixLabel1').addClass('label label-info');
                     $('#choixLabel1').css('font-size', '100%');
-                    $('#choixLabel2').removeClass('label label-success');
+                    $('#choixLabel2').removeClass('label label-info');
 
                     //Reinitialiser le champ du numero de la proforma et la zone
                     //d'affichage des details
@@ -333,14 +333,14 @@
                                 source: proformas
                             });
                         }
-                    })
+                    });
                 } else if (this.value == "non") {
                     $('#row_proforma').hide();
                     $('#row_new').show();
 
-                    $('#choixLabel2').addClass('label label-success');
+                    $('#choixLabel2').addClass('label label-info');
                     $('#choixLabel2').css('font-size', '100%');
-                    $('#choixLabel1').removeClass('label label-success');
+                    $('#choixLabel1').removeClass('label label-info');
 
                     //Reinitialiser le combobox du fournisseur et la zone
                     //d'affichage des details
@@ -355,12 +355,12 @@
             $("#num_pro").on('keypress', function (e) {
                 if (e.which == 13) {
                     $('#response').show();
-                    var prof = $("#num_pro").val();
+                    var proforma = $("#num_pro").val();
                     $.ajax({
                         type: "POST",
                         url: "bons/bons_commande/ajax_bon_commande.php",
                         data: {
-                            proforma: prof
+                            proforma: proforma
                         },
                         success: function (resultat) {
                             $('#response').html(resultat);
