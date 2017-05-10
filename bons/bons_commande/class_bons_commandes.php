@@ -1,12 +1,12 @@
 <?php
+
     /**
      * Created by PhpStorm.
      * User: Ange KOUAKOU
      * Date: 01-Dec-16
      * Time: 11:17 AM
      */
-    class class_bons_commandes
-    {
+    class class_bons_commandes {
         protected $num_bc;
         protected $code_emp;
         protected $code_four;
@@ -16,8 +16,7 @@
     }
 
     class bons_commandes extends class_bons_commandes {
-        function recuperer($num_bc, $code_four)
-        {
+        function recuperer($num_bc, $code_four) {
             $this->num_bc = $num_bc;
             $this->code_emp = $_SESSION['user_id'];
             $this->code_four = $code_four;
@@ -30,11 +29,13 @@
         protected function configpath($ini) {
             try {
                 $ini = '../../../' . $ini;
+
                 return $ini;
             } catch (Exception $e) {
                 return "Exception caught :" . $e->getMessage();
             }
         }
+
         function recup_num() {
             return $this->num_bc;
         }
@@ -78,17 +79,17 @@
         protected $pu_dbc;
         protected $rem_dbc;
 
-        function recuperer_detail($libelle, $qte, $pu, $rem) {
+        function recuperer_details($libelle, $qte, $pu, $rem) {
             $this->libelle_dbc = $libelle;
             $this->qte_dbc = $qte;
             $this->pu_dbc = $pu;
             $this->rem_dbc = $rem;
-            $this->iniFile = "config.ini";
+            $this->iniFile = 'config.ini';
 
             return TRUE;
         }
 
-        function enregistrer_detail($num_bc) {
+        function enregistrer_details($num_bc) {
             $config = parse_ini_file($this->configpath($this->iniFile));
 
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);

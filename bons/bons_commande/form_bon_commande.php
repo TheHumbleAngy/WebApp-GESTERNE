@@ -164,7 +164,7 @@
                                             </label>
                                         </td>
                                         <td>
-                                            <div class="panel panel-default" style="margin-bottom: 0; width: 90%">
+                                            <div class="panel panel-default" style="margin-bottom: 0; width: 90%; padding-bottom: 4px">
                                                 <table border="0" style="border-collapse: separate;border-spacing: 10px">
                                                     <tr>
                                                         <td>
@@ -287,7 +287,7 @@
                 $('#row_proforma').hide();
                 $('#row_new').hide();
 
-                //Script qui previent la validation de la touche entrée
+                //Script qui previent la validationForme de la touche entrée
                 $('#myform').on('keyup keypress', function (e) {
                     var key = e.keyCode || e.which;
                     if (key === 13) {
@@ -401,7 +401,7 @@
                 });
             });
 
-            function validation() {
+            function validationForme() {
                 var i = 0;
                 $(':input[required]').each(function () {
                     if (this.value == '')
@@ -448,9 +448,9 @@
                         numero_bon_cmd();
                         $('#myForm').trigger('reset');
                         $('#row_proforma').hide();
+                        $('#row_new').hide();
                         $('#choixLabel1').removeClass('label label-success');
                         $('#choixLabel2').removeClass('label label-success');
-                        $('#row_new').hide();
                         $('#response').html(data);
                         setTimeout(function () {
                             $('.alert-success').slideToggle('slow');
@@ -473,7 +473,7 @@
                 else {
                     if ($('#code_four_gen')[0].value == "Raison Sociale")
                         alert("Veuillez sélectionner un fournisseur");
-                    else if (validation() != 0)
+                    else if (validationForme() != 0)
                         alert("Veuillez remplir TOUS les champs requis s'il vous plaît.");
                     else {
                         ajout(code_four);

@@ -93,7 +93,7 @@
             $this->qte_dp = $qte;
             $this->pu_dp = $pu;
             $this->rem_dp = $rem;
-            $this->iniFile = "config.ini";
+            $this->iniFile = 'config.ini';
 
             return TRUE;
         }

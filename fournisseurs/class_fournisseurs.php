@@ -35,7 +35,7 @@
             $this->adresse_four = addslashes($_POST['adresse_four']);
             $this->notes_four = addslashes($_POST['notes_four']);
             $this->activite_four = addslashes($_POST['activite_four']);
-            $this->iniFile = "config.ini";
+            $this->iniFile = 'config.ini';
 
             return TRUE;
         }

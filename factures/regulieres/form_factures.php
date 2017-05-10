@@ -185,7 +185,7 @@
                                         </td>
                                         <td>
                                             <label>
-                                                <input type="text" name="ref_fact" class="form-control" size="15"
+                                                <input type="text" id="ref_fact" class="form-control" size="15"
                                                        onblur="this.value = this.value.toUpperCase();"
                                                        required/>
                                             </label>
@@ -195,8 +195,8 @@
                                         <td class="champlabel">Date d'Etablissement :</td>
                                         <td>
                                             <label>
-                                                <input type="text" name="dateetablissement_fact"
-                                                       id="date_e" readonly
+                                                <input type="text"
+                                                       id="date_e" readonly required
                                                        title="Veuillez cliquer ici pour sélectionner une date"
                                                        class="form-control"/>
                                             </label>
@@ -204,7 +204,7 @@
                                         <td class="champlabel">Date de reception :</td>
                                         <td>
                                             <label>
-                                                <input type="text" name="datereception_fact"
+                                                <input type="text"
                                                        class="form-control" id="date_r" readonly
                                                        title="Veuillez cliquer ici pour sélectionner une date"
                                                        required/>
@@ -215,13 +215,13 @@
                                         <td class="champlabel">Remarques facture :</td>
                                         <td>
                                             <label>
-                                                <textarea name="remarques_facture" rows="3" cols="20" style="resize: none"
+                                                <textarea id="rem_fact" rows="3" cols="20" style="resize: none"
                                                           maxlength="200"
                                                           class="form-control"></textarea>
                                             </label>
                                         </td>
                                         <td colspan="2">
-                                            <div class="panel panel-default" style="margin-bottom: 0">
+                                            <div class="panel panel-default" style="margin-bottom: 0; margin-left: 8px; padding-bottom: 4px">
                                                 <table class="formulaire" border="0">
                                                     <tr>
                                                         <td>
@@ -326,10 +326,9 @@
                             <div class="col-md-1" style="margin-left: 3%;">
                                 <img src="img/icons_1775b9/facture-100.png">
                             </div>
-                            <br/>
-
-                            <div id="response"></div>
                         </div>
+                        <br/>
+                        <div id="response"></div>
                     </form>
                 </div>
             </div>
@@ -339,7 +338,11 @@
 
         <script>
             var proformas = ["a", "b"],
-                choix = $('input[type=radio][name=choix]');
+                choix = $('input[type=radio][name=choix]'),
+                nbr_art = $('#nbr_articles'),
+                articles = ["a", "b"],
+                date_e = $('#date_e').val(),
+                date_r = $('#date_r').val();
 
             $(document).ready(function () {
                 $('#date_e').datepicker({dateFormat: 'dd-mm-yy'});
@@ -369,6 +372,15 @@
                     url: "factures/regulieres/ajax_num_facture.php",
                     success: function (resultat) {
                         $('#num_fact').text(resultat);
+                        $('#ref_fact').val("");
+                        $('#date_e').val("");
+                        $('#date_r').val("");
+                        $('#rem_fact').val("");
+                        $('input[name=choix]').attr('checked', false);
+                        $('#choixLabel1').removeClass('label label-info');
+                        $('#choixLabel2').removeClass('label label-info');
+                        $('#row_proforma').hide();
+                        $('#row_new').hide();
                     }
                 });
             }
@@ -415,7 +427,7 @@
                     $('#nbr_articles').val("");
                     $('#response').empty();
                 }
-            })
+            });
 
             $("#num_pro").on('keypress', function (e) {
                 if (e.which == 13) {
@@ -434,18 +446,130 @@
                 }
             });
 
+            nbr_art.bind('keyup mouseup', function () {
+                var n = $("#nbr_articles").val();
+                $.ajax({
+                    type: "POST",
+                    url: "factures/regulieres/ajax_saisie_details_facture.php",
+                    data: {
+                        nbr: n
+                    },
+                    success: function (resultat) {
+                        if (n > 0) {
+                            $('#response').html(resultat);
+                        }
+                    }
+                });
+            });
+
+            nbr_art.bind('blur', function () {
+                $.ajax({
+                    url: "articles/libelles_articles.php",
+                    dataType: "json",
+                    type: "GET",
+                    success: function (data) {
+                        for (var i = 0; i < data.length; i += 1) {
+                            articles[i] = data[i].designation_art;
+                        }
+                        $('input[id*="libelle_dfact"]').autocomplete({
+                            source: articles
+                        });
+                    }
+                });
+            });
+
             function validationForme() {
-                var date_e = $('#date_e').val();
-                var date_r = $('#date_r').val();
+                /*var date_e = $('#date_e').val(),
+                    date_r = $('#date_r').val();
                 if (date_e == null || date_e == "" || date_r == null || date_r == "") {
                     alert("Veuillez renseignez les différentes dates s'il vous plaît.");
                     return false;
                 }
+                else
+                    return true;*/
+                //console.log(date_e + " " + date_r);
+                var i = 0;
+                $(':input[required]').each(function () {
+                    if (this.value == '')
+                        i++;
+                });
+                return i;
             }
             
             function ajout(code_four) {
                 var code_four = code_four,
-                    num_fact = $('#num_fact').text();
+                    num_fact = $('#num_fact').text(),
+                    ref_fact = $('#ref_fact').val(),
+                    rem_fact = $('#rem_fact').val(),
+                    date_e = $('#date_e').val(),
+                    date_r = $('#date_r').val(),
+                    nbr = $('#nbr').val();
+
+                //variables pour les details sur le bon de commande
+                var libelle_dfact = new Array(),
+                    qte_dfact = new Array(),
+                    pu_dfact = new Array(),
+                    rem_dfact = new Array();
+
+                for (var i = 0; i < nbr; i = i + 1) {
+                    try {
+                        libelle_dfact[i] = $('[id*="libelle_dfact"]')[i].value;
+                        qte_dfact[i] = $('[id*="qte_dfact"]')[i].value;
+                        pu_dfact[i] = $('[id*="pu_dfact"]')[i].value;
+                        rem_dfact[i] = $('[id*="rem_dfact"]')[i].value;
+                    } catch(e) {
+                        alert(e.message + ". Veuillez consulter la console pour plus de détails");
+                        console.log(e);
+                    }
+                }
+
+                var json_libelle = JSON.stringify(libelle_dfact),
+                    json_qte = JSON.stringify(qte_dfact),
+                    json_pu = JSON.stringify(pu_dfact),
+                    json_rem = JSON.stringify(rem_dfact);
+
+                var infos = "i=" + nbr + "&num_fact=" + num_fact + "&ref_fact=" + ref_fact + "&code_four=" + code_four + "&date_e=" + date_e + "&date_r=" + date_r + "&rem_fact=" + rem_fact + "&libelle_dfact=" + json_libelle + "&qte_dfact=" + json_qte + "&pu_dfact=" + json_pu + "&rem_dfact=" + json_rem,
+                    operation = "ajout_facture";
+
+                //console.log(infos);
+                $.ajax({
+                    type: 'POST',
+                    url: 'factures/regulieres/updatedata.php?operation=' + operation,
+                    data: infos,
+                    success: function (data) {
+                        numero_fact();
+                        $('#myForm').trigger('reset');
+                        $('#choixLabel1').removeClass('label label-info');
+                        $('#choixLabel2').removeClass('label label-info');
+                        $('#response').html(data);
+                        setTimeout(function () {
+                            $('.alert-success').slideToggle('slow');
+                        }, 5000);
+                        //console.log(data);
+                    }
+                });
+            }
+
+            function ajout_facture() {
+                var test = true,
+                    code_four = $('#code_four').val();
+
+                if (!code_four) {
+                    code_four = $('#code_four_gen').val();
+                    test = false;
+                }
+
+                if (test == true)
+                    ajout(code_four);
+                else {
+                    if ($('#code_four_gen')[0].value == "Raison Sociale")
+                        alert("Veuillez sélectionner un fournisseur");
+                    else if (validationForme() != 0)
+                        alert("Veuillez remplir TOUS les champs requis s'il vous plaît.");
+                    else {
+                        ajout(code_four);
+                    }
+                }
             }
         </script>
 

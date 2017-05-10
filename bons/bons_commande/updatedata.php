@@ -21,15 +21,14 @@
             $arr_qte = json_decode($_POST['qte_dbc']);
             $arr_pu = json_decode($_POST['pu_dbc']);
             $arr_rem = json_decode($_POST['rem_dbc']);
-
-            //print_r($arr_rem);
+            
             if ($bon_commande->enregistrer()) {
                 $detail_bon_commande = new details_bons_commande();
 
                 $no_error = 0;
                 for ($i = 0; $i < $nbr; $i++) {
-                    if ($detail_bon_commande->recuperer_detail($arr_libelle[$i], $arr_qte[$i], $arr_pu[$i], $arr_rem[$i])) {
-                        if (!$detail_bon_commande->enregistrer_detail($bon_commande->recup_num())) {
+                    if ($detail_bon_commande->recuperer_details($arr_libelle[$i], $arr_qte[$i], $arr_pu[$i], $arr_rem[$i])) {
+                        if (!$detail_bon_commande->enregistrer_details($bon_commande->recup_num())) {
                             $no_error = 1;
                             break;
                         }

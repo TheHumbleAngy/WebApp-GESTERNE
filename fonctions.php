@@ -211,15 +211,16 @@
 
     function rev_date($date) {
         if (strpos($date, '-') == TRUE) {
-            $arr = $date;// $date format yy-mm-dd
+            $arr = $date; // $date format yy-mm-dd
             $arr = preg_split("/-/", $arr);
 
             $day = $arr[2];
             $month = $arr[1];
             $year = $arr[0];
 
-            return $day . "/" . $month . "/" . $year;
-        } else {
+            return $day . "-" . $month . "-" . $year;
+        }
+        else {
             $arr = strtr($date, "/", "-"); // $date format mm/dd/yy
             $arr = preg_split("/-/", $arr);
 

@@ -1,13 +1,14 @@
 <?php
-    
+
     /**
      * Created by PhpStorm.
      * User: Ange KOUAKOU
      * Date: 06-Dec-16
      * Time: 11:26 AM
      */
-    abstract class class_factures
-    {
+    include '../../fonctions.php';
+
+    abstract class class_factures {
         protected $num_fact;
         protected $code_four;
         protected $ref_fact;
@@ -18,102 +19,122 @@
     }
 
     class factures extends class_factures {
-        function recuperer($num_fact) {
+        function recuperer($num_fact, $code_four, $ref_fact, $date_e, $date_r, $rem) {
             $this->num_fact = $num_fact;
-            $this->code_four = htmlspecialchars($_POST['code_four'], ENT_QUOTES);
-            $this->ref_fact = htmlspecialchars($_POST['ref_fact'], ENT_QUOTES);
-            $this->date_eta = rev_date($_POST['dateetablissement_fact']);
-            $this->date_rcp = rev_date($_POST['datereception_fact']);
-            $this->notes = addslashes($_POST['notes_fp']);
+            $this->code_four = $code_four;
+            $this->ref_fact = $ref_fact;
+            $this->date_eta = rev_date($date_e);
+            $this->date_rcp = rev_date($date_r);
+            $this->notes = addslashes($rem);
             $this->iniFile = 'config.ini';
 
             return TRUE;
         }
+        
+        function recup_num() {
+            return $this->num_fact;
+        }
 
-        protected function configpath(&$ini) {
-            return $ini = '../' . $ini;
+        protected function configpath($ini) {
+            try {
+                $ini = '../../../' . $ini;
+
+                return $ini;
+            } catch (Exception $e) {
+                return "Exception caught :" . $e->getMessage();
+            }
         }
 
         function enregistrer() {
-            while (!$config = parse_ini_file($this->iniFile))
-                $this->configpath($this->iniFile);
+            $config = parse_ini_file($this->configpath($this->iniFile));
 
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             if ($connexion->connect_error)
                 die($connexion->connect_error);
 
-            $requete = "INSERT INTO factures (num_fact, code_four, ref_fact, dateetablissement_fact, datereception_fact, remarques_facture)
-                        VALUES ('$this->num_fact',
-                                '$this->code_four',
-                                '$this->ref_fact',
-                                '$this->date_eta',
-                                '$this->date_rcp',
-                                '$this->notes')";
-            //            print_r($requete);
-            if ($requete = mysqli_query($connexion, $requete)) {
-                $n = $_POST['nbr'];
-                $test = TRUE;
-                for ($i = 0; $i < $n; $i++) {
+            $sql = "INSERT INTO factures (num_fact, code_four, ref_fact, dateetablissement_fact, datereception_fact, remarques_facture) 
+                    VALUES ('$this->num_fact', '$this->code_four', '$this->ref_fact', '$this->date_eta', '$this->date_rcp', '$this->notes')";
+            
+            //print_r($sql); return TRUE;
 
-                    $req = "SELECT num_df FROM details_facture ORDER BY num_df DESC LIMIT 1";
-                    $resultat = $connexion->query($req);
+            if ($result = mysqli_query($connexion, $sql))
+                return TRUE;
+            else
+                return FALSE;
+        }
+        
+        function supprimer($code) {
+            $config = parse_ini_file($this->configpath($this->iniFile));
 
-                    if ($resultat->num_rows > 0) {
-                        $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
+            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+            if ($connexion->connect_error)
+                die($connexion->connect_error);
+            
+            $sql = "DELETE FROM factures WHERE num_fact = '$code'";
 
-                        //reccuperation du code
-                        $code_df = "";
-                        foreach ($ligne as $data) {
-                            $code_df = stripslashes($data['code_df']);
-                        }
+            if ($result = mysqli_query($connexion, $sql))
+                return TRUE;
+            else
+                return FALSE;
+        }
+    }
+    
+    class details_factre extends factures {
+        protected $num_dfact;
+        protected $libelle_dfact;
+        protected $qte_dfact;
+        protected $pu_dfact;
+        protected $rem_dfact;
 
-                        //extraction des 4 derniers chiffres
-                        $code_df = substr($code_df, -4);
+        function recuperer_details($libelle, $qte, $pu, $rem) {
+            $this->libelle_dfact = $libelle;
+            $this->qte_dfact = $qte;
+            $this->pu_dfact = $pu;
+            $this->rem_dfact = $rem;
+            $this->iniFile = 'config.ini';
 
-                        //incrementation du nombre
-                        $code_df += 1;
+            return TRUE;
+        }
 
-                        $b = "DF";
-                        $dat = date("Y");
-                        $dat = substr($dat, -2);
-                        $format = '%04d';
-                        $resultat = $dat . "" . $b . "" . sprintf($format, $code_df);
+        function enregistrer_details($num_fact) {
+            $config = parse_ini_file($this->configpath($this->iniFile));
 
-                    } else {
-                        //s'il n'existe pas d'enregistrements dans la base de données
-                        $code_df = 1;
-                        $b = "DF";
-                        $dat = date("Y");
-                        $dat = substr($dat, -2);
-                        $format = '%04d';
-                        $resultat = $dat . "" . $b . "" . sprintf($format, $code_df);
-                    }
-                    //on affecte au code le resultat
-                    $code_df = $resultat;
+            $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+            if ($connexion->connect_error)
+                die($connexion->connect_error);
 
-                    $libelle_df = ($_POST['libelle'][$i]);
-                    $qte_df = ($_POST['qte'][$i]);
-                    $pu_df = ($_POST['pu'][$i]);
-                    $rem = ($_POST['rem'][$i]);
+            $sql = "SELECT num_df FROM details_facture ORDER BY num_df DESC LIMIT 1";
+            $result = $connexion->query($sql);
 
-                    $libelle_df = addslashes($libelle_df);
-                    $qte_df = htmlspecialchars($qte_df, ENT_QUOTES);
-                    $pu_df = htmlspecialchars($pu_df, ENT_QUOTES);
-                    $rem = addslashes($rem);
+            if ($result->num_rows > 0) {
+                $lignes = $result->fetch_all(MYSQLI_ASSOC);
 
-                    echo $REQ = "INSERT INTO details_facture (num_df, num_fact, libelle_df, qte_df, pu_df, remise_df)
-	                        VALUES ('$code_df', '$this->num_fact', '$libelle_df', '$qte_df', '$pu_df', '$rem')";
+                foreach ($lignes as $ligne)
+                    $num_df = stripslashes($ligne['num_df']);
 
-                    //exécution de la requête REQ:
-                    /*if (!mysqli_query($connexion, $REQ)) {
-                        $test = FALSE;
-                        break;
-                    }*/
-                }
-                /*if ($test)
-                    return TRUE;
-                else
-                    return FALSE;*/
-            } //else return FALSE;
+                $num_df = substr($num_df, -4);
+
+                $num_df += 1;
+            }
+            else {
+                $num_df = 1;
+            }
+
+            $b = "DF";
+            $dat = date("Y");
+            $dat = substr($dat, -2);
+            $format = '%04d';
+            $resultat = $dat . "" . $b . "" . sprintf($format, $num_df);
+
+            $this->num_dfact = $resultat;
+
+            $sql = "INSERT INTO details_facture (num_df, num_fact, libelle_df, qte_df, pu_df, remise_df) 
+                    VALUES ('$this->num_dfact', '$num_fact', '$this->libelle_dfact', '$this->qte_dfact', '$this->pu_dfact', '$this->rem_dfact')";
+            
+            //print_r($sql); return TRUE;
+            if ($result = mysqli_query($connexion, $sql))
+                return TRUE;
+            else
+                return FALSE;
         }
     }

@@ -54,7 +54,9 @@
                 <td class="champlabel" style="padding-left: 10px">Fournisseur :</td>
                 <td>
                     <label>
-                        <input type="text" name="nom_four" class="form-control" id="four" readonly value="' . $nom_four . '">
+                        <h4>
+                            <span class="label label-primary" id="four">' . $nom_four . '</span>
+                        </h4>
                         <input type="hidden" id="code_four" value="' . $code_four . '">
                     </label>
                 </td>

@@ -20,7 +20,7 @@
             $this->code_emp = $code_emp;
             $this->objets_dbs = addslashes($_POST['objet_dmd']);
             $this->date_dbs = date("Y-m-d");
-            $this->iniFile = "config.ini";
+            $this->iniFile = 'config.ini';
             
             return TRUE;
         }
@@ -82,7 +82,7 @@
             $this->libelle_dd = $libelle_dd;
             $this->qte_dd = $qte_dd;
             $this->observations_dd = $obsv_dd;
-            $this->iniFile = "config.ini";
+            $this->iniFile = 'config.ini';
             
             return TRUE;
         }

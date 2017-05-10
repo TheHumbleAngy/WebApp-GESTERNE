@@ -38,7 +38,7 @@
             $this->departement_emp = htmlspecialchars($_POST['departement_emp'], ENT_QUOTES);
             $this->email_emp = htmlspecialchars($_POST['email_emp'], ENT_QUOTES);
             $this->tel_emp = htmlspecialchars($_POST['tel_emp'], ENT_QUOTES);
-            $this->iniFile = "config.ini";
+            $this->iniFile = 'config.ini';
 
             return TRUE;
         }
