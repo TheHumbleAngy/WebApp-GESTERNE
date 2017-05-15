@@ -177,7 +177,31 @@
                                         <span>Listes</span>
                                     </a>
                                     <ul>
-                                        <li><a href="form_principale.php?page=demandes/biens_services/liste_demandes">Demandes</a></li>
+                                        <li>
+                                            <a href="form_principale.php?page=demandes/biens_services/liste_demandes" onclick="testing()">
+                                                Demandes
+                                            </a>
+                                            <div class="modal fade"
+                                                 id="modalTest" tabindex="-1"
+                                                 role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                            <h4 class="modal-title">
+                                                                Testing...
+                                                            </h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Some dummy text go there...</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
                                         <?php if ($droit === "administrateur" || $droit === "moyens generaux"): ?>
                                             <li><a href="form_principale.php?page=factures/proformas/liste_proformas">Factures
                                                     Proformas</a></li>
@@ -192,6 +216,11 @@
 
                                     </ul>
                                 </li>
+                                <script>
+                                    function testing() {
+                                        $('#modalTest').modal('show');
+                                    }
+                                </script>
                                 <?php if ($droit === "administrateur" || $droit === "moyens generaux"): ?>
                                     <li class="ic-imprimer">
                                         <a>

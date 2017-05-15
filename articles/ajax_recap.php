@@ -6,7 +6,9 @@
      * Time: 18:11
      */
     require_once '../fonctions.php';
-    if (!$config = parse_ini_file('../../../config.ini')) $config = parse_ini_file('../../config.ini');
+    $iniFile = 'config.ini';
+    //A modifier selon l'emplacement du fichier
+    $config = parse_ini_file('../../' . $iniFile);
     $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
     
     if (isset($_POST['debut']) && isset($_POST['fin'])) {

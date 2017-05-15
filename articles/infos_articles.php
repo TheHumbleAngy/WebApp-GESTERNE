@@ -8,11 +8,14 @@
      * Ce script permet de générer la liste des articles à afficher dans l'aperçu de la forme de saisie des articles
      */
     if ($_GET['opt']) {
-        header("Content-Type: application/json; charset=UTF-8");
-        //TODO: Les 2 lignes ci-dessous ont été ajoutées pour palier au problème de redirection du fichier config.ini depuis le fichier fonctions.php
-        if (!$config = parse_ini_file('../../../config.ini')) $config = parse_ini_file('../../config.ini');
-        $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+        $iniFile = 'config.ini';
+        //A modifier selon l'emplacement du fichier
+        $config = parse_ini_file('../../' . $iniFile);
 
+        $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+        if ($connexion->connect_error)
+            die($connexion->connect_error);
+        
         $json_articles = "";
 
         if ($_GET['opt'] == "saisie")

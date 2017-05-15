@@ -12,9 +12,8 @@
         include '../fonctions.php';
     
         $iniFile = 'config.ini';
-    
-        while (!$config = parse_ini_file($iniFile))
-            configpath($iniFile);
+        //A modifier selon l'emplacement du fichier
+        $config = parse_ini_file('../../' . $iniFile);
 
         $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
