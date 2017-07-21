@@ -201,7 +201,7 @@
                 type: "POST",
                 url: "utilisateurs/form_utilisateurs.php",
                 data: {
-                    action: "ajout"
+                    action: "ajouter"
                 },
                 success: function (resultat) {
                     $(".feedback").html(resultat);

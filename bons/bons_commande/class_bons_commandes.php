@@ -16,17 +16,16 @@
     }
 
     class bons_commandes extends class_bons_commandes {
-        function recuperer($num_bc, $code_four) {
-            $this->num_bc = $num_bc;
-            $this->code_emp = $_SESSION['user_id'];
-            $this->code_four = $code_four;
-            $this->date_bc = date("Y-m-d");
+
+        /**
+         * bons_commandes constructor.
+         */
+        public function __construct() {
             $this->iniFile = 'config.ini';
-
-            return TRUE;
+            $this->configpath($this->iniFile);
         }
-
-        protected function configpath($ini) {
+        
+        protected function configpath(&$ini) {
             try {
                 $ini = '../../../' . $ini;
 
@@ -35,13 +34,22 @@
                 return "Exception caught :" . $e->getMessage();
             }
         }
+        
+        function recuperer($num_bc, $code_four) {
+            $this->num_bc = $num_bc;
+            $this->code_emp = $_SESSION['user_id'];
+            $this->code_four = $code_four;
+            $this->date_bc = date("Y-m-d");
+
+            return TRUE;
+        }        
 
         function recup_num() {
             return $this->num_bc;
         }
 
         function enregistrer() {
-            $config = parse_ini_file($this->configpath($this->iniFile));
+            $config = parse_ini_file($this->iniFile);
 
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             if ($connexion->connect_error)
@@ -57,7 +65,7 @@
         }
 
         function supprimer($code) {
-            $config = parse_ini_file($this->configpath($this->iniFile));
+            $config = parse_ini_file($this->iniFile);
 
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             if ($connexion->connect_error)
@@ -90,7 +98,7 @@
         }
 
         function enregistrer_details($num_bc) {
-            $config = parse_ini_file($this->configpath($this->iniFile));
+            $config = parse_ini_file($this->iniFile);
 
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             if ($connexion->connect_error)

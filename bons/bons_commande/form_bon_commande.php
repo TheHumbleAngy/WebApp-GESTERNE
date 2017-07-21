@@ -96,7 +96,8 @@
                                                         if ($rem > 0) {
                                                             $rem = $rem / 100;
                                                             $ttc = $qte * $pu * (1 - $rem);
-                                                        } else
+                                                        }
+                                                        else
                                                             $ttc = $qte * $pu;
 
                                                         $total = (int)$total + (int)$ttc;
@@ -164,8 +165,10 @@
                                             </label>
                                         </td>
                                         <td>
-                                            <div class="panel panel-default" style="margin-bottom: 0; width: 90%; padding-bottom: 4px">
-                                                <table border="0" style="border-collapse: separate;border-spacing: 10px">
+                                            <div class="panel panel-default"
+                                                 style="margin-bottom: 0; width: 90%; padding-bottom: 4px">
+                                                <table border="0"
+                                                       style="border-collapse: separate;border-spacing: 10px">
                                                     <tr>
                                                         <td>
                                                             <label class="radio-inline">
@@ -211,7 +214,7 @@
                                                                 $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
                                                                 if ($connexion->connect_error)
                                                                     die($connexion->connect_error);
-                                                                
+
                                                                 $sql = "SELECT code_emp, nom_emp, prenoms_emp FROM employes WHERE email_emp= '" . $_SESSION['email'] . "'";
                                                                 if ($resultat = $connexion->query($sql)) {
                                                                     $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
@@ -226,11 +229,13 @@
                                                                     <?php echo $nom_prenoms_emp; ?>
                                                                 </span>
                                                             </h4>
-                                                            <input type="hidden" name="code_emp" value="<?php echo $code_emp; ?>">
+                                                            <input type="hidden" name="code_emp"
+                                                                   value="<?php echo $code_emp; ?>">
                                                         </label>
                                                     </td>
                                                     <td class="champlabel" style="padding-left: 10px"
-                                                        title="Si le fournisseur désiré n'apparait pas dans la liste déroulante, veuillez le créer à partir du formulaire Fournisseur">Fournisseur :
+                                                        title="Si le fournisseur désiré n'apparait pas dans la liste déroulante, veuillez le créer à partir du formulaire Fournisseur">
+                                                        Fournisseur :
                                                     </td>
                                                     <td>
                                                         <label>
@@ -251,7 +256,8 @@
                                                     <td class="champlabel">Nombre d'articles :</td>
                                                     <td>
                                                         <label>
-                                                            <input type="number" min="1" class="form-control" id="nbr_articles" name="nbr" required/>
+                                                            <input type="number" min="1" class="form-control"
+                                                                   id="nbr_articles" name="nbr" required/>
                                                         </label>
                                                     </td>
                                                 </tr>
@@ -276,11 +282,11 @@
 
         <script>
             var proformas = ["a", "b"],
-                n = $("#nbr_articles").val(),
-                nbr_art = $('#nbr_articles'),
-                articles = ["a", "b"],
-                choix = $('input[type=radio][name=choix]'),
-                nbr = $('#nbr').val();
+                    n = $("#nbr_articles").val(),
+                    nbr_art = $('#nbr_articles'),
+                    articles = ["a", "b"],
+                    choix = $('input[type=radio][name=choix]'),
+                    nbr = $('#nbr').val();
 
             $(document).ready(function () {
                 //Initialisation
@@ -334,7 +340,8 @@
                             });
                         }
                     });
-                } else if (this.value == "non") {
+                }
+                else if (this.value == "non") {
                     $('#row_proforma').hide();
                     $('#row_new').show();
 
@@ -351,7 +358,7 @@
             });
 
             /* Ce script permet d'afficher le fournisseur et les
-            différents articles figurants de la proforma sélectionnée */
+             différents articles figurants de la proforma sélectionnée */
             $("#num_pro").on('keypress', function (e) {
                 if (e.which == 13) {
                     $('#response').show();
@@ -412,13 +419,13 @@
 
             function ajout(code_four) {
                 var code_four = code_four,
-                    num_bc = $('#num_bc').text();
+                        num_bc = $('#num_bc').text();
 
                 //variables pour les details sur le bon de commande
                 var libelle_dbc = new Array(),
-                    qte_dbc = new Array(),
-                    pu_dbc = new Array(),
-                    rem_dbc = new Array();
+                        qte_dbc = new Array(),
+                        pu_dbc = new Array(),
+                        rem_dbc = new Array();
 
                 for (var i = 0; i < nbr; i = i + 1) {
                     try {
@@ -426,19 +433,19 @@
                         qte_dbc[i] = $('[id*="qte_dbc"]')[i].value;
                         pu_dbc[i] = $('[id*="pu_dbc"]')[i].value;
                         rem_dbc[i] = $('[id*="rem_dbc"]')[i].value;
-                    } catch(e) {
+                    } catch (e) {
                         alert(e.message + ". Veuillez consulter la console pour plus de détails");
                         console.log(e);
                     }
                 }
 
                 var json_libelle = JSON.stringify(libelle_dbc),
-                    json_qte = JSON.stringify(qte_dbc),
-                    json_pu = JSON.stringify(pu_dbc),
-                    json_rem = JSON.stringify(rem_dbc);
+                        json_qte = JSON.stringify(qte_dbc),
+                        json_pu = JSON.stringify(pu_dbc),
+                        json_rem = JSON.stringify(rem_dbc);
 
                 var infos = "i=" + nbr + "&num_bc=" + num_bc + "&code_four=" + code_four + "&libelle_dbc=" + json_libelle + "&qte_dbc=" + json_qte + "&pu_dbc=" + json_pu + "&rem_dbc=" + json_rem,
-                    operation = "ajout_bon_cmd";
+                        operation = "ajout_bon_cmd";
 
                 $.ajax({
                     type: 'POST',
@@ -449,8 +456,8 @@
                         $('#myForm').trigger('reset');
                         $('#row_proforma').hide();
                         $('#row_new').hide();
-                        $('#choixLabel1').removeClass('label label-success');
-                        $('#choixLabel2').removeClass('label label-success');
+                        $('#choixLabel1').removeClass('label label-info');
+                        $('#choixLabel2').removeClass('label label-info');
                         $('#response').html(data);
                         setTimeout(function () {
                             $('.alert-success').slideToggle('slow');

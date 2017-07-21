@@ -29,7 +29,7 @@
             if ($facture->enregistrer()) {
                 $detail_facture = new details_factre();
 
-                $no_error = 0; echo $nbr;
+                $no_error = 0; //echo $nbr;
                 for ($i = 0; $i < $nbr; $i++) {
                     if ($detail_facture->recuperer_details($arr_libelle[$i], $arr_qte[$i], $arr_pu[$i], $arr_rem[$i])) {
                         if (!$detail_facture->enregistrer_details($facture->recup_num())) {
@@ -44,6 +44,7 @@
                     }
                 }
 
+                echo $no_error;
                 if ($no_error == 0) {
                     echo "
                     <div class='alert alert-success alert-dismissible' role='alert' style='width: 60%; margin-right: auto; margin-left: auto'>

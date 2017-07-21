@@ -114,17 +114,17 @@
                                     </a>
                                     <ul>
                                         <li>
-                                            <a href="form_principale.php?page=demandes/absences/form_absences">Absence</a>
+                                            <a href="form_principale.php?page=demandes/absences/form_absences">Absence*</a>
                                         </li>
                                         <li>
                                             <a href="form_principale.php?page=demandes/biens_services/form_demandes&action=ajout">Biens
                                                 & Services</a>
                                         </li>
                                         <li>
-                                            <a href="form_principale.php?page=demandes/conges/form_conges&action=ajout">Congés</a>
+                                            <a href="form_principale.php?page=demandes/conges/form_conges&action=ajout">Congés*</a>
                                         </li>
                                         <li>
-                                            <a href="form_principale.php?page=demandes/permissions/form_permissions">Permission</a>
+                                            <a href="form_principale.php?page=demandes/permissions/form_permissions">Permission*</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -134,27 +134,39 @@
                                     </a>
                                     <ul>
                                         <li>
-                                            <a href="">Bon de Carburant</a>
+                                            <a href="">Bon de Carburant*</a>
                                         </li>
                                         <?php if ($droit === "administrateur" || $droit === "moyens generaux"): ?>
-                                            <li><a href="form_principale.php?page=bons/bons_commande/form_bon_commande">Bon
-                                                    de
-                                                    Commande</a></li>
-                                            <li><a href="form_principale.php?page=bons/bons_livraison/form_bons_livraison">Bon
-                                                    de
-                                                    Livraison</a></li>
+                                            <li>
+                                                <a href="form_principale.php?page=bons/bons_commande/form_bon_commande">
+                                                    Bon de Commande
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="form_principale.php?page=bons/bons_livraison/form_bons_livraison">
+                                                    Bon de Livraison
+                                                </a>
+                                            </li>
                                         <?php endif; ?>
                                         <li>
-                                            <a href="">Bon Provisoire</a>
+                                            <a href="">
+                                                Bon Provisoire*
+                                            </a>
                                         </li>
                                         <li>
-                                            <a href="">Bon de Sortie</a>
+                                            <a href="">
+                                                Bon de Sortie*
+                                            </a>
                                         </li>
                                         <li>
-                                            <a href="">Réception de Matériel</a>
+                                            <a href="">
+                                                Réception de Matériel*
+                                            </a>
                                         </li>
                                         <li>
-                                            <a href="">Décharge</a>
+                                            <a href="">
+                                                Décharge*
+                                            </a>
                                         </li>
                                     </ul>
                                 </li>
@@ -164,10 +176,15 @@
                                             <span>Factures</span>
                                         </a>
                                         <ul>
-                                            <li><a href="form_principale.php?page=factures/proformas/form_proformas">Facture
-                                                    Proforma</a>
+                                            <li>
+                                                <a href="form_principale.php?page=factures/proformas/form_proformas">
+                                                    Proforma
+                                                </a>
                                             </li>
-                                            <li><a href="form_principale.php?page=factures/regulieres/form_factures">Facture</a>
+                                            <li>
+                                                <a href="form_principale.php?page=factures/regulieres/form_factures">
+                                                    Facture
+                                                </a>
                                             </li>
                                         </ul>
                                     </li>
@@ -178,63 +195,55 @@
                                     </a>
                                     <ul>
                                         <li>
-                                            <a href="form_principale.php?page=demandes/biens_services/liste_demandes" onclick="testing()">
+                                            <a href="form_principale.php?page=demandes/biens_services/liste_demandes&statut=toutes">
                                                 Demandes
                                             </a>
-                                            <div class="modal fade"
-                                                 id="modalTest" tabindex="-1"
-                                                 role="dialog" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                    aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                            <h4 class="modal-title">
-                                                                Testing...
-                                                            </h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p>Some dummy text go there...</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </li>
                                         <?php if ($droit === "administrateur" || $droit === "moyens generaux"): ?>
-                                            <li><a href="form_principale.php?page=factures/proformas/liste_proformas">Factures
-                                                    Proformas</a></li>
-                                            <li><a href="form_principale.php?page=bons/bons_commande/liste_bons_commande">Bons
-                                                    de
-                                                    Commande</a></li>
-                                            <li><a href="form_principale.php?page=factures/regulieres/liste_factures">Factures</a>
+                                            <li>
+                                                <a href="form_principale.php?page=factures/proformas/liste_proformas">Factures
+                                                    Proformas
+                                                </a>
                                             </li>
-                                            <li><a href="form_principale.php?page=bons/bons_livraison/liste_bons_livraison">Bons
-                                                    de Livraison</a></li>
+                                            <li>
+                                                <a href="form_principale.php?page=bons/bons_commande/liste_bons_commande">
+                                                    Bons de Commande
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="form_principale.php?page=factures/regulieres/liste_factures">
+                                                    Factures
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="form_principale.php?page=bons/bons_livraison/liste_bons_livraison">
+                                                    Bons de Livraison
+                                                </a>
+                                            </li>
                                         <?php endif; ?>
 
                                     </ul>
                                 </li>
-                                <script>
-                                    function testing() {
-                                        $('#modalTest').modal('show');
-                                    }
-                                </script>
                                 <?php if ($droit === "administrateur" || $droit === "moyens generaux"): ?>
                                     <li class="ic-imprimer">
                                         <a>
                                             <span>Imprimer</span>
                                         </a>
                                         <ul>
-                                            <li><a href="employes/fiche_employes.php" target="_blank">Liste des
-                                                    Employés</a>
+                                            <li>
+                                                <a href="employes/fiche_employes.php" target="_blank">
+                                                    Liste des Employés*
+                                                </a>
                                             </li>
-                                            <li><a href="fournisseurs/fiche_fournisseurs.php" target="_blank">Liste
-                                                    des Fournisseurs</a>
+                                            <li>
+                                                <a href="fournisseurs/fiche_fournisseurs.php" target="_blank">
+                                                    Liste des Fournisseurs*
+                                                </a>
                                             </li>
-                                            <li><a href="articles/fiche_articles.php" target="_blank">Liste des
-                                                    Articles</a>
+                                            <li>
+                                                <a href="articles/fiche_articles.php" target="_blank">
+                                                    Liste des Articles*
+                                                </a>
                                             </li>
                                         </ul>
                                     </li>
@@ -245,13 +254,19 @@
                                     </a>
                                     <ul>
                                         <li>
-                                            <a href="form_principale.php?page=apropos">Etats Periodiques</a>
+                                            <a href="form_principale.php?page=apropos">
+                                                Etats Periodiques*
+                                            </a>
                                         </li>
                                         <li>
-                                            <a href="form_principale.php?page=apropos">Utilisation/Employé</a>
+                                            <a href="form_principale.php?page=apropos">
+                                                Utilisation/Employé*
+                                            </a>
                                         </li>
                                         <li>
-                                            <a href="form_principale.php?page=apropos">Interaction/Fournisseur</a>
+                                            <a href="form_principale.php?page=apropos">
+                                                Interaction/Fournisseur*
+                                            </a>
                                         </li>
                                     </ul>
                                 </li>
@@ -262,29 +277,42 @@
                                     <ul>
                                         <?php if ($droit === "administrateur" || $droit === "moyens generaux"): ?>
                                             <li>
-                                                <a href="form_principale.php?page=form_actions&source=employes&action=rechercher">Employés</a>
+                                                <a href="form_principale.php?page=form_actions&source=employes&action=rechercher">
+                                                    Employés
+                                                </a>
                                             </li>
                                             <li>
-                                                <a href="form_principale.php?page=form_actions&source=fournisseurs&action=rechercher">Fournisseurs</a>
+                                                <a href="form_principale.php?page=form_actions&source=fournisseurs&action=rechercher">
+                                                    Fournisseurs
+                                                </a>
                                             </li>
                                         <?php endif; ?>
                                         <li>
-                                            <a href="form_principale.php?page=form_actions&source=demandes&action=rechercher">Demandes</a>
+                                            <a href="form_principale.php?page=form_actions&source=demandes&action=rechercher">
+                                                Demandes
+                                            </a>
                                         </li>
                                         <?php if ($droit === "administrateur" || $droit === "moyens generaux"): ?>
                                             <li>
-                                                <a href="form_principale.php?page=form_actions&source=proformas&action=rechercher">Factures
-                                                    Proformas</a>
+                                                <a href="form_principale.php?page=form_actions&source=proformas&action=rechercher">
+                                                    Proformas
+                                                </a>
                                             </li>
                                             <li>
-                                                <a href="form_principale.php?page=form_actions&source=factures&action=rechercher">Factures</a>
+                                                <a href="form_principale.php?page=form_actions&source=factures&action=rechercher">
+                                                    Factures
+                                                </a>
                                             </li>
                                             <li>
-                                                <a href="form_principale.php?page=form_actions&source=bons_commande&action=rechercher">Bons
-                                                    de Commande</a></li>
+                                                <a href="form_principale.php?page=form_actions&source=bons_commande&action=rechercher">
+                                                    Bons de Commande
+                                                </a>
+                                            </li>
                                             <li>
-                                                <a href="form_principale.php?page=form_actions&source=bons_livraison&action=rechercher">Bons
-                                                    de Livraison</a></li>
+                                                <a href="form_principale.php?page=form_actions&source=bons_livraison&action=rechercher">
+                                                    Bons de Livraison
+                                                </a>
+                                            </li>
                                         <?php endif; ?>
                                     </ul>
                                 </li>
@@ -297,8 +325,9 @@
                                             <a href="form_principale.php?page=apropos">A Propos</a>
                                         </li>
                                         <li>
-                                            <a href="http://192.168.1.190:8087/NCARE_WEBSITE/" target="_blank">Notre
-                                                Site Web</a>
+                                            <a href="" target="_blank">
+                                                Notre Site Web
+                                            </a>
                                         </li>
                                     </ul>
                                 </li>
@@ -321,15 +350,25 @@
                             </div>
                             <div class="panel-body">
                                 <ul class="widget">
-                                    <li><a href="form_principale.php?page=accueil"><span
-                                                class="icons8-home"> Accueil</span></a>
+                                    <li>
+                                        <a href="form_principale.php?page=accueil">
+                                            <span class="icons8-home"> Accueil</span>
+                                        </a>
                                     </li>
-                                    <li><a href="form_principale.php?page=utilisateurs/infos_utilisateur"><span
-                                                class="icons8-gender-neutral-user"> Mon Compte</span></a></li>
-                                    <li><a href="form_principale.php?page=utilisateurs/modif_mdp"><span
-                                                class="icons8-key"> Changer de Mot de Passe</span></a>
+                                    <li>
+                                        <a href="form_principale.php?page=utilisateurs/infos_utilisateur">
+                                            <span class="icons8-gender-neutral-user"> Mon Compte</span>
+                                        </a>
                                     </li>
-                                    <li><a href="processing.php"><span class="icons8-shutdown"> Déconnexion</span></a>
+                                    <li>
+                                        <a href="form_principale.php?page=utilisateurs/modif_mdp">
+                                            <span class="icons8-key"> Changer de Mot de Passe</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="processing.php">
+                                            <span class="icons8-shutdown"> Déconnexion</span>
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
@@ -344,13 +383,19 @@
                                     <a>Administration</a>
                                     <ul>
                                         <li>
-                                            <a href="form_principale.php?page=administration&source=employes">Employés</a>
+                                            <a href="form_principale.php?page=administration&source=employes">
+                                                Employés
+                                            </a>
                                         </li>
                                         <li>
-                                            <a href="form_principale.php?page=administration&source=fournisseurs">Fournisseurs</a>
+                                            <a href="form_principale.php?page=administration&source=fournisseurs">
+                                                Fournisseurs
+                                            </a>
                                         </li>
                                         <li>
-                                            <a href="form_principale.php?page=administration&source=utilisateurs">Utilisateurs</a>
+                                            <a href="form_principale.php?page=administration&source=utilisateurs">
+                                                Utilisateurs
+                                            </a>
                                         </li>
                                     </ul>
                                 </li>
@@ -358,24 +403,28 @@
                                     <a>Gestion des Articles</a>
                                     <ul>
                                         <li>
-                                            <a href="form_principale.php?page=articles/form_articles">Ajouter un
-                                                Article</a>
+                                            <a href="form_principale.php?page=articles/form_articles">
+                                                Ajouter un Article
+                                            </a>
                                         </li>
                                         <li>
-                                            <a href="form_principale.php?page=form_actions&source=articles&action=modifier">Modifier
-                                                un Article</a>
+                                            <a href="form_principale.php?page=form_actions&source=articles&action=modifier">
+                                                Modifier un Article</a>
                                         </li>
                                         <li>
-                                            <a href="form_principale.php?page=form_actions&source=articles&action=supprimer">Supprimer
-                                                un Article</a>
+                                            <a href="form_principale.php?page=form_actions&source=articles&action=supprimer">
+                                                Supprimer un Article
+                                            </a>
                                         </li>
                                         <li>
-                                            <a href="form_principale.php?page=articles/liste_articles">Lister les
-                                                Articles</a>
+                                            <a href="form_principale.php?page=articles/liste_articles">
+                                                Lister les Articles
+                                            </a>
                                         </li>
                                         <li>
-                                            <a href="form_principale.php?page=form_actions&source=articles&action=rechercher">Rechercher
-                                                un Article</a>
+                                            <a href="form_principale.php?page=form_actions&source=articles&action=rechercher">
+                                                Rechercher un Article
+                                            </a>
                                         </li>
                                     </ul>
                                 </li>
@@ -420,13 +469,26 @@
                         </div>
                         <div class="panel-body">
                             <ul class="widget">
-                                <li><a href="form_principale.php?page=accueil"><span class="icons8-home"> Accueil</span></a>
+                                <li>
+                                    <a href="form_principale.php?page=accueil">
+                                        <span class="icons8-home"> Accueil</span>
+                                    </a>
                                 </li>
-                                <li><a href="form_principale.php?page=utilisateurs/infos_utilisateur"><span
-                                            class="icons8-gender-neutral-user"> Mon Compte</span></a></li>
-                                <li><a href="form_principale.php?page=utilisateurs/modif_mdp"><span class="icons8-key"> Changer de Mot de Passe</span></a>
+                                <li>
+                                    <a href="form_principale.php?page=utilisateurs/infos_utilisateur">
+                                        <span class="icons8-gender-neutral-user"> Mon Compte</span>
+                                    </a>
                                 </li>
-                                <li><a href="processing.php"><span class="icons8-shutdown"> Déconnexion</span></a></li>
+                                <li>
+                                    <a href="form_principale.php?page=utilisateurs/modif_mdp">
+                                        <span class="icons8-key"> Changer de Mot de Passe</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="processing.php?event=logout">
+                                        <span class="icons8-shutdown"> Déconnexion</span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>

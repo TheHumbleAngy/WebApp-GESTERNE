@@ -41,7 +41,7 @@
         }
 
         function enregistrer() {
-            $config = parse_ini_file($this->configpath($this->iniFile));
+            $config = parse_ini_file($this->iniFile);
 
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             if ($connexion->connect_error)
@@ -66,7 +66,7 @@
         }
 
         function supprimer($code) {
-            $config = parse_ini_file($this->configpath($this->iniFile));
+            $config = parse_ini_file($this->iniFile);
 
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             if ($connexion->connect_error)
@@ -99,7 +99,7 @@
         }
 
         function enregistrer_detail($num_fp) {
-            $config = parse_ini_file($this->configpath($this->iniFile));
+            $config = parse_ini_file($this->iniFile);
 
             $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
             if ($connexion->connect_error)

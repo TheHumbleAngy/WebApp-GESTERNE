@@ -31,8 +31,8 @@
                 id: code
             },
             success: function (data) {
-                $('#info').html(data);
                 afficherInfos();
+                $('#info').html(data);
                 $("div.modal-backdrop.fade.in").remove();
                 setTimeout(function(){
                     $(".alert-success").slideToggle("slow");

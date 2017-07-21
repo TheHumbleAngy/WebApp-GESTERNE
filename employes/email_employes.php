@@ -11,6 +11,11 @@
     
     $json_email = array();
 
+    $config = parse_ini_file('../../config.ini');
+    $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
+    if ($connexion->connect_error)
+        die($connexion->connect_error);
+
     $sql = "SELECT email_emp FROM employes ORDER BY email_emp ASC ";
 
     if ($resultat = $connexion->query($sql)) {

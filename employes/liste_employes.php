@@ -36,7 +36,7 @@
 
         $.ajax({
             type: 'POST',
-            url: 'employes/updatedata.php?id=' + id + '&operation=maj',
+            url: 'employes/updatedata.php?code_emp=' + id + '&operation=maj',
             data: infos,
             success: function (data) {
                 $('#info').html(data);
@@ -52,13 +52,13 @@
     function suppressionInfos(code) {
         $.ajax({
             type: 'POST',
-            url: 'employes/updatedata.php?operation=suppr',
+            url: 'employes/updatedata.php?operation=supprimer',
             data: {
                 id: code
             },
             success: function (data) {
-                $('#info').html(data);
                 afficherInfos();
+                $('#info').html(data);
                 $("div.modal-backdrop.fade.in").remove();
                 setTimeout(function(){
                     $(".alert-success").slideToggle("slow");

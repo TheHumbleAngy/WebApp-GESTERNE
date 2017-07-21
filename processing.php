@@ -12,17 +12,18 @@
             header('Location: form_principale.php');
         } else {
             if (isset($_SESSION['etat_connecte'])) { //echo $_SESSION['etat_connecte'];
-                $status = $_SESSION['etat_connecte'];
+                $statut = $_SESSION['etat_connecte'];
                 session_destroy();
                 $_SESSION = array();
-                if ($status == 1)
+                if ($statut == 1)
                     header('Location: index.php?error=2');
                 else
                     header('Location: index.php?error=1');
             } else
                 header('Location: index.php?error=1');
         }
-    } else {
+    }
+    else if (isset($_GET['event']) && $_GET['event'] == "logout") {
 
         $qry = "UPDATE employes SET etat_connecte = '0' WHERE email_emp = '" . $_SESSION['email'] . "'";
         $result = $connexion->query($qry);

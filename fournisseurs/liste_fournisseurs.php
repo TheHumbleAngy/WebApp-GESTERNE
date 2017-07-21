@@ -52,13 +52,13 @@
     function suppressionInfos(code) {
         $.ajax({
             type: 'POST',
-            url: 'fournisseurs/updatedata.php?operation=suppr',
+            url: 'fournisseurs/updatedata.php?operation=supprimer',
             data: {
                 id: code
             },
             success: function (data) {
-                $('#info').html(data);
                 afficherInfos();
+                $('#info').html(data);                
                 $("div.modal-backdrop.fade.in").remove();
                 setTimeout(function(){
                     $(".alert-success").slideToggle("slow");

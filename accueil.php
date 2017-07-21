@@ -51,7 +51,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-7">
-                            <div class="panel panel-default">
+                            <div class="panel panel-default" style="margin-bottom: 10px">
                                 <div class="panel-heading">
                                     <img src="img/icons_1775b9/box.png" width="20"> Etat des stocks
                                 </div>
@@ -62,7 +62,7 @@
                                                 <h5>A la date de ce jour :</h5>
                                             </strong>
 
-                                            <div class="panel panel-default">
+                                            <div class="panel panel-default" style="margin-bottom: 10px">
                                                 <div class="panel-body">
                                                     <div class="slider-stock">
                                                         <?php
@@ -95,7 +95,7 @@
                                                 <h5>Seuil minimum :</h5>
                                             </strong>
 
-                                            <div class="panel panel-default">
+                                            <div class="panel panel-default" style="margin-bottom: 10px">
                                                 <div class="panel-body">
                                                     <div class="slider-stock">
                                                         <?php
@@ -129,7 +129,7 @@
                                             </strong>
 
                                             <div class="col-md-9">
-                                                <div class="panel panel-default">
+                                                <div class="panel panel-default" style="margin-bottom: 10px">
                                                     <div class="panel-body">
                                                         <div class="slider-rupture">
                                                             <?php
@@ -137,6 +137,7 @@
                                                                 if ($resultat = $connexion->query($sql)) {
                                                                     if ($resultat->num_rows > 0) {
                                                                         $ligne = $resultat->fetch_all(MYSQLI_ASSOC);
+                                                                        $statut = "rupture";
                                                                         foreach ($ligne as $list) {
                                                                             ?>
                                                                             <div style="margin-bottom: 2px">
@@ -157,6 +158,11 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <?php if (isset($statut) && ($statut == "rupture")) { ?>
+                                                <a class="btn btn-sm btn-default" title="Consulter la liste des articles"
+                                                   href="form_principale.php?page=articles/liste_articles&statut=rupture" style="margin-top: 40px"
+                                                   role="button">Consulter<img src="img/icons_1775b9/right_filled.png" width="20"></a>
+                                            <?php } ?>
                                         </div>
                                     </div>
 
@@ -187,7 +193,7 @@
                                                         <strong>
                                                             <h5>En Attente <span class="label label-info"><?php echo $nbr; ?></span> :</h5>
                                                         </strong>
-                                                        <div class="panel panel-default">
+                                                        <div class="panel panel-default" style="margin-bottom: 5%">
                                                             <div class="panel-body">
                                                                 <div class="slider-attente">
                                                                     <?php
@@ -205,6 +211,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <a class="btn btn-sm btn-default" 
+                                                           href="form_principale.php?page=demandes/biens_services/liste_demandes&statut=attente"
+                                                           role="button">Consulter<img src="img/icons_1775b9/right_filled.png" width="20"></a>
 
                                                     <?php }
                                                     else { ?>
@@ -236,7 +245,7 @@
                                                             <h5 title="Il s'agit ici des demandes partiellement satisfaites">
                                                                 Partielles <span class="label label-info"><?php echo $nbr; ?></span> :</h5>
                                                         </strong>
-                                                        <div class="panel panel-default">
+                                                        <div class="panel panel-default" style="margin-bottom: 5%">
                                                             <div class="panel-body">
                                                                 <div class="slider-partielle">
                                                                     <?php
@@ -253,6 +262,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <a class="btn btn-sm btn-default"
+                                                           href="form_principale.php?page=demandes/biens_services/liste_demandes&statut=partielle"
+                                                           role="button">Consulter<img src="img/icons_1775b9/right_filled.png" width="20"></a>
 
                                                     <?php }
                                                     else { ?>
@@ -277,7 +289,7 @@
 
                     <div class="row">
                         <div class="col-md-9">
-                            <div class="panel panel-default">
+                            <div class="panel panel-default" style="margin-bottom: 10px">
                                 <div class="panel-heading">
                                     <img src="img/icons_1775b9/box_filled_2.png" width="20"> Mouvements de Stock
                                 </div>
@@ -309,7 +321,7 @@
                                                     ';
                                                 }?>
 
-                                            <div class="panel panel-default">
+                                            <div class="panel panel-default" style="margin-bottom: 3%">
                                                 <div class="panel-body">
                                                     <div class="slider-mouvement">
                                                         <?php
@@ -335,7 +347,12 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <a class="btn btn-sm btn-default"
+                                               href="form_principale.php?page=demandes/biens_services/liste_demandes&statut=attente"
+                                               role="button">Consulter<img src="img/icons_1775b9/right_filled.png" width="20"></a>
                                         </div>
+
                                         <div class="col-md-6">
                                             <!-- TODO: interroger la BD sur la dernière sortie d'articles -->
                                             <?php
@@ -363,7 +380,7 @@
                                                 }
                                             ?>
 
-                                            <div class="panel panel-default">
+                                            <div class="panel panel-default" style="margin-bottom: 3%">
                                                 <div class="panel-body">
                                                     <div class="slider-mouvement">
                                                         <?php
@@ -389,6 +406,10 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <a class="btn btn-sm btn-default"
+                                               href="form_principale.php?page=demandes/biens_services/liste_demandes&statut=attente"
+                                               role="button">Consulter<img src="img/icons_1775b9/right_filled.png" width="20"></a>
                                         </div>
                                     </div>
                                 </div>

@@ -52,7 +52,7 @@
 
         $id = $_GET['id'];
         
-        include_once 'class_articles.php';
+        include 'class_articles.php';
 
         $article = new articles();
 
@@ -93,7 +93,7 @@
 
         $id = $_POST['id'];
         
-        include_once 'class_articles.php';
+        include 'class_articles.php';
 
         $article = new articles();
 
@@ -124,7 +124,7 @@
         //TODO: MAJ et supprimer des infos depuis les forms modif_articles et suppr_articles
 
         $code = $_POST['code_art'];
-        include_once 'class_articles.php';
+        include 'class_articles.php';
 
         $article = new articles();
 
@@ -211,11 +211,11 @@
 //            </div>
 //            ";
     }
-    elseif (isset($_POST['i']) && isset($_GET['operation']) && $_GET['operation'] == "entrer") {
+    elseif (isset($_POST['i']) && isset($_GET['operation']) && $_GET['operation'] == "entree") {
         include 'class_articles.php';
         $nbr = $_POST['i'];
 
-        $entree = new entrees_articles();
+        $entree = new entrees_articles(); //echo "Inside entree articles..."; print_r($entree);
 
         if ($entree->recuperer($_SESSION['user_id'])) {
 
@@ -234,7 +234,7 @@
         else
             echo "Une erreur s'est produite lors de la tentative de récupération de l'entrée de stock. Veuillez contacter l'administrateur.";
     }
-    elseif (isset($_POST['i']) && isset($_GET['operation']) && $_GET['operation'] == "sortir") {
+    elseif (isset($_POST['i']) && isset($_GET['operation']) && $_GET['operation'] == "sortie") {
         include 'class_articles.php';
         $nbr = $_POST['i'];
 
@@ -275,12 +275,12 @@
             $n = sizeof($arr_libelle);
 
             if ($sortie->recup_demandes($arr_num_dmd, $arr_num_dd, $nbr_dmd)) {
-//                $sortie->enregistrer($n, $arr_libelle, $arr_qte, $arr_obsv);
-                if ($sortie->enregistrer($n, $arr_libelle, $arr_qte, $arr_obsv)) {
+                $sortie->enregistrer($n, $arr_libelle, $arr_qte, $arr_obsv);
+                /*if ($sortie->enregistrer($n, $arr_libelle, $arr_qte, $arr_obsv)) {
                     echo "Success!";
                 } else {
                     echo "Une erreur s'est produite lors de la tentative d'enregistrement";
-                }
+                }*/
             }
         }
         else

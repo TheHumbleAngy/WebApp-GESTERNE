@@ -6,9 +6,6 @@
      * Time: 15:10
      */
     //error_reporting(E_ERROR);
-    function configpath(&$ini) {
-        return $ini = '../' . $ini;
-    }
 
     if (sizeof($_POST) > 0) {
         if (isset($_POST['opt'])) {
@@ -262,8 +259,7 @@
     }
     else {
         $iniFile = 'config.ini';
-        while (!$config = parse_ini_file($iniFile))
-            configpath($iniFile);
+        $config = parse_ini_file('../../' . $iniFile);
         $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
         session_start();
         ?>

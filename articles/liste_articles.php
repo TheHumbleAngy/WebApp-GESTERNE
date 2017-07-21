@@ -5,17 +5,24 @@
      * Date: 31/03/14
      * Time: 10:13
      */
+    if (isset($_GET['statut']) && ($_GET['statut'] == "rupture"))
+        $statut = $_GET['statut'];
+    else
+        $statut = "tous";
+    
 ?>
 <body onload="afficherInfos()">
     <div id="info"></div>
     <div id="feedback"></div>
+    <input type="hidden" id="statut_id" value="<?php echo $statut; ?>">
 </body>
 
 <script>
     function afficherInfos() {
+        var statut = $('#statut_id').val();
         $.ajax({
             type: 'GET',
-            url: 'articles/getdata.php',
+            url: 'articles/getdata.php?statut=' + statut,
             success: function (data) {
                 $('#feedback').html(data);
             }
@@ -57,8 +64,8 @@
                 id: code
             },
             success: function (data) {
-                $('#info').html(data);
                 afficherInfos();
+                $('#info').html(data);
                 $("div.modal-backdrop.fade.in").remove();
                 setTimeout(function () {
                     $(".alert-success").slideToggle("slow");

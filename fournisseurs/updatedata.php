@@ -6,11 +6,8 @@
      * Time: 8:13 PM
      */
 
-    if (isset($_GET['operation']) && $_GET['operation'] == "ajout") {
-        //TODO: Enregistrement d'un nouveau fournisseur
-
-        
-        include_once 'class_fournisseurs.php';
+    if (isset($_GET['operation']) && $_GET['operation'] == "ajouter") {
+        include 'class_fournisseurs.php';
 
         $fournisseur = new fournisseurs();
 
@@ -42,7 +39,7 @@
 
         $id = $_GET['id'];
         
-        include_once 'class_fournisseurs.php';
+        include 'class_fournisseurs.php';
 
         $fournisseur = new fournisseurs();
 
@@ -78,12 +75,12 @@
         }
 
     }
-    elseif (isset($_POST['id']) && isset($_GET['operation']) && $_GET['operation'] == "suppr") {
+    elseif (isset($_POST['id']) && isset($_GET['operation']) && $_GET['operation'] == "supprimer") {
         //TODO: Suppression des infos depuis la form liste_fournisseurs
 
         $id = $_POST['id'];
         
-        include_once 'class_fournisseurs.php';
+        include 'class_fournisseurs.php';
 
         $fournisseur = new fournisseurs();
 
@@ -114,7 +111,7 @@
         //TODO: MAJ et supprimer des infos depuis les forms modif_fournisseurs et suppr_fournisseurs
         $code = $_POST['code_four'];
         
-        include_once 'class_fournisseurs.php';
+        include 'class_fournisseurs.php';
 
         $fournisseur = new fournisseurs();
 

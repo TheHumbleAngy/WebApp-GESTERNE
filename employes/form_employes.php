@@ -97,6 +97,8 @@
                             style="width: 150px" onclick="ajout()">
                         Valider
                     </button>
+
+                    <!-- MODALS -->
                     <div class="modal fade" id="modal-success" tabindex="-1" role="dialog">
                         <div class="modal-dialog modal-sm" role="document">
                             <div class="modal-content">
@@ -137,11 +139,12 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                    <!-- END MODALS -->
 
-                <div id="info"></div>
+                </div>
             </form>
 
+            <!-- MINI LIST -->
             <div class="container">
                 <table id="table"
                        data-toggle="table"
@@ -162,6 +165,8 @@
                     </thead>
                 </table>
             </div>
+            <!-- END MINI LIST -->
+
         </div>
     </div>
 </div>
@@ -213,14 +218,14 @@
             var tel = $('#tel_emp').val();
 
             var infos = "titre_emp=" + titre_emp + "&nom_emp=" + nom_emp + "&prenoms_emp=" + prenoms_emp + "&fonction_emp=" + fonction_emp + "&departement_emp=" + departement_emp + "&email_emp=" + email + "&tel_emp=" + tel;
-            var operation = "ajout";
+            var operation = "ajouter";
 
             $.ajax({
                 type: 'POST',
                 url: 'employes/updatedata.php?operation=' + operation,
                 data: infos,
                 success: function (data) {
-//                    $('#info').html(data);
+                    //$('#info').html(data);
                     $('#myform').trigger('reset');
                     $('#modal-success').modal('show');
                     emailEmployés();

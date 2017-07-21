@@ -448,18 +448,20 @@
 
             nbr_art.bind('keyup mouseup', function () {
                 var n = $("#nbr_articles").val();
-                $.ajax({
-                    type: "POST",
-                    url: "factures/regulieres/ajax_saisie_details_facture.php",
-                    data: {
-                        nbr: n
-                    },
-                    success: function (resultat) {
-                        if (n > 0) {
-                            $('#response').html(resultat);
+                if (n > 0) {
+                    $.ajax({
+                        type: "POST",
+                        url: "factures/regulieres/ajax_saisie_details_facture.php",
+                        data: {
+                            nbr: n
+                        },
+                        success: function (resultat) {
+                            if (n > 0) {
+                                $('#response').html(resultat);
+                            }
                         }
-                    }
-                });
+                    });
+                }
             });
 
             nbr_art.bind('blur', function () {

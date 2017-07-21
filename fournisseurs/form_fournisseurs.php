@@ -87,6 +87,8 @@
                         <button class="btn btn-info" type="button" name="valider" onclick="ajout()" style="width: 150px">
                             Valider
                         </button>
+
+                        <!-- MODALS -->
                         <div class="modal fade" id="modal-success" tabindex="-1" role="dialog">
                             <div class="modal-dialog modal-sm" role="document">
                                 <div class="modal-content">
@@ -127,9 +129,12 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- END MODALS -->
+
                     </div>
                 </form>
 
+                <!-- MINI LIST -->
                 <div class="container">
                     <table id="table"
                            data-toggle="table"
@@ -150,6 +155,7 @@
                         </thead>
                     </table>
                 </div>
+                <!-- END MINI LIST -->
             </div>
         </div>
     </div>
@@ -201,8 +207,7 @@
                 var notes_four = $('#notes_four').val();
 
                 var infos = "nom_four=" + nom_four + "&email_four=" + email_four + "&telephonepro_four=" + telephonepro_four + "&activite_four=" + activite_four + "&fax_four=" + fax_four + "&adresse_four=" + adresse_four + "&notes_four=" + notes_four;
-                var operation = "ajout";
-//            console.log(infos);
+                var operation = "ajouter";
 
                 $.ajax({
                     type: 'POST',

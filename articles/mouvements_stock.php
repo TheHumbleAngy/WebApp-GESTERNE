@@ -243,7 +243,7 @@
                         json_obsv = JSON.stringify(obsv);
 
                     var infos = "i=" + nbr + "&libelle=" + json_libelle + "&qte=" + json_qte + "&obsv=" + json_obsv;
-                    var operation = "entrer";
+                    var operation = "entree";
 
                     $.ajax({
                         type: 'POST',
@@ -361,7 +361,7 @@
                                                                         <label>
                                                                             <select name="num_dmd" id="num_dbs" class="form-control demandes" multiple size="5">
                                                                                 <?php
-                                                                                    $sql = "SELECT num_dbs FROM demandes WHERE statut = 'non satisfaite' ORDER BY num_dbs DESC ";
+                                                                                    $sql = "SELECT num_dbs FROM demandes WHERE statut = 'non satisfaite' OR statut = 'partielle' ORDER BY num_dbs DESC ";
                                                                                     $res = mysqli_query($connexion, $sql) or exit(mysqli_error($connexion));
                                                                                     while ($list = mysqli_fetch_array($res)) {
                                                                                         ?>
@@ -688,10 +688,6 @@
                 alert("Veuillez renseigner le/les champs \"Désignation\"");
             }
 
-            /*function qteRequis() {
-                alert("Veuillez renseigner la quantité des articles à sortir");
-            }*/
-
             function ajout_sorties() {
                 if (validation() != 0) {
                     champsRequis();
@@ -712,7 +708,7 @@
                         json_obsv = JSON.stringify(obsv);
 
                     var infos = "i=" + nbr + "&libelle=" + json_libelle + "&qte=" + json_qte + "&obsv=" + json_obsv;
-                    var operation = "sortir";
+                    var operation = "sortie";
 
                     $.ajax({
                         type: 'POST',

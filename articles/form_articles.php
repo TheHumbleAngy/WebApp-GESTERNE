@@ -106,6 +106,7 @@
                             onclick="ajout()">
                         Valider
                     </button>
+                    <!-- MODALS -->
                     <div class="modal fade" id="modal-success" tabindex="-1" role="dialog">
                         <div class="modal-dialog modal-sm" role="document">
                             <div class="modal-content">
@@ -146,6 +147,8 @@
                             </div>
                         </div>
                     </div>
+                    <!-- END MODALS -->
+
                 </div>
 
                 <div id="info"></div>
@@ -191,15 +194,6 @@
         })
     }
 
-    $(document).ready(libellesArticles());
-
-    $('#designation_art').bind('blur', function () {
-        if (articles.indexOf(this.value) > -1) {
-            $('#modal-article').modal('show');
-            this.value = ""; this.focus();
-        }
-    });
-
     function validation() {
         var i = 0;
         $(':input[required]').each(function () {
@@ -237,4 +231,13 @@
             });
         }
     }
+
+    $(document).ready(libellesArticles());
+
+    $('#designation_art').bind('blur', function () {
+        if (articles.indexOf(this.value) > -1) {
+            $('#modal-article').modal('show');
+            this.value = ""; this.focus();
+        }
+    });
 </script>

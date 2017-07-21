@@ -12,7 +12,7 @@
 
         $id = $_POST['id'];
         
-        include_once 'class_demandes.php';
+        include 'class_demandes.php';
 
         $demande = new demandes();
 

@@ -108,6 +108,6 @@
             } else
                 alert("La date de début doit être antérieure à celle de fin.");
         } else
-            alert("Veuillez sélectionner un intervalle de date.")
+            alert("Veuillez sélectionner un intervalle de date.");
     })
 </script>

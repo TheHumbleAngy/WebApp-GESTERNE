@@ -99,10 +99,10 @@
     
                                     <div class="feedback">
                                         <?php
-                                            $sql = "SELECT * FROM details_demande WHERE num_dbs = '" . $code . "'";
-                                            if ($valeur = $connexion->query($sql)) {
-                                                $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
-                                                ?>
+                                                $sql = "SELECT * FROM details_demande WHERE num_dbs = '" . $code . "'";
+                                                if ($valeur = $connexion->query($sql)) {
+                                                    $ligne = $valeur->fetch_all(MYSQLI_ASSOC);
+                                                    ?>
                                                 <div class="col-md-12">
                                                     <div class="panel panel-default">
                                                         <table border="0" class="table table-hover table-bordered">

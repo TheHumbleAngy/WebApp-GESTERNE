@@ -787,7 +787,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Recherche <img src="img/icons_1775b9/right.png" width="20"> Factures
-                    <a href='form_principale.php?page=administration&source=utilisateurs' type='button'
+                    <a id='' type='button'
                        class='close' data-dismiss='alert' aria-label='Close'
                        style='position: inherit'>
                         <span aria-hidden='true'>&times;</span>

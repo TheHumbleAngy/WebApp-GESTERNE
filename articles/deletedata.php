@@ -14,7 +14,7 @@
 
         $id = $_POST['id'];
 
-        include_once 'class_articles.php';
+        include 'class_articles.php';
 
         $article = new articles();
 

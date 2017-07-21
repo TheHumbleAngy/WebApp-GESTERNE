@@ -38,7 +38,7 @@
                 echo '
 <div class="col-md-6">
     <strong>
-        <h4 style="color: #29487d"><span class="label label-info">Entrées </span></h4>
+        <h4 style="color: #29487d"><span class="label label-success">Entrées </span></h4>
     </strong>
     <div class="panel panel-default">
         <table class="table table-hover table-bordered">
@@ -57,7 +57,7 @@
             <tr>
                 <td style="text-align: center">' . rev_date(stripslashes($list['date_entr'])) . '</td>
                 <td style="text-align: center">
-                    <a class="btn btn-default" data-toggle="modal" data-target="#modalConsultation' . stripslashes($list['num_entr']) . '">' . stripslashes($list['num_entr']) . '</a>
+                    <a class="btn btn-sm btn-default" data-toggle="modal" data-target="#modalConsultation' . stripslashes($list['num_entr']) . '">' . stripslashes($list['num_entr']) . '</a>
                     <div class="modal fade" id="modalConsultation' . stripslashes($list['num_entr']) . '" tabindex="-1" role="dialog">
                         <div class="modal-dialog delete" role="document">
                             <div class="modal-content">
@@ -67,7 +67,7 @@
                                             aria-hidden="true">&times;</span>
                                     </button>
                                     <h4 class="modal-title" id="modalConsultation' . stripslashes($list['num_entr']) . '">
-                                        Entrée ' . stripslashes($list['num_entr']) . ' au ' . rev_date(stripslashes($list['date_entr'])) . '
+                                        Entrée <span class="label label-primary">' . stripslashes($list['num_entr']) . '</span> au <span class="label label-primary">' . rev_date(stripslashes($list['date_entr'])) . '</span>
                                     </h4>
                                 </div>
                                 <div class="modal-body">
@@ -135,7 +135,7 @@
                     echo '
 <div class="col-md-6">
     <strong>
-        <h4 style="color: #29487d"><span class="label label-info">Sorties </span></h4>
+        <h4 style="color: #29487d"><span class="label label-danger">Sorties </span></h4>
     </strong>
     <div class="panel panel-default">
         <table class="table table-hover table-bordered">
@@ -154,7 +154,7 @@
             <tr>
                 <td style="text-align: center">' . rev_date(stripslashes($list['date_sort'])) . '</td>
                 <td style="text-align: center">
-                    <a class="btn btn-default" data-toggle="modal" data-target="#modalConsultation' . stripslashes($list['num_sort']) . '">' . stripslashes($list['num_sort']) . '</a>
+                    <a class="btn btn-sm btn-default" data-toggle="modal" data-target="#modalConsultation' . stripslashes($list['num_sort']) . '">' . stripslashes($list['num_sort']) . '</a>
                     <div class="modal fade" id="modalConsultation' . stripslashes($list['num_sort']) . '" tabindex="-1" role="dialog">
                         <div class="modal-dialog delete" role="document">
                             <div class="modal-content">
@@ -164,7 +164,7 @@
                                             aria-hidden="true">&times;</span>
                                     </button>
                                     <h4 class="modal-title" id="modalConsultation' . stripslashes($list['num_sort']) . '">
-                                        Sortie ' . stripslashes($list['num_sort']) . ' au ' . rev_date(stripslashes($list['date_sort'])) . '
+                                        Sortie <span class="label label-primary">' . stripslashes($list['num_sort']) . '</span> au <span class="label label-primary">' . rev_date(stripslashes($list['date_sort'])) . '</span>
                                     </h4>
                                 </div>
                                 <div class="modal-body">

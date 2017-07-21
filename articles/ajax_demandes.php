@@ -59,7 +59,7 @@
 
         $nbr = 0;
         for ($i = 0; $i < $length; $i++) {
-            $sql = "SELECT * FROM details_demande WHERE num_dbs = '" . $demandes[$i] . "' AND statut_dd = 'non satisfait'";
+            $sql = "SELECT * FROM details_demande WHERE num_dbs = '" . $demandes[$i] . "' AND statut_dd <> 'satisfait'";
             if (($result = $connexion->query($sql)) && ($result->num_rows > 0)) {
                 $lignes = $result->fetch_all(MYSQLI_ASSOC);
 

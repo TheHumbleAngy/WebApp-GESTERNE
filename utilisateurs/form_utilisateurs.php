@@ -5,19 +5,20 @@
      * Date: 13/11/2015
      * Time: 11:07
      */
-    if (!$config = parse_ini_file('../../../config.ini')) $config = parse_ini_file('../../config.ini');
+    $iniFile = 'config.ini';
+    $config = parse_ini_file('../../' . $iniFile);
     $connexion = mysqli_connect($config['hostname'], $config['username'], $config['password'], $config['dbname']);
 
     $action = $_POST['action'];
 ?>
 
-<?php if ($action == "ajout"): ?>
+<?php if ($action == "ajouter"): ?>
     <!--suppress ALL-->
-    <div class="col-md-7" style="margin-left: 20.83%">
+    <div class="col-md-7" id="ajout_user" style="margin-left: 20.83%">
         <div class="panel panel-default">
             <div class="panel-heading" style="font-size: 12px; font-weight: bolder">
                 Ajout d'un Utilisateur
-                <a href='form_principale.php?page=administration&source=utilisateurs' type='button'
+                <a id='fermer' type='button'
                    class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                     <span aria-hidden='true'>&times;</span>
                 </a>
@@ -91,14 +92,21 @@
 
             </div>
         </div>
+
+        <script>
+            $('#fermer').click(function () {
+                $('#ajout_user').remove();
+            })
+        </script>
     </div>
 
 <?php elseif ($action == "modifier"): ?>
-    <div class="col-md-7" style="margin-left: 20.83%">
+
+    <div class="col-md-7" id="modifier_user" style="margin-left: 20.83%">
         <div class="panel panel-default">
             <div class="panel-heading" style="font-size: 12px; font-weight: bolder">
                 Modification de droits
-                <a href='form_principale.php?page=administration&source=utilisateurs' type='button'
+                <a id='fermer' type='button'
                    class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                     <span aria-hidden='true'>&times;</span>
                 </a>
@@ -155,14 +163,21 @@
                 </form>
             </div>
         </div>
+
+        <script>
+            $('#fermer').click(function () {
+                $('#modifier_user').remove();
+            })
+        </script>
     </div>
 
 <?php elseif ($action == "liste"): ?>
-    <div class="col-md-7" style="margin-left: 20.83%">
+
+    <div class="col-md-7" id="liste_user" style="margin-left: 20.83%">
         <div class="panel panel-default">
             <div class="panel-heading" style="font-size: 12px; font-weight: bolder">
                 Liste des Utilisateurs
-                <a href='form_principale.php?page=administration&source=utilisateurs' type='button'
+                <a id='fermer' type='button'
                    class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                     <span aria-hidden='true'>&times;</span>
                 </a>
@@ -207,14 +222,21 @@
                 </table>
             </div>
         </div>
+
+        <script>
+            $('#fermer').click(function () {
+                $('#liste_user').remove();
+            })
+        </script>
     </div>
 
 <?php elseif ($action == "rechercher"): ?>
-    <div class="col-md-7" style="margin-left: 20.83%">
+
+    <div class="col-md-7" id="rechercher_user" style="margin-left: 20.83%">
         <div class="panel panel-default">
             <div class="panel-heading" style="font-size: 12px; font-weight: bolder">
                 Recherche
-                <a href='form_principale.php?page=administration&source=utilisateurs' type='button'
+                <a id='fermer' type='button'
                    class='close' data-dismiss='alert' aria-label='Close' style='position: inherit'>
                     <span aria-hidden='true'>&times;</span>
                 </a>
@@ -230,6 +252,12 @@
                 </table>
             </div>
         </div>
+
+        <script>
+            $('#fermer').click(function () {
+                $('#rechercher_user').remove();
+            })
+        </script>
     </div>
 
 <?php endif; ?>
